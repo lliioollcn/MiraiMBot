@@ -5,19 +5,19 @@ import java.util.Map;
 
 public class Cooldown {
 
-    private static Map<String, Cooldown> cooldowns;
+    private static Map<String, Cooldown> cooldowns = new HashMap<>();
     private long start;
-    private final int timeInSeconds;
-    private final String id;
-    private final String cooldownName;
+    private int timeInSeconds;
+    private String id;
+    private String cooldownName;
 
-    public Cooldown(final String id, final String cooldownName, final int timeInSeconds) {
+    public Cooldown(String id, String cooldownName, int timeInSeconds) {
         this.id = id;
         this.cooldownName = cooldownName;
         this.timeInSeconds = timeInSeconds;
     }
 
-    public static boolean isInCooldown(final String id, final String cooldownName) {
+    public static boolean isInCooldown(String id, String cooldownName) {
         if (getTimeLeft(id, cooldownName) >= 1) {
             return true;
         }
@@ -25,22 +25,22 @@ public class Cooldown {
         return false;
     }
 
-    private static void stop(final String id, final String cooldownName) {
+    private static void stop(String id, String cooldownName) {
         Cooldown.cooldowns.remove(id + cooldownName);
     }
 
-    private static Cooldown getCooldown(final String id, final String cooldownName) {
+    private static Cooldown getCooldown(String id, String cooldownName) {
         return Cooldown.cooldowns.get(id + cooldownName);
     }
 
-    public static int getTimeLeft(final String id, final String cooldownName) {
-        final Cooldown cooldown = getCooldown(id, cooldownName);
+    public static int getTimeLeft(String id, String cooldownName) {
+        Cooldown cooldown = getCooldown(id, cooldownName);
         int f = -1;
         if (cooldown != null) {
-            final long now = System.currentTimeMillis();
-            final long cooldownTime = cooldown.start;
-            final int totalTime = cooldown.timeInSeconds;
-            final int r = (int)(now - cooldownTime) / 1000;
+            long now = System.currentTimeMillis();
+            long cooldownTime = cooldown.start;
+            int totalTime = cooldown.timeInSeconds;
+            int r = (int) (now - cooldownTime) / 1000;
             f = (r - totalTime) * -1;
         }
         return f;
@@ -49,9 +49,5 @@ public class Cooldown {
     public void start() {
         this.start = System.currentTimeMillis();
         Cooldown.cooldowns.put(this.id + this.cooldownName, this);
-    }
-
-    static {
-        Cooldown.cooldowns = new HashMap<>();
     }
 }
