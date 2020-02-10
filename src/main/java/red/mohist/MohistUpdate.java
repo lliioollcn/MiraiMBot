@@ -30,7 +30,7 @@ public class MohistUpdate {
         StringBuilder sb = new StringBuilder();
         sb.append("======Mohist更新检测======").append("\n");
         sb.append("分支: " + branches).append("\n");
-        sb.append("构件号: " + sha.substring(0, 7)).append("\n");
+        sb.append("构建号: " + sha.substring(0, 7)).append("\n");
         String dwn12 = "https://ci.codemc.io/job/Mohist-Community/job/Mohist-"+branches+"/lastSuccessfulBuild/artifact/build/distributions/Mohist-"+sha.substring(0, 7)+"-server.jar";
         String dwn7 = "https://ci.codemc.io/job/Mohist-Community/job/Mohist-"+branches+"/lastSuccessfulBuild/artifact/build/distributions/Mohist-"+branches + "-"+sha.substring(0, 7)+"-server.jar";
         sb.append("提交人: " + name).append("\n");
