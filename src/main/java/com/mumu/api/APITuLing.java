@@ -1,8 +1,7 @@
 package com.mumu.api;
 
-import jsonij.Value;
-import jsonij.parser.JSONParser;
-import jsonij.parser.ParserException;
+import cc.plural.jsonij.JSON;
+import cc.plural.jsonij.parser.ParserException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -78,8 +77,7 @@ public class APITuLing
                 e4.printStackTrace();
             }
             try {
-                JSONParser jsonParser = new JSONParser();
-                Value json = jsonParser.parse(result);
+                JSON json = JSON.parse(result);
                 int code = Integer.parseInt(String.format("%s", json.get("code")));
                 switch (code) {
                     case 40004: {
@@ -106,6 +104,8 @@ public class APITuLing
             }
             catch (ParserException e5) {
                 e5.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
         return result;

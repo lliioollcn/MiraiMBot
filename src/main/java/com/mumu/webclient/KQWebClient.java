@@ -1,13 +1,14 @@
 package com.mumu.webclient;
 
+import cc.plural.jsonij.JSON;
 import com.mumu.listenner.KQMSGAdapter;
 import com.mumu.msg.*;
-import jsonij.Value;
-import jsonij.parser.JSONParser;
-import jsonij.parser.ParserException;
+
+import cc.plural.jsonij.parser.ParserException;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
+import java.io.IOException;
 import java.net.URI;
 
 public class KQWebClient extends WebSocketClient
@@ -29,21 +30,21 @@ public class KQWebClient extends WebSocketClient
     }
     
     public void onMessage(String msg) {
-        JSONParser jsonParser = new JSONParser();
+
         int type = 0;
         try {
-            Value json = jsonParser.parse(msg);
+            JSON json = JSON.parse(msg);
             type = Integer.parseInt(String.format("%s", json.get("act")));
         }
-        catch (ParserException e) {
+        catch (ParserException | IOException e) {
             e.printStackTrace();
         }
         if (this.adapter != null) {
-            Value json = null;
+            JSON json = null;
             try {
-                json = jsonParser.parse(msg);
+                json = JSON.parse(msg);
             }
-            catch (ParserException e3) {
+            catch (ParserException | IOException e3) {
                 e3.printStackTrace();
             }
             type = Integer.parseInt(String.format("%s", json.get("act")));

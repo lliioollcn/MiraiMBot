@@ -1,8 +1,10 @@
 package com.mumu.msg;
 
-import jsonij.Value;
-import jsonij.parser.JSONParser;
-import jsonij.parser.ParserException;
+
+import cc.plural.jsonij.JSON;
+import cc.plural.jsonij.parser.ParserException;
+
+import java.io.IOException;
 
 public class RE_MSG_Group extends RE_MSG
 {
@@ -23,8 +25,8 @@ public class RE_MSG_Group extends RE_MSG
     public RE_MSG_Group(String msg) {
         super(msg);
         try {
-            JSONParser jsonParser = new JSONParser();
-            Value json = jsonParser.parse(msg);
+
+            JSON json = JSON.parse(msg);
             this.nick = String.format("%s", json.get("nick"));
             this.sex = String.format("%s", json.get("sex"));
             this.age = String.format("%s", json.get("age"));
@@ -40,7 +42,7 @@ public class RE_MSG_Group extends RE_MSG
             this.fromGroup = String.format("%s", json.get("fromGroup"));
             this.type = 2;
         }
-        catch (ParserException e) {
+        catch (ParserException | IOException e) {
             e.printStackTrace();
         }
     }

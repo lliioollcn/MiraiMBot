@@ -1,8 +1,10 @@
 package com.mumu.msg;
 
-import jsonij.Value;
-import jsonij.parser.JSONParser;
-import jsonij.parser.ParserException;
+
+import cc.plural.jsonij.JSON;
+import cc.plural.jsonij.parser.ParserException;
+
+import java.io.IOException;
 
 public class ADDGroupExample extends RE_MSG
 {
@@ -17,8 +19,8 @@ public class ADDGroupExample extends RE_MSG
     public ADDGroupExample(String msg) {
         super(msg);
         try {
-            JSONParser jsonParser = new JSONParser();
-            Value json = jsonParser.parse(msg);
+
+            JSON json = JSON.parse(msg);
             this.act = String.format("%s", json.get("act"));
             this.subType = String.format("%s", json.get("subType"));
             this.sendTime = String.format("%s", json.get("sendTime"));
@@ -27,7 +29,7 @@ public class ADDGroupExample extends RE_MSG
             this.msg1 = String.format("%s", json.get("msg"));
             this.responseFlag = String.format("%s", json.get("responseFlag"));
         }
-        catch (ParserException e) {
+        catch (ParserException | IOException e) {
             e.printStackTrace();
         }
     }

@@ -1,8 +1,10 @@
 package com.mumu.msg;
 
-import jsonij.Value;
-import jsonij.parser.JSONParser;
-import jsonij.parser.ParserException;
+
+import cc.plural.jsonij.JSON;
+import cc.plural.jsonij.parser.ParserException;
+
+import java.io.IOException;
 
 public class AddFriendExample extends RE_MSG
 {
@@ -14,15 +16,15 @@ public class AddFriendExample extends RE_MSG
     public AddFriendExample(String msg) {
         super(msg);
         try {
-            JSONParser jsonParser = new JSONParser();
-            Value json = jsonParser.parse(msg);
+
+            JSON json = JSON.parse(msg);
             this.act = String.format("%s", json.get("act"));
             this.subType = String.format("%s", json.get("subType"));
             this.sendTime = String.format("%s", json.get("sendTime"));
             this.fromQQ = String.format("%s", json.get("fromQQ"));
             this.type = 201;
         }
-        catch (ParserException e) {
+        catch (ParserException | IOException e) {
             e.printStackTrace();
         }
     }
