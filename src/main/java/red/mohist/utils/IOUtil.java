@@ -1,4 +1,4 @@
-package cn.lliiooll;
+package red.mohist.utils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
 
 public class IOUtil {
 
@@ -75,8 +74,12 @@ public class IOUtil {
      * @throws IOException
      * @throws UnsupportedEncodingException
      */
-    public static String readContent(InputStream pIPStream) throws IOException{
-        return IOUtil.readContent(new InputStreamReader(pIPStream, StandardCharsets.UTF_8));
+    public static String readContent(InputStream pIPStream,String pEncoding) throws IOException{
+        if(pEncoding==null||(pEncoding.isEmpty())){
+            return IOUtil.readContent(new InputStreamReader(pIPStream));
+        }else{
+            return IOUtil.readContent(new InputStreamReader(pIPStream,pEncoding));
+        }
     }
 
     /**

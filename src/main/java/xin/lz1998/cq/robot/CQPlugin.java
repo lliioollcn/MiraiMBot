@@ -1,5 +1,6 @@
 package xin.lz1998.cq.robot;
 
+import org.apache.logging.log4j.LogManager;
 import org.springframework.stereotype.Component;
 import xin.lz1998.cq.event.message.CQDiscussMessageEvent;
 import xin.lz1998.cq.event.message.CQGroupMessageEvent;

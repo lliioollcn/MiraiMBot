@@ -32,7 +32,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) {
         long xSelfId = Long.valueOf(session.getHandshakeHeaders().get("x-self-id").get(0));
-        logger.info("{} connected", xSelfId);
+        logger.info("账号 {} 已连接", xSelfId);
         Global.robots.putIfAbsent(xSelfId, new CoolQ(xSelfId));
         CoolQ robot = Global.robots.get(xSelfId);
         robot.setSelfId(xSelfId);
@@ -42,7 +42,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
         long xSelfId = Long.valueOf(session.getHandshakeHeaders().get("x-self-id").get(0));
-        logger.info("{} disconnected", xSelfId);
+        logger.info("账号 {} 断开连接", xSelfId);
         Global.robots.remove(xSelfId);
     }
 }
