@@ -57,14 +57,16 @@ public class Ping implements CommandExecutor {
             sb.append("======Mohist使用检测======").append("\n");
             sb.append("检测通过: 你正在使用Mohist, 感谢你的使用!!!").append("\n");
             sb.append("在线: " + status.getOnlinePlayers() + "/" + status.getMaxPlayers()).append("\n");
+            boolean mohist = false;
             for (MCServerModInfo.MCMod mod : status.getModInfo().getModList()) {
                 mods.append(mod.getModId() + ":" + mod.getVersion()).append("\n");
-                if (mod.getModId().equals("mohist")) {
-                    String ver = mod.getVersion().replace(" ", "");
+                String ver = mod.getVersion().replace(" ", "");
+                if (mod.getModId().equals("mohist") && ver.length() == 14) {
+                    mohist = true;
                     sb.append("Mohist版本: " + (hasLatestVersion().equals(ver) ? ver + "(已是最新版)" : ver + "(你该更新了)")).append("\n");
                 }
             }
-            if (mods != null && mods.toString().contains("mohist:")) {
+            if (mods != null && mods.toString().contains("mohist:") && mohist) {
                 sb.append("模组数量: " + (modsize(mods.toString(), ":") - 5)).append("\n");
 
                 cq.sendGroupMsg(event.getGroupId(), sb.toString(), false);
@@ -73,7 +75,7 @@ public class Ping implements CommandExecutor {
                 System.out.println(status.getVersion());
                 cq.sendGroupMsg(event.getGroupId(),
                                 "======Mohist使用检测======\n" +
-                                "此服务器不是Mohist, 可能原因：1.BC, 2.旧版Mohist", false);
+                                "此服务器不是Mohist, 可能原因：1.BC, 2.旧版Mohist, 3.其他核心", false);
             }
         }
         return false;
