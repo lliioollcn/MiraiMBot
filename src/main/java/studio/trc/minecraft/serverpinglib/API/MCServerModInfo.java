@@ -1,10 +1,11 @@
 package studio.trc.minecraft.serverpinglib.API;
 
-import studio.trc.lib.json.parser.ParseException;
+import studio.trc.lib.json.JSONObject;
 import studio.trc.lib.json.parser.JSONParser;
+import studio.trc.lib.json.parser.ParseException;
+
 import java.util.ArrayList;
 import java.util.List;
-import studio.trc.lib.json.JSONObject;
 
 public class MCServerModInfo
 {

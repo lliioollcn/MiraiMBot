@@ -1,8 +1,8 @@
 package studio.trc.minecraft.serverpinglib.API;
 
 import studio.trc.lib.json.JSONObject;
-import studio.trc.minecraft.serverpinglib.Utils.ColorUtils;
 import studio.trc.lib.json.parser.JSONParser;
+import studio.trc.minecraft.serverpinglib.Utils.ColorUtils;
 
 public class MCServerMotd
 {

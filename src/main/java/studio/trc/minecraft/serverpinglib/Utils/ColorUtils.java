@@ -1,7 +1,8 @@
 package studio.trc.minecraft.serverpinglib.Utils;
 
-import java.util.HashMap;
 import studio.trc.lib.json.JSONObject;
+
+import java.util.HashMap;
 
 public class ColorUtils
 {

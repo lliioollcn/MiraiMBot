@@ -1,0 +1,68 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.3.71'
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
+}
+
+group = 'red.mohist'
+version = '0.1.0'
+
+repositories {
+	maven { url 'https://maven.aliyun.com/repository/public' }
+    maven { url 'https://maven.aliyun.com/repository/central' }
+    maven { url 'https://maven.aliyun.com/repository/jcenter' }
+    maven { url 'https://maven.aliyun.com/repository/google' }
+    maven {
+        credentials {
+            username 'ziq3tV'
+            password 'F7bowvyVk0'
+        }
+        url 'https://packages.aliyun.com/maven/repository/2004385-release-A6mrLn/'
+    }
+    maven {
+        credentials {
+            username 'ziq3tV'
+            password 'F7bowvyVk0'
+        }
+        url 'https://packages.aliyun.com/maven/repository/2004385-snapshot-EDtVE0/'
+    }
+}
+
+[compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
+
+def miraiCoreVersion = "+" // 1.1-EA
+def miraiConsoleVersion = "+" // 0.5.2
+
+dependencies {
+    compileOnly 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+    compileOnly "net.mamoe:mirai-core:$miraiCoreVersion"
+    compileOnly "net.mamoe:mirai-console:$miraiConsoleVersion"
+
+    compile 'com.alibaba:fastjson:1.2.59'
+    compile 'org.projectlombok:lombok:1.18.8'
+    annotationProcessor 'org.projectlombok:lombok:1.18.8'
+    compile 'com.google.guava:guava:20.0'
+
+    testImplementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+    testImplementation "net.mamoe:mirai-core:$miraiCoreVersion"
+    testImplementation "net.mamoe:mirai-core-qqandroid:$miraiCoreVersion"
+    testImplementation "net.mamoe:mirai-console:$miraiConsoleVersion"
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = '1.8'
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = '1.8'
+}
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+jar {
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    manifest {
+        attributes "Manifest-Version": 1.0,
+                'Build-date': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                'Build-by': 'lliiooll'
+    }
+}

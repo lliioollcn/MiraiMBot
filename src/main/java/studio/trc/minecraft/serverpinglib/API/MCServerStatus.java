@@ -1,15 +1,16 @@
 package studio.trc.minecraft.serverpinglib.API;
 
-import java.io.Reader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import studio.trc.lib.json.JSONObject;
 import studio.trc.lib.json.parser.JSONParser;
-import studio.trc.minecraft.serverpinglib.Utils.Encoding;
 import studio.trc.minecraft.serverpinglib.Protocol.ProtocolNumber;
 import studio.trc.minecraft.serverpinglib.Protocol.ProtocolPacket;
-import java.io.DataOutputStream;
 import studio.trc.minecraft.serverpinglib.Protocol.ProtocolVersion;
+import studio.trc.minecraft.serverpinglib.Utils.Encoding;
+
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 
 public class MCServerStatus
 {

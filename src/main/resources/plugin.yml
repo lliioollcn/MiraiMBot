@@ -1,0 +1,6 @@
+name: "MohistBot"
+author: "lliiooll & Mgazul"
+version: "0.1.0"
+main: "red.mohist.MohistBot"
+info: ""
+depends: []
