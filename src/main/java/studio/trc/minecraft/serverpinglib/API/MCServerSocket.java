@@ -1,12 +1,12 @@
 package studio.trc.minecraft.serverpinglib.API;
 
-import javax.naming.directory.Attribute;
-import java.net.SocketAddress;
-import java.net.InetSocketAddress;
-import javax.naming.NamingException;
-import javax.naming.directory.InitialDirContext;
 import studio.trc.minecraft.serverpinglib.Protocol.ProtocolVersion;
+
+import javax.naming.NamingException;
+import javax.naming.directory.Attribute;
+import javax.naming.directory.InitialDirContext;
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 
 public class MCServerSocket

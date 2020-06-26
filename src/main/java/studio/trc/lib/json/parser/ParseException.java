@@ -57,7 +57,7 @@ public class ParseException extends Exception {
 	 * 
 	 * @return One of the following base on the value of errorType:
 	 * 		   	ERROR_UNEXPECTED_CHAR		java.lang.Character
-	 * 			ERROR_UNEXPECTED_TOKEN		studio.trc.lib.json.parser.Yytoken
+	 * 			ERROR_UNEXPECTED_TOKEN		studio.studio.trc.lib.json.parser.Yytoken
 	 * 			ERROR_UNEXPECTED_EXCEPTION	java.lang.Exception
 	 */
 	public Object getUnexpectedObject() {

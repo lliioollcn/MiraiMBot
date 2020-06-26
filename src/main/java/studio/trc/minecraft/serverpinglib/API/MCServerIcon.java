@@ -1,10 +1,11 @@
 package studio.trc.minecraft.serverpinglib.API;
 
-import java.io.IOException;
-import java.io.FileOutputStream;
 import studio.trc.lib.json.JSONObject;
 import studio.trc.minecraft.serverpinglib.Utils.Base64Decoder;
+
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class MCServerIcon
 {

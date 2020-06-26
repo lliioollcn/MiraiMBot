@@ -4,14 +4,15 @@
  */
 package studio.trc.lib.json.parser;
 
+import studio.trc.lib.json.JSONArray;
+import studio.trc.lib.json.JSONObject;
+
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import studio.trc.lib.json.JSONArray;
-import studio.trc.lib.json.JSONObject;
 
 
 /**
@@ -97,8 +98,8 @@ public class JSONParser {
 	 * @param in
      * @param containerFactory - Use this factory to createyour own JSON object and JSON array containers.
 	 * @return Instance of the following:
-	 *  studio.trc.lib.json.JSONObject,
-	 * 	studio.trc.lib.json.JSONArray,
+	 *  studio.studio.trc.lib.json.JSONObject,
+	 * 	studio.studio.trc.lib.json.JSONArray,
 	 * 	java.lang.String,
 	 * 	java.lang.Number,
 	 * 	java.lang.Boolean,

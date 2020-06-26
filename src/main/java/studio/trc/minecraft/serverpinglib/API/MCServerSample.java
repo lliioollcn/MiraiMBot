@@ -1,10 +1,11 @@
 package studio.trc.minecraft.serverpinglib.API;
 
 import studio.trc.lib.json.JSONObject;
-import studio.trc.minecraft.serverpinglib.Utils.ColorUtils;
-import studio.trc.lib.json.parser.ParseException;
-import java.util.ArrayList;
 import studio.trc.lib.json.parser.JSONParser;
+import studio.trc.lib.json.parser.ParseException;
+import studio.trc.minecraft.serverpinglib.Utils.ColorUtils;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class MCServerSample

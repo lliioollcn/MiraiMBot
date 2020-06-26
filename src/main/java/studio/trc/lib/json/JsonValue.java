@@ -4,15 +4,12 @@
  */
 package studio.trc.lib.json;
 
-import java.io.IOException;
-import java.io.Reader;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.util.Collection;
-import java.util.Map;
 import studio.trc.lib.json.parser.JSONParser;
 import studio.trc.lib.json.parser.ParseException;
+
+import java.io.*;
+import java.util.Collection;
+import java.util.Map;
 
 // import java.util.List;
 
@@ -30,8 +27,8 @@ public class JSONValue {
 	 * 
 	 * @param in
 	 * @return Instance of the following:
-	 *	studio.trc.lib.json.JSONObject,
-	 * 	studio.trc.lib.json.JSONArray,
+	 *	studio.studio.trc.lib.json.JSONObject,
+	 * 	studio.studio.trc.lib.json.JSONArray,
 	 * 	java.lang.String,
 	 * 	java.lang.Number,
 	 * 	java.lang.Boolean,
@@ -60,8 +57,8 @@ public class JSONValue {
 	 * 
 	 * @param s
 	 * @return Instance of the following:
-	 *	studio.trc.lib.json.JSONObject,
-	 * 	studio.trc.lib.json.JSONArray,
+	 *	studio.studio.trc.lib.json.JSONObject,
+	 * 	studio.studio.trc.lib.json.JSONArray,
 	 * 	java.lang.String,
 	 * 	java.lang.Number,
 	 * 	java.lang.Boolean,
@@ -83,8 +80,8 @@ public class JSONValue {
 	 * 
 	 * @param in
 	 * @return Instance of the following:
-	 * 	studio.trc.lib.json.JSONObject,
-	 * 	studio.trc.lib.json.JSONArray,
+	 * 	studio.studio.trc.lib.json.JSONObject,
+	 * 	studio.studio.trc.lib.json.JSONArray,
 	 * 	java.lang.String,
 	 * 	java.lang.Number,
 	 * 	java.lang.Boolean,
