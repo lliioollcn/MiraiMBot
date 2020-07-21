@@ -8,24 +8,10 @@ group = 'red.mohist'
 version = '0.1.0'
 
 repositories {
-	maven { url 'https://maven.aliyun.com/repository/public' }
+    maven { url 'https://maven.aliyun.com/repository/public' }
     maven { url 'https://maven.aliyun.com/repository/central' }
     maven { url 'https://maven.aliyun.com/repository/jcenter' }
     maven { url 'https://maven.aliyun.com/repository/google' }
-    maven {
-        credentials {
-            username 'ziq3tV'
-            password 'F7bowvyVk0'
-        }
-        url 'https://packages.aliyun.com/maven/repository/2004385-release-A6mrLn/'
-    }
-    maven {
-        credentials {
-            username 'ziq3tV'
-            password 'F7bowvyVk0'
-        }
-        url 'https://packages.aliyun.com/maven/repository/2004385-snapshot-EDtVE0/'
-    }
 }
 
 [compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
