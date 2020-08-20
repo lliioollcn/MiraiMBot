@@ -16,12 +16,12 @@ import java.util.Map;
  * 
  * @author FangYidong<fangyidong@yahoo.com.cn>
  */
-public class JSONObject extends HashMap implements Map, JSONAware, JSONStreamAware{
+public class JsonObject extends HashMap implements Map, JsonAware, JsonStreamAware {
 	
 	private static final long serialVersionUID = -503443796854799292L;
 	
 	
-	public JSONObject() {
+	public JsonObject() {
 		super();
 	}
 
@@ -31,7 +31,7 @@ public class JSONObject extends HashMap implements Map, JSONAware, JSONStreamAwa
 	 * 
 	 * @param map
 	 */
-	public JSONObject(Map map) {
+	public JsonObject(Map map) {
 		super(map);
 	}
 
@@ -40,7 +40,7 @@ public class JSONObject extends HashMap implements Map, JSONAware, JSONStreamAwa
      * Encode a map into JSON text and write it to out.
      * If this map is also a JSONAware or JSONStreamAware, JSONAware or JSONStreamAware specific behaviours will be ignored at this top level.
      * 
-     * @see studio.trc.lib.json.JSONValue#writeJSONString(Object, Writer)
+     * @see JsonValue#writeJSONString(Object, Writer)
      * 
      * @param map
      * @param out
@@ -65,7 +65,7 @@ public class JSONObject extends HashMap implements Map, JSONAware, JSONStreamAwa
             out.write(escape(String.valueOf(entry.getKey())));
             out.write('\"');
             out.write(':');
-			JSONValue.writeJSONString(entry.getValue(), out);
+			JsonValue.writeJSONString(entry.getValue(), out);
 		}
 		out.write('}');
 	}
@@ -78,7 +78,7 @@ public class JSONObject extends HashMap implements Map, JSONAware, JSONStreamAwa
 	 * Convert a map to JSON text. The result is a JSON object. 
 	 * If this map is also a JSONAware, JSONAware specific behaviours will be omitted at this top level.
 	 * 
-	 * @see studio.trc.lib.json.JSONValue#toJSONString(Object)
+	 * @see JsonValue#toJSONString(Object)
 	 * 
 	 * @param map
 	 * @return JSON text, or "null" if map is null.
@@ -109,10 +109,10 @@ public class JSONObject extends HashMap implements Map, JSONAware, JSONStreamAwa
         if(key == null)
             sb.append("null");
         else
-            JSONValue.escape(key, sb);
+            JsonValue.escape(key, sb);
 		sb.append('\"').append(':');
 		
-		sb.append(JSONValue.toJSONString(value));
+		sb.append(JsonValue.toJSONString(value));
 		
 		return sb.toString();
 	}
@@ -121,13 +121,13 @@ public class JSONObject extends HashMap implements Map, JSONAware, JSONStreamAwa
 	 * Escape quotes, \, /, \r, \n, \b, \f, \t and other control characters (U+0000 through U+001F).
 	 * It's the same as JSONValue.escape() only for compatibility here.
 	 * 
-	 * @see studio.trc.lib.json.JSONValue#escape(String)
+	 * @see JsonValue#escape(String)
 	 * 
 	 * @param s
 	 * @return
 	 */
 	public static String escape(String s){
-		return JSONValue.escape(s);
+		return JsonValue.escape(s);
 	}
 
 	public String getString(final Object o) {
@@ -162,11 +162,11 @@ public class JSONObject extends HashMap implements Map, JSONAware, JSONStreamAwa
 		return ((HashMap<Object, Double>)this).get(o);
 	}
 
-	public JSONObject getJsonObject(final Object o) {
-		return ((HashMap<Object, JSONObject>)this).get(o);
+	public JsonObject getJsonObject(final Object o) {
+		return ((HashMap<Object, JsonObject>)this).get(o);
 	}
 
-	public JSONArray getJsonArray(final Object o) {
-		return ((HashMap<Object, JSONArray>)this).get(o);
+	public JsonArray getJsonArray(final Object o) {
+		return ((HashMap<Object, JsonArray>)this).get(o);
 	}
 }

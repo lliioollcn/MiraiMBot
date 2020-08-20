@@ -1,6 +1,6 @@
 package studio.trc.minecraft.serverpinglib.API;
 
-import studio.trc.lib.json.JSONObject;
+import studio.trc.lib.json.JsonObject;
 import studio.trc.minecraft.serverpinglib.Utils.Base64Decoder;
 
 import java.io.File;
@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class MCServerIcon
 {
-    private final JSONObject Json;
+    private final JsonObject Json;
     private final MCServerStatus status;
     
     MCServerIcon(final MCServerStatus status) {

@@ -1,6 +1,6 @@
 package studio.trc.minecraft.serverpinglib.Utils;
 
-import studio.trc.lib.json.JSONObject;
+import studio.trc.lib.json.JsonObject;
 
 import java.util.HashMap;
 
@@ -19,7 +19,7 @@ public class ColorUtils
         return text;
     }
     
-    public static String JsonToColorCharacter(final JSONObject Json) {
+    public static String JsonToColorCharacter(final JsonObject Json) {
         String text = ((HashMap<String, String>)Json).get("text");
         String colorcharacter = "";
         if (Json.get("color") != null) {

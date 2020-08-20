@@ -4,7 +4,7 @@
  */
 package studio.trc.lib.json;
 
-import studio.trc.lib.json.parser.JSONParser;
+import studio.trc.lib.json.parser.JsonParser;
 import studio.trc.lib.json.parser.ParseException;
 
 import java.io.*;
@@ -17,12 +17,12 @@ import java.util.Map;
 /**
  * @author FangYidong<fangyidong@yahoo.com.cn>
  */
-public class JSONValue {
+public class JsonValue {
 	/**
 	 * Parse JSON text into java object from the input source. 
 	 * Please use parseWithException() if you don't want to ignore the exception.
 	 * 
-	 * @see studio.trc.lib.json.parser.JSONParser#parse(Reader)
+	 * @see JsonParser#parse(Reader)
 	 * @see #parseWithException(Reader)
 	 * 
 	 * @param in
@@ -35,12 +35,12 @@ public class JSONValue {
 	 * 	null
 	 * 
 	 * @deprecated this method may throw an {@code Error} instead of returning
-	 * {@code null}; please use {@link JSONValue#parseWithException(Reader)}
+	 * {@code null}; please use {@link JsonValue#parseWithException(Reader)}
 	 * instead
 	 */
 	public static Object parse(Reader in){
 		try{
-			JSONParser parser=new JSONParser();
+			JsonParser parser=new JsonParser();
 			return parser.parse(in);
 		}
 		catch(Exception e){
@@ -52,7 +52,7 @@ public class JSONValue {
 	 * Parse JSON text into java object from the given string. 
 	 * Please use parseWithException() if you don't want to ignore the exception.
 	 * 
-	 * @see studio.trc.lib.json.parser.JSONParser#parse(Reader)
+	 * @see JsonParser#parse(Reader)
 	 * @see #parseWithException(Reader)
 	 * 
 	 * @param s
@@ -65,7 +65,7 @@ public class JSONValue {
 	 * 	null
 	 * 
 	 * @deprecated this method may throw an {@code Error} instead of returning
-	 * {@code null}; please use {@link JSONValue#parseWithException(String)}
+	 * {@code null}; please use {@link JsonValue#parseWithException(String)}
 	 * instead
 	 */
 	public static Object parse(String s){
@@ -76,7 +76,7 @@ public class JSONValue {
 	/**
 	 * Parse JSON text into java object from the input source.
 	 * 
-	 * @see studio.trc.lib.json.parser.JSONParser
+	 * @see JsonParser
 	 * 
 	 * @param in
 	 * @return Instance of the following:
@@ -91,12 +91,12 @@ public class JSONValue {
 	 * @throws ParseException
 	 */
 	public static Object parseWithException(Reader in) throws IOException, ParseException {
-		JSONParser parser=new JSONParser();
+		JsonParser parser=new JsonParser();
 		return parser.parse(in);
 	}
 	
 	public static Object parseWithException(String s) throws ParseException{
-		JSONParser parser=new JSONParser();
+		JsonParser parser=new JsonParser();
 		return parser.parse(s);
 	}
 	
@@ -108,8 +108,8 @@ public class JSONValue {
      * DO NOT call this method from writeJSONString(Writer) of a class that implements both JSONStreamAware and (Map or List) with 
      * "this" as the first parameter, use JSONObject.writeJSONString(Map, Writer) or JSONArray.writeJSONString(List, Writer) instead. 
      * 
-     * @see studio.trc.lib.json.JSONObject#writeJSONString(Map, Writer)
-     * @see studio.trc.lib.json.JSONArray#writeJSONString(List, Writer)
+     * @see JsonObject#writeJSONString(Map, Writer)
+     * @see JsonArray#writeJSONString(List, Writer)
      * 
      * @param value
      * @param writer
@@ -153,68 +153,68 @@ public class JSONValue {
 			return;
 		}
 		
-		if((value instanceof JSONStreamAware)){
-			((JSONStreamAware)value).writeJSONString(out);
+		if((value instanceof JsonStreamAware)){
+			((JsonStreamAware)value).writeJSONString(out);
 			return;
 		}
 		
-		if((value instanceof JSONAware)){
-			out.write(((JSONAware)value).toJSONString());
+		if((value instanceof JsonAware)){
+			out.write(((JsonAware)value).toJSONString());
 			return;
 		}
 		
 		if(value instanceof Map){
-			JSONObject.writeJSONString((Map)value, out);
+			JsonObject.writeJSONString((Map)value, out);
 			return;
 		}
 		
 		if(value instanceof Collection){
-			JSONArray.writeJSONString((Collection)value, out);
+			JsonArray.writeJSONString((Collection)value, out);
             return;
 		}
 		
 		if(value instanceof byte[]){
-			JSONArray.writeJSONString((byte[])value, out);
+			JsonArray.writeJSONString((byte[])value, out);
 			return;
 		}
 		
 		if(value instanceof short[]){
-			JSONArray.writeJSONString((short[])value, out);
+			JsonArray.writeJSONString((short[])value, out);
 			return;
 		}
 		
 		if(value instanceof int[]){
-			JSONArray.writeJSONString((int[])value, out);
+			JsonArray.writeJSONString((int[])value, out);
 			return;
 		}
 		
 		if(value instanceof long[]){
-			JSONArray.writeJSONString((long[])value, out);
+			JsonArray.writeJSONString((long[])value, out);
 			return;
 		}
 		
 		if(value instanceof float[]){
-			JSONArray.writeJSONString((float[])value, out);
+			JsonArray.writeJSONString((float[])value, out);
 			return;
 		}
 		
 		if(value instanceof double[]){
-			JSONArray.writeJSONString((double[])value, out);
+			JsonArray.writeJSONString((double[])value, out);
 			return;
 		}
 		
 		if(value instanceof boolean[]){
-			JSONArray.writeJSONString((boolean[])value, out);
+			JsonArray.writeJSONString((boolean[])value, out);
 			return;
 		}
 		
 		if(value instanceof char[]){
-			JSONArray.writeJSONString((char[])value, out);
+			JsonArray.writeJSONString((char[])value, out);
 			return;
 		}
 		
 		if(value instanceof Object[]){
-			JSONArray.writeJSONString((Object[])value, out);
+			JsonArray.writeJSONString((Object[])value, out);
 			return;
 		}
 		
@@ -229,8 +229,8 @@ public class JSONValue {
 	 * DO NOT call this method from toJSONString() of a class that implements both JSONAware and Map or List with 
 	 * "this" as the parameter, use JSONObject.toJSONString(Map) or JSONArray.toJSONString(List) instead. 
 	 * 
-	 * @see studio.trc.lib.json.JSONObject#toJSONString(Map)
-	 * @see studio.trc.lib.json.JSONArray#toJSONString(List)
+	 * @see JsonObject#toJSONString(Map)
+	 * @see JsonArray#toJSONString(List)
 	 * 
 	 * @param value
 	 * @return JSON text, or "null" if value is null or it's an NaN or an INF number.

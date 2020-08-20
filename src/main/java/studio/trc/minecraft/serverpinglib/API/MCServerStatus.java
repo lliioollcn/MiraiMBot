@@ -1,7 +1,7 @@
 package studio.trc.minecraft.serverpinglib.API;
 
-import studio.trc.lib.json.JSONObject;
-import studio.trc.lib.json.parser.JSONParser;
+import studio.trc.lib.json.JsonObject;
+import studio.trc.lib.json.parser.JsonParser;
 import studio.trc.minecraft.serverpinglib.Protocol.ProtocolNumber;
 import studio.trc.minecraft.serverpinglib.Protocol.ProtocolPacket;
 import studio.trc.minecraft.serverpinglib.Protocol.ProtocolVersion;
@@ -15,14 +15,14 @@ import java.io.Reader;
 public class MCServerStatus
 {
     private boolean isMCServer;
-    private JSONObject Jsontext;
+    private JsonObject Jsontext;
     private int protocolnumber;
     private String protocolversion;
     private final MCServerSocket mcsocket;
 
     private MCServerStatus(final MCServerSocket mcsocket) {
         this.mcsocket = mcsocket;
-        final JSONParser Json = new JSONParser();
+        final JsonParser Json = new JsonParser();
         final String text = this.sendPacket();
         if (text == null) {
             this.isMCServer = false;
@@ -46,7 +46,7 @@ public class MCServerStatus
 
     private MCServerStatus(final MCServerSocket mcsocket, final ProtocolVersion version) {
         this.mcsocket = mcsocket;
-        final JSONParser Json = new JSONParser();
+        final JsonParser Json = new JsonParser();
         final String text = this.sendPacket(version);
         if (text == null) {
             this.isMCServer = false;
@@ -120,7 +120,7 @@ public class MCServerStatus
         return this.getServerProtocolNumber() == this.protocolnumber;
     }
 
-    JSONObject getJson() {
+    JsonObject getJson() {
         return this.Jsontext;
     }
 

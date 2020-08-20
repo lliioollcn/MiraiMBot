@@ -1,12 +1,12 @@
 package studio.trc.minecraft.serverpinglib.API;
 
-import studio.trc.lib.json.JSONObject;
-import studio.trc.lib.json.parser.JSONParser;
+import studio.trc.lib.json.JsonObject;
+import studio.trc.lib.json.parser.JsonParser;
 import studio.trc.minecraft.serverpinglib.Utils.ColorUtils;
 
 public class MCServerMotd
 {
-    private final JSONObject Json;
+    private final JsonObject Json;
     private final MCServerStatus status;
     
     MCServerMotd(final MCServerStatus status) {
@@ -16,7 +16,7 @@ public class MCServerMotd
     
     public String getMotdText() {
         final StringBuilder sb = new StringBuilder();
-        final JSONParser jp = new JSONParser();
+        final JsonParser jp = new JsonParser();
         try {
             for (final Object obj : this.Json.getJsonObject("description").getJsonArray("extra")) {
                 sb.append(jp.parseToJsonObject(obj.toString()).get("text"));
@@ -35,7 +35,7 @@ public class MCServerMotd
     
     public String getColorMotdText() {
         final StringBuilder sb = new StringBuilder();
-        final JSONParser jp = new JSONParser();
+        final JsonParser jp = new JsonParser();
         try {
             for (final Object obj : this.Json.getJsonObject("description").getJsonArray("extra")) {
                 sb.append(ColorUtils.JsonToColorCharacter(jp.parseToJsonObject(obj.toString())));

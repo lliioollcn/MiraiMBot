@@ -28,6 +28,7 @@ dependencies {
     compile 'org.projectlombok:lombok:1.18.8'
     annotationProcessor 'org.projectlombok:lombok:1.18.8'
     compile 'com.google.guava:guava:20.0'
+    compile 'com.google.code.gson:gson:2.8.5'
 
     testImplementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
     testImplementation "net.mamoe:mirai-core:$miraiCoreVersion"

@@ -40,7 +40,7 @@ public class ParseException extends Exception {
 	}
 	
 	/**
-	 * @see studio.trc.lib.json.parser.JSONParser#getPosition()
+	 * @see JsonParser#getPosition()
 	 * 
 	 * @return The character position (starting with 0) of the input where the error occurs.
 	 */

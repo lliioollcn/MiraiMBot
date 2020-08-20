@@ -1,7 +1,7 @@
 package studio.trc.minecraft.serverpinglib.API;
 
-import studio.trc.lib.json.JSONObject;
-import studio.trc.lib.json.parser.JSONParser;
+import studio.trc.lib.json.JsonObject;
+import studio.trc.lib.json.parser.JsonParser;
 import studio.trc.lib.json.parser.ParseException;
 
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import java.util.List;
 
 public class MCServerModInfo
 {
-    private final JSONObject Json;
+    private final JsonObject Json;
     private final MCServerStatus status;
     
     MCServerModInfo(final MCServerStatus status) {
@@ -34,11 +34,11 @@ public class MCServerModInfo
         if (!this.hasModInfo()) {
             return modlist;
         }
-        final JSONParser jp = new JSONParser();
+        final JsonParser jp = new JsonParser();
         for (final Object obj : (this.Json.getJsonObject("modinfo").get("modList") != null) ? this.Json.getJsonObject("modinfo").getJsonArray("modList") : new ArrayList<Object>()) {
-            JSONObject mods = null;
+            JsonObject mods = null;
             try {
-                mods = (JSONObject)jp.parse(obj.toString());
+                mods = (JsonObject)jp.parse(obj.toString());
             }
             catch (ParseException ex) {}
             modlist.add(new MCMod(mods));
@@ -52,9 +52,9 @@ public class MCServerModInfo
     
     public class MCMod
     {
-        private final JSONObject Json;
+        private final JsonObject Json;
         
-        MCMod(final JSONObject Json) {
+        MCMod(final JsonObject Json) {
             this.Json = Json;
         }
         

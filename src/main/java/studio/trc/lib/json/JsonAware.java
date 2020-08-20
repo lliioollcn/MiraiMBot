@@ -4,7 +4,7 @@ package studio.trc.lib.json;
  * Beans that support customized output of JSON text shall implement this interface.  
  * @author FangYidong<fangyidong@yahoo.com.cn>
  */
-public interface JSONAware {
+public interface JsonAware {
 	/**
 	 * @return JSON text
 	 */

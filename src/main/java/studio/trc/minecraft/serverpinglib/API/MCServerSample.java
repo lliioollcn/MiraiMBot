@@ -1,7 +1,7 @@
 package studio.trc.minecraft.serverpinglib.API;
 
-import studio.trc.lib.json.JSONObject;
-import studio.trc.lib.json.parser.JSONParser;
+import studio.trc.lib.json.JsonObject;
+import studio.trc.lib.json.parser.JsonParser;
 import studio.trc.lib.json.parser.ParseException;
 import studio.trc.minecraft.serverpinglib.Utils.ColorUtils;
 
@@ -10,7 +10,7 @@ import java.util.List;
 
 public class MCServerSample
 {
-    private final JSONObject Json;
+    private final JsonObject Json;
     private final MCServerStatus status;
     
     MCServerSample(final MCServerStatus status) {
@@ -19,10 +19,10 @@ public class MCServerSample
     }
     
     public List<SampleText> getSampleList() {
-        final JSONParser jp = new JSONParser();
+        final JsonParser jp = new JsonParser();
         final List<SampleText> list = new ArrayList<SampleText>();
         for (final Object obj : (this.Json.getJsonObject("players").get("sample") != null) ? this.Json.getJsonObject("players").getJsonArray("sample") : new ArrayList<Object>()) {
-            JSONObject samples = null;
+            JsonObject samples = null;
             try {
                 samples = jp.parseToJsonObject(obj.toString());
             }
@@ -48,9 +48,9 @@ public class MCServerSample
     
     public class SampleText
     {
-        private final JSONObject Json;
+        private final JsonObject Json;
         
-        SampleText(final JSONObject Json) {
+        SampleText(final JsonObject Json) {
             this.Json = Json;
         }
         

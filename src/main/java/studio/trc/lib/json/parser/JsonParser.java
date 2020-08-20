@@ -4,8 +4,8 @@
  */
 package studio.trc.lib.json.parser;
 
-import studio.trc.lib.json.JSONArray;
-import studio.trc.lib.json.JSONObject;
+import studio.trc.lib.json.JsonArray;
+import studio.trc.lib.json.JsonObject;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -20,7 +20,7 @@ import java.util.Map;
  * 
  * @author FangYidong<fangyidong@yahoo.com.cn>
  */
-public class JSONParser {
+public class JsonParser {
 	public static final int S_INIT=0;
 	public static final int S_IN_FINISHED_VALUE=1;//string,number,boolean,null,object,array
 	public static final int S_IN_OBJECT=2;
@@ -273,21 +273,21 @@ public class JSONParser {
 	
 	private Map createObjectContainer(ContainerFactory containerFactory){
 		if(containerFactory == null)
-			return new JSONObject();
+			return new JsonObject();
 		Map m = containerFactory.createObjectContainer();
 		
 		if(m == null)
-			return new JSONObject();
+			return new JsonObject();
 		return m;
 	}
 	
 	private List createArrayContainer(ContainerFactory containerFactory){
 		if(containerFactory == null)
-			return new JSONArray();
+			return new JsonArray();
 		List l = containerFactory.creatArrayContainer();
 		
 		if(l == null)
-			return new JSONArray();
+			return new JsonArray();
 		return l;
 	}
 	
@@ -531,11 +531,11 @@ public class JSONParser {
 		throw new ParseException(getPosition(), ParseException.ERROR_UNEXPECTED_TOKEN, token);
 	}
 
-	public JSONObject parseToJsonObject(final String text) throws ParseException {
-		return (JSONObject)this.parse(text);
+	public JsonObject parseToJsonObject(final String text) throws ParseException {
+		return (JsonObject)this.parse(text);
 	}
 
-	public JSONObject parseToJsonObject(final Reader in) throws IOException, ParseException {
-		return (JSONObject)this.parse(in, (ContainerFactory)null);
+	public JsonObject parseToJsonObject(final Reader in) throws IOException, ParseException {
+		return (JsonObject)this.parse(in, (ContainerFactory)null);
 	}
 }
