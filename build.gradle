@@ -1,5 +1,4 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.3.71'
     id 'java'
     id 'com.github.johnrengelman.shadow' version '5.2.0'
 }
@@ -16,39 +15,29 @@ repositories {
 
 [compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
 
-def miraiCoreVersion = "+" // 1.1-EA
-def miraiConsoleVersion = "+" // 0.5.2
-
 dependencies {
-    compileOnly 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
-    compileOnly "net.mamoe:mirai-core:$miraiCoreVersion"
-    compileOnly "net.mamoe:mirai-console:$miraiConsoleVersion"
 
     compile 'com.alibaba:fastjson:1.2.59'
     compile 'org.projectlombok:lombok:1.18.8'
     annotationProcessor 'org.projectlombok:lombok:1.18.8'
     compile 'com.google.guava:guava:20.0'
     compile 'com.google.code.gson:gson:2.8.5'
-
-    testImplementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
-    testImplementation "net.mamoe:mirai-core:$miraiCoreVersion"
-    testImplementation "net.mamoe:mirai-core-qqandroid:$miraiCoreVersion"
-    testImplementation "net.mamoe:mirai-console:$miraiConsoleVersion"
-}
-
-compileKotlin {
-    kotlinOptions.jvmTarget = '1.8'
-}
-compileTestKotlin {
-    kotlinOptions.jvmTarget = '1.8'
+    compile "net.mamoe:mirai-core:1.2.1"
+    compile "net.mamoe:mirai-core-qqandroid:1.2.1"
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
-jar {
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+shadowJar {
+    dependencies {
+        include(dependency('com.google.code.gson:gson:2.8.5'))
+        include(dependency('net.mamoe:mirai-core:1.2.1'))
+        include(dependency('net.mamoe:mirai-core-qqandroid:1.2.1'))
+        include(dependency('com.alibaba:fastjson:1.2.59'))
+    }
     manifest {
         attributes "Manifest-Version": 1.0,
+                'Main-Class': 'red.mohist.MohistBot',
                 'Build-date': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
                 'Build-by': 'lliiooll'
     }
