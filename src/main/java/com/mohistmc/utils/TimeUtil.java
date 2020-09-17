@@ -1,4 +1,4 @@
-package red.mohist.utils;
+package com.mohistmc.utils;
 
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;

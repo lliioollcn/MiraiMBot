@@ -1,9 +1,9 @@
-package red.mohist.cmds;
+package com.mohistmc.cmds;
 
-import red.mohist.cmds.manager.CommandExecutor;
-import red.mohist.cmds.manager.CommandResult;
-import red.mohist.cmds.manager.annotations.Command;
-import red.mohist.utils.PingUtils;
+import com.mohistmc.cmds.manager.CommandExecutor;
+import com.mohistmc.cmds.manager.CommandResult;
+import com.mohistmc.cmds.manager.annotations.Command;
+import com.mohistmc.utils.PingUtils;
 import studio.trc.minecraft.serverpinglib.API.MCServerModInfo;
 import studio.trc.minecraft.serverpinglib.API.MCServerSocket;
 import studio.trc.minecraft.serverpinglib.API.MCServerStatus;

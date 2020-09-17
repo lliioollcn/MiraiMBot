@@ -1,9 +1,9 @@
-package red.mohist.cmds;
+package com.mohistmc.cmds;
 
-import red.mohist.cmds.manager.CommandManager;
-import red.mohist.cmds.manager.CommandResult;
-import red.mohist.cmds.manager.annotations.Command;
-import red.mohist.cmds.manager.CommandExecutor;
+import com.mohistmc.cmds.manager.CommandExecutor;
+import com.mohistmc.cmds.manager.CommandManager;
+import com.mohistmc.cmds.manager.CommandResult;
+import com.mohistmc.cmds.manager.annotations.Command;
 
 import java.util.Arrays;
 import java.util.Set;

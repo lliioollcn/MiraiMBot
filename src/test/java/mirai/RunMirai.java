@@ -1,8 +1,5 @@
 package mirai;
 
-import kotlinx.coroutines.BuildersKt;
-import kotlinx.coroutines.GlobalScope;
-import net.mamoe.mirai.console.command.CommandManager;
 
 public class RunMirai {
    

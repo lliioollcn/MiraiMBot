@@ -1,13 +1,13 @@
-package red.mohist.cmds.manager;
+package com.mohistmc.cmds.manager;
 
 import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import com.mohistmc.cmds.manager.annotations.Command;
+import com.mohistmc.utils.JarUtils;
+import com.mohistmc.utils.LogUtil;
 import lombok.SneakyThrows;
 import net.mamoe.mirai.contact.Member;
 import net.mamoe.mirai.message.data.*;
-import red.mohist.cmds.manager.annotations.Command;
-import red.mohist.utils.JarUtils;
-import red.mohist.utils.LogUtil;
 
 import java.util.*;
 import java.util.concurrent.ExecutorService;

@@ -1,4 +1,4 @@
-package red.mohist.utils;
+package com.mohistmc.utils;
 
 import lombok.Getter;
 import net.mamoe.mirai.utils.MiraiLogger;

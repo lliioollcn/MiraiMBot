@@ -1,4 +1,4 @@
-package red.mohist.utils;
+package com.mohistmc.utils;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -23,7 +23,7 @@ public class UpdateUtils {
             request.connect();
             System.out.println(((HttpURLConnection) request).getResponseCode());
             JsonElement json = new JsonParser().parse(new InputStreamReader((InputStream) request.getContent()));
-            String versionCode = json.getAsJsonObject().get("changeSet").getAsJsonObject().get("items").getAsJsonArray().get(0).getAsJsonObject().get("commitId").toString().replaceAll("\"", "").substring(0, 7);
+            String versionCode = json.getAsJsonObject().get("number").toString();
             String time = json.getAsJsonObject().get("changeSet").getAsJsonObject().get("items").getAsJsonArray().get(0).getAsJsonObject().get("date").toString().replace("+0800", "").replaceAll("\"", "");
             String message = json.getAsJsonObject().get("changeSet").getAsJsonObject().get("items").getAsJsonArray().get(0).getAsJsonObject().get("msg").toString().replaceAll("\"", "");
 

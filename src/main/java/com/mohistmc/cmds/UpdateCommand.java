@@ -1,9 +1,9 @@
-package red.mohist.cmds;
+package com.mohistmc.cmds;
 
-import red.mohist.cmds.manager.CommandExecutor;
-import red.mohist.cmds.manager.CommandResult;
-import red.mohist.cmds.manager.annotations.Command;
-import red.mohist.utils.UpdateUtils;
+import com.mohistmc.cmds.manager.CommandExecutor;
+import com.mohistmc.cmds.manager.CommandResult;
+import com.mohistmc.cmds.manager.annotations.Command;
+import com.mohistmc.utils.UpdateUtils;
 
 @Command(name = "update", usage = "#update")
 public class UpdateCommand implements CommandExecutor {

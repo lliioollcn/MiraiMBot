@@ -1,4 +1,4 @@
-package red.mohist.cmds.manager;
+package com.mohistmc.cmds.manager;
 
 import lombok.Data;
 import net.mamoe.mirai.contact.Member;

@@ -1,4 +1,4 @@
-package red.mohist.cmds.manager.annotations;
+package com.mohistmc.cmds.manager.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

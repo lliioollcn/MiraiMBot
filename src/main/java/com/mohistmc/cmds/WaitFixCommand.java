@@ -1,10 +1,10 @@
-package red.mohist.cmds;
+package com.mohistmc.cmds;
 
 import com.alibaba.fastjson.JSONObject;
-import red.mohist.cmds.manager.CommandExecutor;
-import red.mohist.cmds.manager.CommandResult;
-import red.mohist.cmds.manager.annotations.Command;
-import red.mohist.utils.FileUtil;
+import com.mohistmc.cmds.manager.CommandExecutor;
+import com.mohistmc.cmds.manager.CommandResult;
+import com.mohistmc.cmds.manager.annotations.Command;
+import com.mohistmc.utils.FileUtil;
 
 import java.io.File;
 import java.io.IOException;
