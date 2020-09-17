@@ -37,7 +37,7 @@ shadowJar {
     }
     manifest {
         attributes "Manifest-Version": 1.0,
-                'Main-Class': 'red.mohist.MohistBot',
+                'Main-Class': 'com.mohistmc.MohistBot',
                 'Build-date': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
                 'Build-by': 'lliiooll'
     }
