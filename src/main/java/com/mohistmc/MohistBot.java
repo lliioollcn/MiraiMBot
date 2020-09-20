@@ -13,10 +13,10 @@ import net.mamoe.mirai.message.GroupMessageEvent;
 import net.mamoe.mirai.utils.BotConfiguration;
 import org.jetbrains.annotations.NotNull;
 
-class MohistBot{
+public class MohistBot {
 
     public static void main(String[] args) {
-        final Bot bot = BotFactoryJvm.newBot(0, "", new BotConfiguration() {
+        Bot bot = BotFactoryJvm.newBot(2703566153L, "WOHENAINI940.0", new BotConfiguration() {
             {
                 fileBasedDeviceInfo("deviceInfo.json");
             }
@@ -31,6 +31,14 @@ class MohistBot{
                 if (content.equals("1.12.2")) {
                     try {
                         event.getSender().getGroup().sendMessageAsync(UpdateUtils.info("1.12.2"));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        event.getSender().getGroup().sendMessageAsync("======更新检测======\n检测失败,内部错误哦~");
+                    }
+                }
+                if (content.equals("1.16.3")) {
+                    try {
+                        event.getSender().getGroup().sendMessageAsync(UpdateUtils.info("InternalTest"));
                     } catch (Exception e) {
                         e.printStackTrace();
                         event.getSender().getGroup().sendMessageAsync("======更新检测======\n检测失败,内部错误哦~");
