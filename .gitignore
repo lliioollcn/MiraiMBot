@@ -30,4 +30,4 @@
 **/.classpath
 *.project
 
-/device.json
+/deviceInfo.json
