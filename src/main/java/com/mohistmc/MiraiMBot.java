@@ -16,31 +16,34 @@ import net.mamoe.mirai.utils.BotConfiguration;
 import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class MiraiMBot {
 
     public static File file;
-    public static FileConfiguration yml;
-
-    public static Bot login(Long qq, String password){
-        return BotFactoryJvm.newBot(0, "", new BotConfiguration() {
-            {
-                fileBasedDeviceInfo("deviceInfo.json");
-            }
-        });
-    }
+    public static FileConfiguration yaml;
+    public static Map<String, String> version = new ConcurrentHashMap<>();
 
     public static void main(String[] args) throws IOException {
+        if (!LibCheck.hasQQAndroid()) {
+            System.out.println("正在下载依赖： mirai-core-qqandroid-1.3.0");
+            LibCheck.downloadFile();
+        }
         file = new File("config/MiraiMBot.yml");
-        yml = YamlConfiguration.loadConfiguration(file);
+        yaml = YamlConfiguration.loadConfiguration(file);
         if (!file.exists()) {
             file.mkdir();
-            yml.set("version", 0.1);
+            yaml.set("version", 0.1);
+            yaml.set("qq", 0L);
+            yaml.set("password", "");
         }
-        yml.save(file);
+        yaml.save(file);
 
+        version.put("1.12.2", "1.12.2");
+        version.put("1.16.3", "InternalTest");
 
-        Bot bot = login(0L, "");
+        Bot bot = login(yaml.getLong("qq"), yaml.getString("password"));
         LogUtil.logger = bot.getLogger();
 
         bot.login();
@@ -48,17 +51,9 @@ public class MiraiMBot {
             @EventHandler
             public ListeningStatus onGroupMessage(GroupMessageEvent event) {
                 String content = event.getMessage().contentToString();
-                if (content.equals("1.12.2")) {
+                if (version.containsKey(content)) {
                     try {
-                        event.getSender().getGroup().sendMessage(UpdateUtils.info("1.12.2"));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        event.getSender().getGroup().sendMessage("======更新检测======\n检测失败,内部错误哦~");
-                    }
-                }
-                if (content.equals("1.16.3")) {
-                    try {
-                        event.getSender().getGroup().sendMessage(UpdateUtils.info("InternalTest"));
+                        event.getSender().getGroup().sendMessage(UpdateUtils.info(version.get(content)));
                     } catch (Exception e) {
                         e.printStackTrace();
                         event.getSender().getGroup().sendMessage("======更新检测======\n检测失败,内部错误哦~");
@@ -74,5 +69,13 @@ public class MiraiMBot {
         });
 
         bot.join();
+    }
+
+    public static Bot login(Long qq, String password){
+        return BotFactoryJvm.newBot(0, "", new BotConfiguration() {
+            {
+                fileBasedDeviceInfo("deviceInfo.json");
+            }
+        });
     }
 }          
