@@ -30,18 +30,18 @@ public class MohistBot {
                 String content = event.getMessage().contentToString();
                 if (content.equals("1.12.2")) {
                     try {
-                        event.getSender().getGroup().sendMessageAsync(UpdateUtils.info("1.12.2"));
+                        event.getSender().getGroup().sendMessage(UpdateUtils.info("1.12.2"));
                     } catch (Exception e) {
                         e.printStackTrace();
-                        event.getSender().getGroup().sendMessageAsync("======更新检测======\n检测失败,内部错误哦~");
+                        event.getSender().getGroup().sendMessage("======更新检测======\n检测失败,内部错误哦~");
                     }
                 }
                 if (content.equals("1.16.3")) {
                     try {
-                        event.getSender().getGroup().sendMessageAsync(UpdateUtils.info("InternalTest"));
+                        event.getSender().getGroup().sendMessage(UpdateUtils.info("InternalTest"));
                     } catch (Exception e) {
                         e.printStackTrace();
-                        event.getSender().getGroup().sendMessageAsync("======更新检测======\n检测失败,内部错误哦~");
+                        event.getSender().getGroup().sendMessage("======更新检测======\n检测失败,内部错误哦~");
                     }
                 }
                 return ListeningStatus.LISTENING;
