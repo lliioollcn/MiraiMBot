@@ -2,6 +2,8 @@ package com.mohistmc;
 
 import com.mohistmc.utils.LogUtil;
 import com.mohistmc.utils.UpdateUtils;
+import com.mohistmc.yaml.file.FileConfiguration;
+import com.mohistmc.yaml.file.YamlConfiguration;
 import kotlin.coroutines.CoroutineContext;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.BotFactoryJvm;
@@ -12,15 +14,33 @@ import net.mamoe.mirai.event.SimpleListenerHost;
 import net.mamoe.mirai.message.GroupMessageEvent;
 import net.mamoe.mirai.utils.BotConfiguration;
 import org.jetbrains.annotations.NotNull;
+import java.io.File;
+import java.io.IOException;
 
-public class MohistBot {
+public class MiraiMBot {
 
-    public static void main(String[] args) {
-        Bot bot = BotFactoryJvm.newBot(2703566153L, "WOHENAINI940.0", new BotConfiguration() {
+    public static File file;
+    public static FileConfiguration yml;
+
+    public static Bot login(Long qq, String password){
+        return BotFactoryJvm.newBot(0, "", new BotConfiguration() {
             {
                 fileBasedDeviceInfo("deviceInfo.json");
             }
         });
+    }
+
+    public static void main(String[] args) throws IOException {
+        file = new File("config/MiraiMBot.yml");
+        yml = YamlConfiguration.loadConfiguration(file);
+        if (!file.exists()) {
+            file.mkdir();
+            yml.set("version", 0.1);
+        }
+        yml.save(file);
+
+
+        Bot bot = login(0L, "");
         LogUtil.logger = bot.getLogger();
 
         bot.login();
