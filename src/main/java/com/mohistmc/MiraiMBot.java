@@ -37,13 +37,19 @@ public class MiraiMBot {
             yaml.set("version", 0.1);
             yaml.set("qq", 0L);
             yaml.set("password", "");
+            yaml.save(file);
         }
-        yaml.save(file);
 
         version.put("1.12.2", "1.12.2");
         version.put("1.16.3", "InternalTest");
 
-        Bot bot = login(yaml.getLong("qq"), yaml.getString("password"));
+        System.out.println(yaml.get("qq"));
+
+        Bot bot = BotFactoryJvm.newBot(Long.valueOf(yaml.getString("qq")).longValue(), yaml.getString("password"), new BotConfiguration() {
+            {
+                fileBasedDeviceInfo("deviceInfo.json");
+            }
+        });
         LogUtil.logger = bot.getLogger();
 
         bot.login();
@@ -72,7 +78,7 @@ public class MiraiMBot {
     }
 
     public static Bot login(Long qq, String password){
-        return BotFactoryJvm.newBot(0, "", new BotConfiguration() {
+        return BotFactoryJvm.newBot(qq, password, new BotConfiguration() {
             {
                 fileBasedDeviceInfo("deviceInfo.json");
             }

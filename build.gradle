@@ -44,12 +44,13 @@ shadowJar {
         include(dependency('org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9'))
         include(dependency('org.jetbrains.kotlin:kotlin-stdlib:1.4.10'))
         include(dependency('org.jetbrains.kotlinx:kotlinx-serialization-core:1.0.0-RC'))
+        include(dependency('com.mohistmc.yaml:Yaml:0.1'))
     }
     manifest {
         def classpath = new StringBuilder()
         classpath.append("lib/mirai-core-qqandroid-1.3.0.jar ")
         attributes "Manifest-Version": 1.0,
-                'Main-Class': 'com.mohistmc.MohistBot',
+                'Main-Class': 'com.mohistmc.MiraiMBot',
                 'Build-date': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
                 'Build-by': 'lliiooll',
                 'Class-Path': classpath.toString()
