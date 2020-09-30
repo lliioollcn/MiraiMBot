@@ -20,8 +20,8 @@ public class CommandManager {
     private static ExecutorService cmds = new ThreadPoolExecutor(5, 200,
             0L, TimeUnit.MILLISECONDS,
             new LinkedBlockingQueue<>(1024), new ThreadFactoryBuilder().setNameFormat("CommandTask-%d").build(), new ThreadPoolExecutor.AbortPolicy());
-    public static Map<String, Class<?>> executors = Maps.newHashMap();
-    public static Map<Class<?>, String> usages = Maps.newHashMap();
+    public static Map<String, CommandExecutor> executors = Maps.newHashMap();
+    public static Map<String, String> usages = Maps.newHashMap();
 
     @SneakyThrows
     public static void init() {
@@ -29,19 +29,35 @@ public class CommandManager {
         int load = 0;
         Set<Class<?>> classes = JarUtils.getAllLoadClasses();
         for (Class<?> loadClass : classes) {
-            if (loadClass.getAnnotation(Command.class) != null) {
-                Command c = loadClass.getAnnotation(Command.class);
-                executors.put(c.name(), loadClass);// 注册主要指令
-                LogUtil.getLogger().info("注册指令 " + loadClass.getName() + "(" + c.name() + ")");
-                for (String alia : c.alias()) {
-                    executors.put(alia, loadClass);
-                    LogUtil.getLogger().info("注册别称 " + loadClass.getName() + "(" + alia + ")");
-                }
-                usages.put(loadClass, c.usage());
+            if (Arrays.asList(loadClass.getInterfaces()).contains(CommandExecutor.class)) {
+                register((CommandExecutor) loadClass.newInstance());
                 load++;
             }
         }
         LogUtil.getLogger().info("加载了 " + load + " 个指令，耗时 " + (System.currentTimeMillis() - start) + "(ms).");
+    }
+
+    public static void register(CommandExecutor newInstance) {
+        Class<?> clazz = newInstance.getClass();
+        if (clazz.getAnnotation(Command.class) != null) {
+            Command c = clazz.getAnnotation(Command.class);
+            executors.put(c.name(), newInstance);// 注册主要指令
+            LogUtil.getLogger().info("注册指令 " + clazz.getName() + "(" + c.name() + ")");
+            usages.put(c.name(), c.usage());
+            for (String alia : c.alias()) {
+                executors.put(alia, newInstance);
+                LogUtil.getLogger().info("注册别称 " + clazz.getName() + "(" + alia + ")");
+                usages.put(alia, c.usage());
+            }
+        } else {
+            LogUtil.getLogger().info("指令解析器 " + clazz.getName() + " 无效(无@Command注解)");
+        }
+    }
+
+    public static void registers(CommandExecutor... cmds) {
+        for (CommandExecutor cmd : cmds) {
+            register(cmd);
+        }
     }
 
     static long last = System.currentTimeMillis();
@@ -51,7 +67,7 @@ public class CommandManager {
             sender.sendMessageAsync("指令发送太快了哦");
         } else {
             //cmds.execute(() -> callA(messages, sender));
-            callA(messages,sender);
+            callA(messages, sender);
         }
         last = System.currentTimeMillis();
     }
@@ -71,12 +87,12 @@ public class CommandManager {
             if (executors.containsKey(label)) {
                 String[] args = new String[sourceCmd.length - 1];
                 System.arraycopy(sourceCmd, 1, args, 0, sourceCmd.length - 1);
-                Class<?> executor = executors.get(label);
+                CommandExecutor executor = executors.get(label);
                 CommandResult cr = new CommandResult();
                 cr.setArgs(Arrays.asList(args));
                 cr.setSender(sender);
                 cr.setSource(messages);
-                if (!(Arrays.asList(executor.getInterfaces()).contains(CommandExecutor.class) && (boolean) executor.getMethod("onCommand", CommandResult.class).invoke(executor.newInstance(), cr))) {
+                if (!executor.onCommand(cr)) {
                     sender.getGroup().sendMessageAsync("指令执行失败。用法：" + usages.get(executor));
                 }
             } else {

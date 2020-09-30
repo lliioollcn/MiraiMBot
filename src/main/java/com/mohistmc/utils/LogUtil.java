@@ -13,6 +13,9 @@ public class LogUtil {
 
     @Getter
     public static boolean debug = true;
+    /**
+     * 指令前缀
+     */
     public static String command = "#";
 
     @Getter
