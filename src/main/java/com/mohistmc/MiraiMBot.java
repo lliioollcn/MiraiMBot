@@ -1,6 +1,7 @@
 package com.mohistmc;
 
 import com.mohistmc.cmds.manager.CommandManager;
+import com.mohistmc.listeners.MainListener;
 import com.mohistmc.utils.JarUtils;
 import com.mohistmc.utils.LogUtil;
 import com.mohistmc.utils.UpdateUtils;
@@ -58,21 +59,7 @@ public class MiraiMBot {
         CommandManager.init();
         GitHubAuto.start();
         bot.login();
-        Events.registerEvents(bot, new SimpleListenerHost() {
-            @EventHandler
-            public ListeningStatus onGroupMessage(GroupMessageEvent event) {
-                String content = event.getMessage().contentToString();
-                if (content.startsWith(LogUtil.command)) {
-                    CommandManager.call(event.getMessage(), event.getSender());
-                }
-                return ListeningStatus.LISTENING;
-            }
-
-            @Override
-            public void handleException(@NotNull CoroutineContext context, @NotNull Throwable exception) {
-                throw new RuntimeException("在事件处理中发生异常", exception);
-            }
-        });
+        Events.registerEvents(bot, new MainListener());
 
         bot.join();
     }
