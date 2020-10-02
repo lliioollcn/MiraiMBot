@@ -22,7 +22,7 @@ public class MainListener extends SimpleListenerHost {
         if ((content.length() >= 100) && (event.getSender().getPermission() == MemberPermission.MEMBER)) {
             if (!(event.getMessage() instanceof RichMessage)) {
                 MiraiMBot.bot.recall(event.getMessage());
-                event.getSender().getGroup().sendMessage("您的消息已经被转移到此：" + HasteUtils.paste(content));
+                event.getGroup().sendMessage("您的消息已经被转移到此：" + HasteUtils.pasteUbuntu(event.getSenderName(), content));
             }
         } else {
             if (content.startsWith(LogUtil.command)) {
