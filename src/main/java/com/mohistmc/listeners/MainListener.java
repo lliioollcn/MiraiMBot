@@ -10,6 +10,7 @@ import net.mamoe.mirai.event.EventHandler;
 import net.mamoe.mirai.event.ListeningStatus;
 import net.mamoe.mirai.event.SimpleListenerHost;
 import net.mamoe.mirai.message.GroupMessageEvent;
+import net.mamoe.mirai.message.data.At;
 import net.mamoe.mirai.message.data.RichMessage;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,7 +22,9 @@ public class MainListener extends SimpleListenerHost {
         String content = event.getMessage().contentToString();
         if ((content.length() >= 100) && (event.getSender().getPermission() == MemberPermission.MEMBER)) {
             if (!(event.getMessage() instanceof RichMessage)) {
+                event.getGroup().sendMessage(new At(event.getSender()).plus(" 您的消息过长，正在转移～"));
                 MiraiMBot.bot.recall(event.getMessage());
+
                 event.getGroup().sendMessage("您的消息已经被转移到此：" + HasteUtils.pasteUbuntu(event.getSenderName(), content));
             }
         } else {

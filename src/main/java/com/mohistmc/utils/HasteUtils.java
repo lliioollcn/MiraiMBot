@@ -47,6 +47,6 @@ public class HasteUtils {
         String result = response.toString();
         //<a class="pturl" href="/p/STqDZF6qQP/plain/">Download as text</a>
         String s = "<a class=\"pturl\" href=\"";
-        return "https://paste.ubuntu.com" + result.substring(result.indexOf(s) + s.length(), result.indexOf("\">Download as text</a>"));
+        return "https://paste.ubuntu.com" + result.substring(result.indexOf(s) + s.length(), result.indexOf("\">Download as text</a>")).replace("plain/","");
     }
 }
