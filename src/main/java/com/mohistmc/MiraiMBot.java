@@ -27,6 +27,7 @@ public class MiraiMBot {
     public static File file;
     public static FileConfiguration yaml;
     public static Map<String, String> version = new ConcurrentHashMap<>();
+    public static Bot bot;
 
     public static void main(String[] args) throws IOException {
         if (!LibCheck.hasQQAndroid()) {
@@ -47,7 +48,7 @@ public class MiraiMBot {
         version.put("1.16.3", "InternalTest");
 
         System.out.println(yaml.get("qq"));
-        Bot bot = BotFactoryJvm.newBot(Long.valueOf(yaml.getString("qq")).longValue(), yaml.getString("password"), new BotConfiguration() {
+        bot = BotFactoryJvm.newBot(Long.valueOf(yaml.getString("qq")).longValue(), yaml.getString("password"), new BotConfiguration() {
             {
                 fileBasedDeviceInfo("deviceInfo.json");
             }
@@ -55,6 +56,7 @@ public class MiraiMBot {
         LogUtil.logger = bot.getLogger();
         JarUtils.scan("com.mohistmc");
         CommandManager.init();
+        GitHubAuto.start();
         bot.login();
         Events.registerEvents(bot, new SimpleListenerHost() {
             @EventHandler
@@ -62,13 +64,6 @@ public class MiraiMBot {
                 String content = event.getMessage().contentToString();
                 if (content.startsWith(LogUtil.command)) {
                     CommandManager.call(event.getMessage(), event.getSender());
-                } else if (version.containsKey(content)) {
-                    try {
-                        event.getSender().getGroup().sendMessage(UpdateUtils.info(version.get(content)));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        event.getSender().getGroup().sendMessage("======更新检测======\n检测失败,内部错误哦~");
-                    }
                 }
                 return ListeningStatus.LISTENING;
             }
@@ -80,13 +75,5 @@ public class MiraiMBot {
         });
 
         bot.join();
-    }
-
-    public static Bot login(Long qq, String password) {
-        return BotFactoryJvm.newBot(qq, password, new BotConfiguration() {
-            {
-                fileBasedDeviceInfo("deviceInfo.json");
-            }
-        });
     }
 }          

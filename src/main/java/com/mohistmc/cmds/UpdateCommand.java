@@ -1,5 +1,6 @@
 package com.mohistmc.cmds;
 
+import com.mohistmc.MiraiMBot;
 import com.mohistmc.cmds.manager.CommandExecutor;
 import com.mohistmc.cmds.manager.CommandResult;
 import com.mohistmc.cmds.manager.annotations.Command;
@@ -18,7 +19,7 @@ public class UpdateCommand implements CommandExecutor {
         if (msg.equals("1.12.2") || msg.equals("1.15.2")) {
             try {
                 result.getSender().getGroup().sendMessageAsync("正在读取数据，请稍后~");
-                result.getSender().getGroup().sendMessageAsync(UpdateUtils.info(msg));
+                result.getSender().getGroup().sendMessageAsync(UpdateUtils.info(MiraiMBot.version.get(msg)));
                 System.out.println("CI数据读取完毕");
                 return true;
             } catch (Exception e) {
