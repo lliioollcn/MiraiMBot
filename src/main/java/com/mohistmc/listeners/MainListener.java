@@ -1,5 +1,6 @@
 package com.mohistmc.listeners;
 
+import com.alibaba.fastjson.JSON;
 import com.mohistmc.MiraiMBot;
 import com.mohistmc.cmds.manager.CommandManager;
 import com.mohistmc.utils.HasteUtils;
@@ -20,11 +21,10 @@ public class MainListener extends SimpleListenerHost {
     @EventHandler
     public ListeningStatus onGroupMessage(GroupMessageEvent event) throws IOException {
         String content = event.getMessage().contentToString();
-        if ((content.length() >= 100) && (event.getSender().getPermission() == MemberPermission.MEMBER)) {
-            if (!(event.getMessage() instanceof RichMessage)) {
+        if ((content.length() >= 300) && (event.getSender().getPermission() == MemberPermission.MEMBER)) {
+            if (!JSON.isValidObject(content) && !content.startsWith("<?xml")){
                 event.getGroup().sendMessage(new At(event.getSender()).plus(" 您的消息过长，正在转移～"));
                 MiraiMBot.bot.recall(event.getMessage());
-
                 event.getGroup().sendMessage("您的消息已经被转移到此：" + HasteUtils.pasteUbuntu(event.getSenderName(), content));
             }
         } else {
@@ -32,7 +32,6 @@ public class MainListener extends SimpleListenerHost {
                 CommandManager.call(event.getMessage(), event.getSender());
             }
         }
-
         return ListeningStatus.LISTENING;
     }
 

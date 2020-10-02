@@ -35,7 +35,7 @@ public class HasteUtils {
         connection.setUseCaches(false);
         connection.setDoOutput(true);
         DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
-        wr.writeBytes("poster=" + name + "&syntax=text&expiration=&content=" + text);
+        wr.writeBytes("poster=" + name + "&syntax=text&expiration=month&content=" + text);
         wr.flush();
         wr.close();
         BufferedReader rd = new BufferedReader(new InputStreamReader(connection.getInputStream()));
