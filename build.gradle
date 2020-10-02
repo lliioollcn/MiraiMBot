@@ -45,6 +45,7 @@ shadowJar {
         include(dependency('org.jetbrains.kotlin:kotlin-stdlib:1.4.10'))
         include(dependency('org.jetbrains.kotlinx:kotlinx-serialization-core:1.0.0-RC'))
         include(dependency('com.mohistmc.yaml:Yaml:0.1'))
+        include(dependency('com.google.guava:guava:20.0'))
     }
     manifest {
         def classpath = new StringBuilder()

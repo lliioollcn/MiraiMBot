@@ -76,7 +76,9 @@ public class CommandManager {
     private static void callA(MessageChain messages, Member sender) {
         String msg = messages.contentToString().replaceFirst(LogUtil.command, "");// 获得带有mirai码的字符串，让用户自己解析。
         while (true) {
-            if (!msg.contains("  ")) break;
+            if (!msg.contains("  ")) {
+                break;
+            }
             msg.replace("  ", " ");// 吧两个空格替换为一个
         }
         String[] sourceCmd = msg.split(" ");// 通过空格来切割
