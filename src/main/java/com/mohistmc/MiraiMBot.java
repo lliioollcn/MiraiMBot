@@ -1,5 +1,7 @@
 package com.mohistmc;
 
+import com.mohistmc.cmds.manager.CommandManager;
+import com.mohistmc.utils.JarUtils;
 import com.mohistmc.utils.LogUtil;
 import com.mohistmc.utils.UpdateUtils;
 import com.mohistmc.yaml.file.FileConfiguration;
@@ -14,6 +16,7 @@ import net.mamoe.mirai.event.SimpleListenerHost;
 import net.mamoe.mirai.message.GroupMessageEvent;
 import net.mamoe.mirai.utils.BotConfiguration;
 import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
@@ -44,20 +47,22 @@ public class MiraiMBot {
         version.put("1.16.3", "InternalTest");
 
         System.out.println(yaml.get("qq"));
-
         Bot bot = BotFactoryJvm.newBot(Long.valueOf(yaml.getString("qq")).longValue(), yaml.getString("password"), new BotConfiguration() {
             {
                 fileBasedDeviceInfo("deviceInfo.json");
             }
         });
         LogUtil.logger = bot.getLogger();
-
+        JarUtils.scan("com.mohistmc");
+        CommandManager.init();
         bot.login();
         Events.registerEvents(bot, new SimpleListenerHost() {
             @EventHandler
             public ListeningStatus onGroupMessage(GroupMessageEvent event) {
                 String content = event.getMessage().contentToString();
-                if (version.containsKey(content)) {
+                if (content.startsWith(LogUtil.command)) {
+                    CommandManager.call(event.getMessage(), event.getSender());
+                } else if (version.containsKey(content)) {
                     try {
                         event.getSender().getGroup().sendMessage(UpdateUtils.info(version.get(content)));
                     } catch (Exception e) {
@@ -77,7 +82,7 @@ public class MiraiMBot {
         bot.join();
     }
 
-    public static Bot login(Long qq, String password){
+    public static Bot login(Long qq, String password) {
         return BotFactoryJvm.newBot(qq, password, new BotConfiguration() {
             {
                 fileBasedDeviceInfo("deviceInfo.json");
