@@ -21,7 +21,6 @@ public class GitHubAuto implements Runnable {
             request = new URL("https://ci.codemc.io/job/Mohist-Community/job/Mohist-1.12.2/lastSuccessfulBuild/api/json").openConnection();
             request.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:25.0) Gecko/20100101 Firefox/25.0");
             request.connect();
-            System.out.println(((HttpURLConnection) request).getResponseCode());
             JsonElement json = new JsonParser().parse(new InputStreamReader((InputStream) request.getContent()));
             String versionCode = json.getAsJsonObject().get("number").toString();
             String time = json.getAsJsonObject().get("changeSet").getAsJsonObject().get("items").getAsJsonArray().get(0).getAsJsonObject().get("date").toString().replace("+0800", "").replaceAll("\"", "");
