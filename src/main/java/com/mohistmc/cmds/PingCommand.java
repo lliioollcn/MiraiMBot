@@ -53,7 +53,7 @@ public class PingCommand implements CommandExecutor {
             for (MCServerModInfo.MCMod mod : status.getModInfo().getModList()) {
                 mods.append(mod.getModId() + ":" + mod.getVersion()).append("\n");
                 String ver = mod.getVersion().replace(" ", "");
-                if (mod.getModId().equals("mohist") && ver.length() == 14) {
+                if (mod.getModId().equals("mohist")) {
                     mohist = true;
                     sb.append("Mohist版本: " + (PingUtils.hasLatestVersion().equals(ver) ? ver + "(已是最新版)" : ver + "(你该更新了)")).append("\n");
                 }
