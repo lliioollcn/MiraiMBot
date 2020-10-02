@@ -21,7 +21,7 @@ public class MainListener extends SimpleListenerHost {
         if (content.length() >= 100) {
             if (!(event.getMessage() instanceof RichMessage)) {
                 MiraiMBot.bot.recall(event.getMessage());
-                HasteUtils.paste(content);
+                event.getGroup().sendMessage("您的消息已经被转移到此：" + HasteUtils.paste(content));
             }
         } else {
             if (content.startsWith(LogUtil.command)) {
