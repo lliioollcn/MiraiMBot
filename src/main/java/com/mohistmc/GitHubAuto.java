@@ -1,5 +1,6 @@
 package com.mohistmc;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import java.io.IOException;
@@ -33,25 +34,37 @@ public class GitHubAuto implements Runnable {
                 request.connect();
                 JsonElement json = new JsonParser().parse(new InputStreamReader((InputStream) request.getContent()));
                 String number = json.getAsJsonObject().get("number").toString();
+
+                String authorstring = json.getAsJsonObject().get("actions").getAsJsonArray().get(0).getAsJsonObject().get("causes").getAsJsonArray().get(0).getAsJsonObject().get("shortDescription").toString();
+                String[] authors = authorstring.replace("\"", "").split(" ");
+                String author = authors[authors.length-1];
+
                 String time = json.getAsJsonObject().get("changeSet").getAsJsonObject().get("items").getAsJsonArray().get(0).getAsJsonObject().get("date").toString().replace("+0800", "").replaceAll("\"", "");
-                String message = json.getAsJsonObject().get("changeSet").getAsJsonObject().get("items").getAsJsonArray().get(0).getAsJsonObject().get("msg").toString().replaceAll("\"", "");
+
+                JsonArray items = json.getAsJsonObject().get("changeSet").getAsJsonObject().get("items").getAsJsonArray();
+                String message0 = items.get(0).getAsJsonObject().get("msg").toString().replace("\"", "");
+                String message = items.get(0).getAsJsonObject().get("comment").toString().replace("\"", "");
+                String comment = message.replace(message0, "").replace("\\n", "");
+
                 if (version_map.get(s) == null) version_map.put(s, number);
                 if (!version_map.get(s).equals(number)) {
                     String sendMsg = "======Mohist更新推送======" + "\n" +
                             "分支: #branche#" + "\n" +
                             "构建号: #number#" + "\n" +
                             "提交时间: #time#" + "\n" +
+                            "提交人: #author#" + "\n" +
                             "提交信息: #msg#" + "\n";
+                    if (comment != null) sendMsg = sendMsg + comment;
                     sendMsg = sendMsg
                             .replace("#branche#", s)
                             .replace("#number#", number)
                             .replace("#time#", time)
-                            .replace("#msg#", message);
+                            .replace("#author#", author)
+                            .replace("#msg#", message0);
                     MiraiMBot.bot.getGroup(793311898L).sendMessage(sendMsg);
                     MiraiMBot.bot.getGroup(782534813L).sendMessage(sendMsg);
                     version_map.put(s, number);
                 }
-
             } catch (IOException e) {
                 e.printStackTrace();
             }

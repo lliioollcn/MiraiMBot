@@ -64,7 +64,7 @@ public class CommandManager {
 
     public static void call(MessageChain messages, Member sender) {
         if (System.currentTimeMillis() - last < 3000) {
-            sender.sendMessageAsync("指令发送太快了哦");
+            sender.sendMessage("指令发送太快了哦");
         } else {
             //cmds.execute(() -> callA(messages, sender));
             callA(messages, sender);
@@ -95,10 +95,10 @@ public class CommandManager {
                 cr.setSender(sender);
                 cr.setSource(messages);
                 if (!executor.onCommand(cr)) {
-                    sender.getGroup().sendMessageAsync("指令执行失败。用法：" + usages.get(executor));
+                    sender.getGroup().sendMessage("指令执行失败。用法：" + usages.get(executor));
                 }
             } else {
-                sender.getGroup().sendMessageAsync("未知的指令.请使用 " + LogUtil.command + "cmdlist 来获得指令列表");
+                sender.getGroup().sendMessage("未知的指令.请使用 " + LogUtil.command + "cmdlist 来获得指令列表");
             }
         }
     }

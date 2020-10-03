@@ -15,12 +15,12 @@ public class PingCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandResult result) {
         if (result.getArgs().size() <= 0) {
-            result.getSender().getGroup().sendMessageAsync("======使用检测======\n请输入IP, 格式> ip:端口");
+            result.getSender().getGroup().sendMessage("======使用检测======\n请输入IP, 格式> ip:端口");
             return true;
         } else {
             String msg = result.getArgs().get(0);
             String[] ip = msg.split(":");
-            result.getSender().getGroup().sendMessageAsync("======使用检测======\n正在检测，请稍后...");
+            result.getSender().getGroup().sendMessage("======使用检测======\n正在检测，请稍后...");
             MCServerSocket socket = null;
             switch (ip.length) {
                 case 1: {
@@ -60,11 +60,11 @@ public class PingCommand implements CommandExecutor {
             }
             if (mods != null && mods.toString().contains("mohist:") && mohist) {
                 sb.append("模组数量: " + (PingUtils.modsize(mods.toString(), ":") - 5)).append("\n");
-                result.getSender().getGroup().sendMessageAsync(sb.toString());
+                result.getSender().getGroup().sendMessage(sb.toString());
                 return true;
             } else {
                 System.out.println(status.getVersion());
-                result.getSender().getGroup().sendMessageAsync("======Mohist使用检测======\n此服务器不是Mohist, 可能原因：1.BC, 2.旧版Mohist, 3.其他核心");
+                result.getSender().getGroup().sendMessage("======Mohist使用检测======\n此服务器不是Mohist, 可能原因：1.BC, 2.旧版Mohist, 3.其他核心");
             }
         }
         return true;
