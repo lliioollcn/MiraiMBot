@@ -1,5 +1,6 @@
 package com.mohistmc.miraimbot.utils;
 
+import com.mohistmc.miraimbot.console.log4j.MiraiMBotLog;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -19,7 +20,7 @@ public class URLUtil {
             return s;
 
         } catch (IOException e) {
-            System.out.println("");
+            MiraiMBotLog.LOGGER.info("");
         }
         return "error";
     }

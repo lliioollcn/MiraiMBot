@@ -3,10 +3,10 @@ package com.mohistmc.miraimbot.cmds.manager;
 import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.mohistmc.miraimbot.cmds.manager.annotations.Command;
+import com.mohistmc.miraimbot.console.log4j.MiraiMBotLog;
 import com.mohistmc.miraimbot.plugin.PluginClassLoader;
 import com.mohistmc.miraimbot.utils.JarUtils;
 import com.mohistmc.miraimbot.utils.LogUtil;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
@@ -17,7 +17,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-
 import lombok.SneakyThrows;
 import net.mamoe.mirai.contact.Member;
 import net.mamoe.mirai.contact.User;
@@ -42,7 +41,7 @@ public class CommandManager {
                 load++;
             }
         }
-        System.out.println("加载了 " + load + " 个指令，耗时 " + (System.currentTimeMillis() - start) + "(ms).");
+        MiraiMBotLog.LOGGER.info("加载了 " + load + " 个指令，耗时 " + (System.currentTimeMillis() - start) + "(ms).");
     }
 
     public static void register(CommandExecutor newInstance) {
@@ -51,16 +50,16 @@ public class CommandManager {
             Command c = clazz.getAnnotation(Command.class);
             if (!executors.containsKey(c.name())) {
                 executors.put(c.name(), newInstance);// 注册主要指令
-                System.out.println("注册指令 " + clazz.getName() + "(" + c.name() + ")");
+                MiraiMBotLog.LOGGER.info("注册指令 " + clazz.getName() + "(" + c.name() + ")");
                 if (!usages.containsKey(c.name())) usages.put(c.name(), c.usage());
                 for (String alia : c.alias()) {
                     if (!executors.containsKey(alia)) executors.put(alia, newInstance);
-                    System.out.println("注册别称 " + clazz.getName() + "(" + alia + ")");
+                    MiraiMBotLog.LOGGER.info("注册别称 " + clazz.getName() + "(" + alia + ")");
                     if (!usages.containsKey(alia)) usages.put(alia, c.usage());
                 }
             }
         } else {
-            System.out.println("指令解析器 " + clazz.getName() + " 无效(无@Command注解)");
+            MiraiMBotLog.LOGGER.info("指令解析器 " + clazz.getName() + " 无效(无@Command注解)");
         }
     }
 
@@ -77,16 +76,16 @@ public class CommandManager {
             Enumeration<URL> c = PluginClassLoader.INSTANCE.getResources(pack.replace(".", "/"));
             while (c.hasMoreElements()) {
                 URL u = c.nextElement();
-                System.out.println(u.getPath());
+                MiraiMBotLog.LOGGER.info(u.getPath());
                 Class<?> clazz = PluginClassLoader.INSTANCE.loadClass(u.getPath().replace("\\", "."));
                 if (Arrays.asList(clazz.getInterfaces()).contains(CommandExecutor.class)) {
                     register((CommandExecutor) clazz.newInstance());
                     load++;
                 }
             }
-            System.out.println("加载了 " + load + " 个指令，耗时 " + (System.currentTimeMillis() - start) + "(ms).");
+            MiraiMBotLog.LOGGER.info("加载了 " + load + " 个指令，耗时 " + (System.currentTimeMillis() - start) + "(ms).");
         } catch (IOException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
-            System.out.println("[ERROR] 自动注册指令失败，请手动注册");
+            MiraiMBotLog.LOGGER.info("[ERROR] 自动注册指令失败，请手动注册");
             e.printStackTrace();
         }
     }

@@ -1,5 +1,6 @@
 package com.mohistmc.miraimbot.utils;
 
+import com.mohistmc.miraimbot.console.log4j.MiraiMBotLog;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Random;
@@ -13,7 +14,7 @@ public class ToolKit{
     public static void printStackTrace(){
         StackTraceElement[] tElements=Thread.currentThread().getStackTrace();
         for(int i=2;i<tElements.length;i++){
-            System.out.println(tElements[i]);
+            MiraiMBotLog.LOGGER.info(tElements[i]);
         }
     }
 

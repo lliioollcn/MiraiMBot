@@ -1,6 +1,7 @@
 package com.mohistmc.miraimbot.cmds.manager;
 
 import com.mohistmc.miraimbot.MiraiMBot;
+import com.mohistmc.miraimbot.console.log4j.MiraiMBotLog;
 import com.mohistmc.miraimbot.utils.LogUtil;
 import java.util.concurrent.Future;
 import kotlin.coroutines.CoroutineContext;
@@ -55,7 +56,7 @@ public class ConsoleSender extends User {
     @NotNull
     @Override
     public MessageReceipt<Contact> sendMessage(@NotNull Message message) throws EventCancelledException, IllegalStateException {
-        LogUtil.getLogger().info(message.contentToString());
+        MiraiMBotLog.LOGGER.info(message.contentToString());
         // return super.sendMessage(message);
         return null;
     }
@@ -69,7 +70,7 @@ public class ConsoleSender extends User {
     @NotNull
     @Override
     public Future<MessageReceipt<Contact>> sendMessageAsync(@NotNull Message message) {
-        LogUtil.getLogger().info(message.contentToString());
+        MiraiMBotLog.LOGGER.info(message.contentToString());
         // return sendMessage(MessageUtils.newChain(message));
         return null;
     }

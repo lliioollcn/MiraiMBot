@@ -1,5 +1,6 @@
 package com.mohistmc.miraimbot.utils;
 
+import com.mohistmc.miraimbot.console.log4j.MiraiMBotLog;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -33,10 +34,10 @@ public class PingUtils {
 
                 return "1.12.2-" + b.substring(5, 12);
             } else {
-                System.out.println("Link access failed");
+                MiraiMBotLog.LOGGER.info("Link access failed");
             }
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            MiraiMBotLog.LOGGER.info(e.getMessage());
         }
         return "未知版本";
     }

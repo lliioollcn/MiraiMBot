@@ -8,9 +8,6 @@ import net.mamoe.mirai.utils.MiraiLogger;
 public class LogUtil {
 
     @Getter
-    public static MiraiLogger logger;
-
-    @Getter
     public static boolean debug = true;
     /**
      * 指令前缀

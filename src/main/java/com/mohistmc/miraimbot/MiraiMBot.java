@@ -7,6 +7,7 @@ import com.mohistmc.miraimbot.cmds.UpdateCommand;
 import com.mohistmc.miraimbot.cmds.WaitFixCommand;
 import com.mohistmc.miraimbot.cmds.manager.CommandManager;
 import com.mohistmc.miraimbot.cmds.manager.ConsoleSender;
+import com.mohistmc.miraimbot.console.log4j.MiraiMBotLog;
 import com.mohistmc.miraimbot.events.EventBus;
 import com.mohistmc.miraimbot.listeners.MainListener;
 import com.mohistmc.miraimbot.plugin.PluginLoader;
@@ -17,14 +18,17 @@ import com.mohistmc.yaml.file.FileConfiguration;
 import com.mohistmc.yaml.file.YamlConfiguration;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.concurrent.ConcurrentHashMap;
+import jline.console.ConsoleReader;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.BotFactoryJvm;
 import net.mamoe.mirai.event.Events;
 import net.mamoe.mirai.message.data.MessageUtils;
 import net.mamoe.mirai.utils.BotConfiguration;
+import org.apache.logging.log4j.Level;
 
 public class MiraiMBot {
 
@@ -34,8 +38,11 @@ public class MiraiMBot {
     public static Bot bot;
 
     public static void main(String[] args) throws IOException {
+        if (System.getProperty("log4j.configurationFile") == null) {
+            System.setProperty("log4j.configurationFile", "log4j2.xml");
+        }
         if (!LibCheck.hasQQAndroid()) {
-            System.out.println("正在下载依赖： mirai-core-qqandroid-1.3.1");
+            MiraiMBotLog.LOGGER.info("正在下载依赖： mirai-core-qqandroid-1.3.1");
             LibCheck.downloadFile();
         }
         file = new File("config/MiraiMBot.yml");
@@ -56,7 +63,7 @@ public class MiraiMBot {
                 Scanner scanner = new Scanner(System.in);
                 if (scanner.hasNext()) {
                     String cmd = scanner.nextLine();
-                    System.out.println("console executor a command: " + cmd);
+                    MiraiMBotLog.LOGGER.info("console executor a command: " + cmd);
                     CommandManager.call(MessageUtils.newChain(cmd), ConsoleSender.INSTANCE);
                 }
             }
@@ -65,7 +72,7 @@ public class MiraiMBot {
         String pass = yaml.getString("password");
 
         if (qq == 0L || pass.equalsIgnoreCase("")) {
-            System.out.println("监测到您没有设置qq号或密码，因此需要使用指令\"login qq 密码\"来进行登陆");
+            MiraiMBotLog.LOGGER.info("监测到您没有设置qq号或密码，因此需要使用指令\"login qq 密码\"来进行登陆");
         } else {
             bot = BotFactoryJvm.newBot(Long.valueOf(yaml.getString("qq")).longValue(), yaml.getString("password"), new BotConfiguration() {
                 {
@@ -73,7 +80,6 @@ public class MiraiMBot {
                 }
             });
         }
-        LogUtil.logger = bot.getLogger();
         JarUtils.scan("com.mohistmc.miraimbot.cmds");
         JarUtils.scan("com.mohistmc.miraimbot.listeners");
         CommandManager.register(new LoginCommand());

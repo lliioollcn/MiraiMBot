@@ -3,6 +3,7 @@ package com.mohistmc.miraimbot.cmds;
 import com.mohistmc.miraimbot.cmds.manager.CommandExecutor;
 import com.mohistmc.miraimbot.cmds.manager.CommandResult;
 import com.mohistmc.miraimbot.cmds.manager.annotations.Command;
+import com.mohistmc.miraimbot.console.log4j.MiraiMBotLog;
 import com.mohistmc.miraimbot.utils.PingUtils;
 import studio.trc.minecraft.serverpinglib.API.MCServerModInfo;
 import studio.trc.minecraft.serverpinglib.API.MCServerSocket;
@@ -63,7 +64,7 @@ public class PingCommand implements CommandExecutor {
                 result.sendMessage(sb.toString());
                 return true;
             } else {
-                System.out.println(status.getVersion());
+                MiraiMBotLog.LOGGER.info(status.getVersion());
                 result.sendMessage("======Mohist使用检测======\n此服务器不是Mohist, 可能原因：1.BC, 2.旧版Mohist, 3.其他核心");
             }
         }

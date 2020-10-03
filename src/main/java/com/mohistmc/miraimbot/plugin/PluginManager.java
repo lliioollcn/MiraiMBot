@@ -1,5 +1,6 @@
 package com.mohistmc.miraimbot.plugin;
 
+import com.mohistmc.miraimbot.console.log4j.MiraiMBotLog;
 import java.io.File;
 import java.io.IOException;
 
@@ -12,7 +13,7 @@ public class PluginManager {
                 try {
                     PluginLoader.INSTANCE.loadPlugin(plugin);
                 } catch (IOException e) {
-                    System.out.println("加载失败: " + plugin.getAbsolutePath());
+                    MiraiMBotLog.LOGGER.info("加载失败: " + plugin.getAbsolutePath());
                     e.printStackTrace();
                 }
             }

@@ -3,6 +3,7 @@ package com.mohistmc.miraimbot;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.mohistmc.miraimbot.console.log4j.MiraiMBotLog;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -72,7 +73,7 @@ public class GitHubAuto implements Runnable {
     }
 
     public static void start() {
-        System.out.println("开始运行更新推送程序");
+        MiraiMBotLog.LOGGER.info("开始运行更新推送程序");
         MohistThreadBox.GitHubAuto.scheduleAtFixedRate(new GitHubAuto(), 1000 * 1, 1000 * 30, TimeUnit.MILLISECONDS);
     }
 

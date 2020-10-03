@@ -1,14 +1,13 @@
 package com.mohistmc.miraimbot.plugin;
 
 import com.google.common.collect.Sets;
+import com.mohistmc.miraimbot.console.log4j.MiraiMBotLog;
 import com.mohistmc.miraimbot.utils.JarUtils;
 import com.mohistmc.yaml.file.YamlConfiguration;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Arrays;
@@ -25,15 +24,15 @@ public class PluginLoader extends URLClassLoader {
     }
 
     public static void initPlugins() {
-        for (Class<?> clazz : PluginClassLoader.allPluginClasses) {
-            initPlugin(clazz);
-        }
+        Class<?>[] clazzs = PluginClassLoader.allPluginClasses.toArray(new Class<?>[0]);
+        for (int i = 0; i < clazzs.length; i++)
+            PluginLoader.initPlugin(clazzs[i]);
     }
 
     public static void initPlugin(Class<?> clazz) {
         if (clazz.getSuperclass() == MohistPlugin.class && clazz.getDeclaredAnnotation(Plugin.class) != null) {
             Plugin plugin = clazz.getAnnotation(Plugin.class);
-            System.out.println("Loading plugin " + plugin.name() + " by " + (Arrays.toString(plugin.authors()))
+            MiraiMBotLog.LOGGER.info("Loading plugin " + plugin.name() + " by " + (Arrays.toString(plugin.authors()))
                     .replace("[", "")
                     .replace("]", ""));
             try {
@@ -70,7 +69,7 @@ public class PluginLoader extends URLClassLoader {
     public void loadPlugin(File file) throws IOException {
         String url = "jar:file:///" + file.getAbsolutePath() + "!/";
         this.addURL(new URL(url));
-        System.out.println(url);
+        MiraiMBotLog.LOGGER.info(url);
         JarFile jarFile = new JarFile(file, false);
         ZipEntry ze = jarFile.getEntry("plugin.yml");
         InputStream is = ze != null ? jarFile.getInputStream(ze) : null;

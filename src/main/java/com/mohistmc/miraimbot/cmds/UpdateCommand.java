@@ -4,6 +4,7 @@ import com.mohistmc.miraimbot.MiraiMBot;
 import com.mohistmc.miraimbot.cmds.manager.CommandExecutor;
 import com.mohistmc.miraimbot.cmds.manager.CommandResult;
 import com.mohistmc.miraimbot.cmds.manager.annotations.Command;
+import com.mohistmc.miraimbot.console.log4j.MiraiMBotLog;
 import com.mohistmc.miraimbot.utils.UpdateUtils;
 
 @Command(name = "update", usage = "#update")
@@ -20,7 +21,7 @@ public class UpdateCommand implements CommandExecutor {
             try {
                 result.sendMessage("正在读取数据，请稍后~");
                 result.sendMessage(UpdateUtils.info(MiraiMBot.version.get(msg)));
-                System.out.println("CI数据读取完毕");
+                MiraiMBotLog.LOGGER.info("CI数据读取完毕");
                 return true;
             } catch (Exception e) {
                 e.printStackTrace();

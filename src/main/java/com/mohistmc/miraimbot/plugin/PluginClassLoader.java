@@ -1,6 +1,7 @@
 package com.mohistmc.miraimbot.plugin;
 
 import com.google.common.collect.Sets;
+import com.mohistmc.miraimbot.console.log4j.MiraiMBotLog;
 import java.util.Set;
 import lombok.Getter;
 
@@ -11,7 +12,7 @@ public class PluginClassLoader extends ClassLoader {
 
     @Override
     public Class<?> loadClass(String name) throws ClassNotFoundException {
-        System.out.println("[DEBUG] loading class " + name);
+        MiraiMBotLog.LOGGER.info("[DEBUG] loading class " + name);
         Class<?> clazz = super.loadClass(name);
         PluginClassLoader.allPluginClasses.add(clazz);
         return clazz;
@@ -19,7 +20,7 @@ public class PluginClassLoader extends ClassLoader {
 
     @Override
     public Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
-        System.out.println("[DEBUG] loading class " + name + " @" + resolve);
+        MiraiMBotLog.LOGGER.info("[DEBUG] loading class " + name + " @" + resolve);
         Class<?> clazz = super.loadClass(name, resolve);
         PluginClassLoader.allPluginClasses.add(clazz);
         return clazz;
@@ -27,7 +28,7 @@ public class PluginClassLoader extends ClassLoader {
 
     @Override
     public Class<?> findClass(String name) throws ClassNotFoundException {
-        System.out.println("[DEBUG] finding class " + name);
+        MiraiMBotLog.LOGGER.info("[DEBUG] finding class " + name);
         Class<?> clazz = super.findClass(name);
         PluginClassLoader.allPluginClasses.add(clazz);
         return clazz;
