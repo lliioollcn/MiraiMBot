@@ -2,7 +2,6 @@ package com.mohistmc.miraimbot.cmds.manager;
 
 import com.mohistmc.miraimbot.MiraiMBot;
 import com.mohistmc.miraimbot.console.log4j.MiraiMBotLog;
-import com.mohistmc.miraimbot.utils.LogUtil;
 import java.util.concurrent.Future;
 import kotlin.coroutines.CoroutineContext;
 import net.mamoe.mirai.Bot;

@@ -13,22 +13,18 @@ import com.mohistmc.miraimbot.listeners.MainListener;
 import com.mohistmc.miraimbot.plugin.PluginLoader;
 import com.mohistmc.miraimbot.plugin.PluginManager;
 import com.mohistmc.miraimbot.utils.JarUtils;
-import com.mohistmc.miraimbot.utils.LogUtil;
 import com.mohistmc.yaml.file.FileConfiguration;
 import com.mohistmc.yaml.file.YamlConfiguration;
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.concurrent.ConcurrentHashMap;
-import jline.console.ConsoleReader;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.BotFactoryJvm;
 import net.mamoe.mirai.event.Events;
 import net.mamoe.mirai.message.data.MessageUtils;
 import net.mamoe.mirai.utils.BotConfiguration;
-import org.apache.logging.log4j.Level;
 
 public class MiraiMBot {
 
@@ -62,7 +58,7 @@ public class MiraiMBot {
             while (true) {
                 Scanner scanner = new Scanner(System.in);
                 if (scanner.hasNext()) {
-                    String cmd = scanner.nextLine();
+                    String cmd = scanner.next();
                     MiraiMBotLog.LOGGER.info("console executor a command: " + cmd);
                     CommandManager.call(MessageUtils.newChain(cmd), ConsoleSender.INSTANCE);
                 }
@@ -74,11 +70,14 @@ public class MiraiMBot {
         if (qq == 0L || pass.equalsIgnoreCase("")) {
             MiraiMBotLog.LOGGER.info("监测到您没有设置qq号或密码，因此需要使用指令\"login qq 密码\"来进行登陆");
         } else {
-            bot = BotFactoryJvm.newBot(Long.valueOf(yaml.getString("qq")).longValue(), yaml.getString("password"), new BotConfiguration() {
+            BotConfiguration botConfiguration = new BotConfiguration() {
                 {
                     fileBasedDeviceInfo("deviceInfo.json");
                 }
-            });
+            };
+            botConfiguration.noNetworkLog();
+            botConfiguration.noBotLog();
+            bot = BotFactoryJvm.newBot(Long.valueOf(yaml.getString("qq")).longValue(), yaml.getString("password"), botConfiguration);
         }
         JarUtils.scan("com.mohistmc.miraimbot.cmds");
         JarUtils.scan("com.mohistmc.miraimbot.listeners");

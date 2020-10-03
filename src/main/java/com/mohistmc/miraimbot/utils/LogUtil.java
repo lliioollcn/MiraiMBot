@@ -3,7 +3,6 @@ package com.mohistmc.miraimbot.utils;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
-import net.mamoe.mirai.utils.MiraiLogger;
 
 public class LogUtil {
 
