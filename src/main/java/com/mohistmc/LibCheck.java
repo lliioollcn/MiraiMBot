@@ -14,13 +14,13 @@ public class LibCheck {
 
     public static boolean hasQQAndroid() {
         //TODO md5
-        File file = new File("lib", "mirai-core-qqandroid-1.3.0.jar");
+        File file = new File("lib", "mirai-core-qqandroid-1.3.1.jar");
         return file.exists();
     }
 
     public static void downloadFile() throws IOException {
-        String u = "https://github.com/project-mirai/mirai-repo/blob/master/shadow/mirai-core-qqandroid/mirai-core-qqandroid-1.3.0.jar";
-        File f = new File("lib", "mirai-core-qqandroid-1.3.0.jar");
+        String u = "https://github.com/project-mirai/mirai-repo/blob/master/shadow/mirai-core-qqandroid/mirai-core-qqandroid-1.3.1.jar";
+        File f = new File("lib", "mirai-core-qqandroid-1.3.1.jar");
         if (!f.exists()) {
             f.getParentFile().mkdirs();
             FileChannel.open(Paths.get(f.getAbsolutePath()), StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING).transferFrom(Channels.newChannel(getInput(u)), 0L, Long.MAX_VALUE);

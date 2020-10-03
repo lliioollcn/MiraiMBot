@@ -32,7 +32,7 @@ public class MiraiMBot {
 
     public static void main(String[] args) throws IOException {
         if (!LibCheck.hasQQAndroid()) {
-            System.out.println("正在下载依赖： mirai-core-qqandroid-1.3.0");
+            System.out.println("正在下载依赖： mirai-core-qqandroid-1.3.1");
             LibCheck.downloadFile();
         }
         file = new File("config/MiraiMBot.yml");
