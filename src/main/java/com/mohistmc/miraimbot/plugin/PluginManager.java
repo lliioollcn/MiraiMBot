@@ -1,7 +1,7 @@
 package com.mohistmc.miraimbot.plugin;
 
 import java.io.File;
-import java.net.MalformedURLException;
+import java.io.IOException;
 
 public class PluginManager {
     public static void init() {
@@ -10,8 +10,8 @@ public class PluginManager {
         for (File plugin : dir.listFiles()) {
             if (plugin.getName().endsWith(".jar") || plugin.getName().endsWith(".zip")) {
                 try {
-                    PluginLoader.INSTANCE.loadPlugin(plugin.getAbsolutePath());
-                } catch (MalformedURLException e) {
+                    PluginLoader.INSTANCE.loadPlugin(plugin);
+                } catch (IOException e) {
                     System.out.println("加载失败: " + plugin.getAbsolutePath());
                     e.printStackTrace();
                 }

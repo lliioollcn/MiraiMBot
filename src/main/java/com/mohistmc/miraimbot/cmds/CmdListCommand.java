@@ -27,7 +27,7 @@ public class CmdListCommand implements CommandExecutor {
                 msg.append("不存在的指令。");
             }
         }
-        result.getSender().sendMessage(msg.toString());
+        result.sendMessage(msg.toString());
         return true;
     }
 }

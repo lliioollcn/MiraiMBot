@@ -3,15 +3,21 @@ package com.mohistmc.miraimbot.cmds.manager;
 import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.mohistmc.miraimbot.cmds.manager.annotations.Command;
+import com.mohistmc.miraimbot.plugin.PluginClassLoader;
 import com.mohistmc.miraimbot.utils.JarUtils;
 import com.mohistmc.miraimbot.utils.LogUtil;
+
+import java.io.IOException;
+import java.net.URL;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+
 import lombok.SneakyThrows;
 import net.mamoe.mirai.contact.Member;
 import net.mamoe.mirai.contact.User;
@@ -61,6 +67,27 @@ public class CommandManager {
     public static void registers(CommandExecutor... cmds) {
         for (CommandExecutor cmd : cmds) {
             register(cmd);
+        }
+    }
+
+    public static void registers(String pack) {
+        try {
+            long start = System.currentTimeMillis();
+            int load = 0;
+            Enumeration<URL> c = PluginClassLoader.INSTANCE.getResources(pack.replace(".", "/"));
+            while (c.hasMoreElements()) {
+                URL u = c.nextElement();
+                System.out.println(u.getPath());
+                Class<?> clazz = PluginClassLoader.INSTANCE.loadClass(u.getPath().replace("\\", "."));
+                if (Arrays.asList(clazz.getInterfaces()).contains(CommandExecutor.class)) {
+                    register((CommandExecutor) clazz.newInstance());
+                    load++;
+                }
+            }
+            System.out.println("加载了 " + load + " 个指令，耗时 " + (System.currentTimeMillis() - start) + "(ms).");
+        } catch (IOException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+            System.out.println("[ERROR] 自动注册指令失败，请手动注册");
+            e.printStackTrace();
         }
     }
 

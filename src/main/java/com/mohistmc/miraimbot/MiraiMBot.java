@@ -1,6 +1,10 @@
 package com.mohistmc.miraimbot;
 
+import com.mohistmc.miraimbot.cmds.CmdListCommand;
 import com.mohistmc.miraimbot.cmds.LoginCommand;
+import com.mohistmc.miraimbot.cmds.PingCommand;
+import com.mohistmc.miraimbot.cmds.UpdateCommand;
+import com.mohistmc.miraimbot.cmds.WaitFixCommand;
 import com.mohistmc.miraimbot.cmds.manager.CommandManager;
 import com.mohistmc.miraimbot.cmds.manager.ConsoleSender;
 import com.mohistmc.miraimbot.events.EventBus;
@@ -73,12 +77,17 @@ public class MiraiMBot {
         JarUtils.scan("com.mohistmc.miraimbot.cmds");
         JarUtils.scan("com.mohistmc.miraimbot.listeners");
         CommandManager.register(new LoginCommand());
+        CommandManager.register(new CmdListCommand());
+        CommandManager.register(new PingCommand());
+        CommandManager.register(new UpdateCommand());
+        CommandManager.register(new WaitFixCommand());
         PluginManager.init();
         bot.login();
         EventBus.init();
         Events.registerEvents(bot, new MainListener());
         PluginLoader.enablePlugins();
         CommandManager.init();
+        GitHubAuto.start();
         bot.join();
     }
 }          

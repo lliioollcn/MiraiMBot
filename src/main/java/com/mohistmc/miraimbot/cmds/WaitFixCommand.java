@@ -27,18 +27,18 @@ public class WaitFixCommand implements CommandExecutor {
             for (int i : set) {
                 sb.append("ID: ").append(i).append("内容: ").append(l.get(i)).append("\n");
             }
-            result.getSender().sendMessage(sb.toString());
+            result.sendMessage(sb.toString());
             return true;
         } else {
             if (result.getSender().getId() != mg) {
                 StringBuilder sb = new StringBuilder();
                 sb.append("抱歉呐，目前只有Mgazul可以使用添加、保存和删除功能呐~").append("\n");
-                result.getSender().sendMessage(sb.toString());
+                result.sendMessage(sb.toString());
                 return true;
             }
             String msg = result.getArgs().get(0);
             if (msg.equals("save")) {
-                result.getSender().sendMessage("保存ing...");
+                result.sendMessage("保存ing...");
                 JSONObject datas = new JSONObject();
                 Set<Integer> set = l.keySet();
                 for (int i : set) {
@@ -50,7 +50,7 @@ public class WaitFixCommand implements CommandExecutor {
                     e.printStackTrace();
                     return false;
                 }
-                result.getSender().sendMessage("保存完毕~");
+                result.sendMessage("保存完毕~");
                 return true;
             }
             if (msg.equals("add")) {
@@ -72,7 +72,7 @@ public class WaitFixCommand implements CommandExecutor {
                     sb.append("ID: " + id).append("\n");
                     sb.append("内容: " + value).append("\n");
                 }
-                result.getSender().sendMessage(sb.toString());
+                result.sendMessage(sb.toString());
                 return true;
             }
             if (msg.equals("del")) {
@@ -92,7 +92,7 @@ public class WaitFixCommand implements CommandExecutor {
                         sb.append("不存在的ID: " + id).append("\n");
                     }
                 }
-                result.getSender().sendMessage(sb.toString());
+                result.sendMessage(sb.toString());
                 return true;
             }
         }
