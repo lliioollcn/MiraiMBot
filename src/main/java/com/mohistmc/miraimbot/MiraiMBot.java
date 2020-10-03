@@ -95,4 +95,12 @@ public class MiraiMBot {
         GitHubAuto.start();
         bot.join();
     }
+
+    public static void saveYaml(FileConfiguration yaml, File file) {
+        try {
+            yaml.save(file);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
 }          

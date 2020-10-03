@@ -17,7 +17,6 @@ import java.util.concurrent.TimeUnit;
 
 public class GitHubAuto implements Runnable {
 
-    public static Map<String, String> version_map = new ConcurrentHashMap<>();
     public static List<String> ver = new ArrayList<>();
 
     static {
@@ -47,8 +46,12 @@ public class GitHubAuto implements Runnable {
                 String message = items.get(0).getAsJsonObject().get("comment").toString().replace("\"", "");
                 String comment = message.replace(message0, "").replace("\\n", "");
 
-                if (version_map.get(s) == null) version_map.put(s, number);
-                if (!version_map.get(s).equals(number)) {
+                String ymlver = s.replace(".", "-");
+                if(MiraiMBot.yaml.get("mohist_number." + ymlver) == null) {
+                    MiraiMBot.yaml.set("mohist_number." + ymlver, number);
+                    MiraiMBot.saveYaml(MiraiMBot.yaml, MiraiMBot.file);
+                }
+                if (!MiraiMBot.yaml.get("mohist_number." + ymlver).equals(number)) {
                     String sendMsg = "======Mohist更新推送======" + "\n" +
                             "分支: #branche#" + "\n" +
                             "构建号: #number#" + "\n" +
@@ -64,7 +67,8 @@ public class GitHubAuto implements Runnable {
                             .replace("#msg#", message0);
                     MiraiMBot.bot.getGroup(793311898L).sendMessage(sendMsg);
                     MiraiMBot.bot.getGroup(782534813L).sendMessage(sendMsg);
-                    version_map.put(s, number);
+                    MiraiMBot.yaml.set("mohist_number." + ymlver, number);
+                    MiraiMBot.saveYaml(MiraiMBot.yaml, MiraiMBot.file);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
