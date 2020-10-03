@@ -1,10 +1,10 @@
 package com.mohistmc.miraimbot.events;
 
 import com.mohistmc.miraimbot.utils.JarUtils;
-import lombok.SneakyThrows;
-
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.Map;
+import java.util.Set;
+import lombok.SneakyThrows;
 
 public class EventBus {
 
@@ -40,7 +40,7 @@ public class EventBus {
     public static void register(Class<?> clazz) {
         if (clazz.getAnnotation(Listener.class) != null) {
             for (Method method : clazz.getDeclaredMethods()) {
-                if (method.getDeclaredAnnotation(EventHandler.class) != null && method.getParameterCount() == 1 && method.getParameterTypes()[0].getSuperclass() == Event.class) {
+                if (method.getDeclaredAnnotation(MohistHandler.class) != null && method.getParameterCount() == 1 && method.getParameterTypes()[0].getSuperclass() == Event.class) {
                     Class<?> c = method.getParameterTypes()[0];
                     Map<Method, Class<?>> handlers = (Map<Method, Class<?>>) c.getMethod("getHandlers").invoke(null);
                     handlers.put(method, clazz);

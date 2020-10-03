@@ -1,7 +1,6 @@
 package com.mohistmc.miraimbot.plugin;
 
 import com.google.common.collect.Sets;
-
 import com.mohistmc.miraimbot.utils.JarUtils;
 import java.net.MalformedURLException;
 import java.net.URL;

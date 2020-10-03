@@ -1,7 +1,6 @@
 package com.mohistmc.miraimbot.events;
 
 import com.google.common.collect.Maps;
-
 import java.lang.reflect.Method;
 import java.util.Map;
 

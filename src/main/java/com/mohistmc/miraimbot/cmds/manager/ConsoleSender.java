@@ -2,6 +2,7 @@ package com.mohistmc.miraimbot.cmds.manager;
 
 import com.mohistmc.miraimbot.MiraiMBot;
 import com.mohistmc.miraimbot.utils.LogUtil;
+import java.util.concurrent.Future;
 import kotlin.coroutines.CoroutineContext;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.contact.Contact;
@@ -10,8 +11,8 @@ import net.mamoe.mirai.event.events.EventCancelledException;
 import net.mamoe.mirai.message.MessageReceipt;
 import net.mamoe.mirai.message.action.Nudge;
 import net.mamoe.mirai.message.data.Message;
+import net.mamoe.mirai.message.data.MessageUtils;
 import org.jetbrains.annotations.NotNull;
-import java.util.concurrent.*;
 
 public class ConsoleSender extends User {
     public static final ConsoleSender INSTANCE = new ConsoleSender();
@@ -55,28 +56,28 @@ public class ConsoleSender extends User {
     @Override
     public MessageReceipt<Contact> sendMessage(@NotNull Message message) throws EventCancelledException, IllegalStateException {
         LogUtil.getLogger().info(message.contentToString());
-        return super.sendMessage(message);
+        // return super.sendMessage(message);
+        return null;
     }
 
     @NotNull
     @Override
     public MessageReceipt<Contact> sendMessage(@NotNull String message) throws EventCancelledException, IllegalStateException {
-        LogUtil.getLogger().info(message);
-        return super.sendMessage(message);
+        return sendMessage(MessageUtils.newChain(message));
     }
 
     @NotNull
     @Override
     public Future<MessageReceipt<Contact>> sendMessageAsync(@NotNull Message message) {
         LogUtil.getLogger().info(message.contentToString());
-        return super.sendMessageAsync(message);
+        // return sendMessage(MessageUtils.newChain(message));
+        return null;
     }
 
     @NotNull
     @Override
     public Future<MessageReceipt<Contact>> sendMessageAsync(@NotNull String message) {
-        LogUtil.getLogger().info(message);
-        return super.sendMessageAsync(message);
+        return sendMessageAsync(MessageUtils.newChain(message));
     }
 
     @NotNull

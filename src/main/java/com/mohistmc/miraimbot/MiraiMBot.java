@@ -11,17 +11,16 @@ import com.mohistmc.miraimbot.utils.JarUtils;
 import com.mohistmc.miraimbot.utils.LogUtil;
 import com.mohistmc.yaml.file.FileConfiguration;
 import com.mohistmc.yaml.file.YamlConfiguration;
+import java.io.File;
+import java.io.IOException;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.concurrent.ConcurrentHashMap;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.BotFactoryJvm;
 import net.mamoe.mirai.event.Events;
 import net.mamoe.mirai.message.data.MessageUtils;
 import net.mamoe.mirai.utils.BotConfiguration;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class MiraiMBot {
 
@@ -58,11 +57,8 @@ public class MiraiMBot {
                 }
             }
         }).start();
-        JarUtils.scan("com.mohistmc.miraimbot");
-        CommandManager.register(new LoginCommand());
-        PluginManager.init();
         long qq = yaml.getLong("qq");
-        String pass = yaml.getString("pass");
+        String pass = yaml.getString("password");
 
         if (qq == 0L || pass.equalsIgnoreCase("")) {
             System.out.println("监测到您没有设置qq号或密码，因此需要使用指令\"login qq 密码\"来进行登陆");
@@ -74,6 +70,10 @@ public class MiraiMBot {
             });
         }
         LogUtil.logger = bot.getLogger();
+        JarUtils.scan("com.mohistmc.miraimbot.cmds");
+        JarUtils.scan("com.mohistmc.miraimbot.listeners");
+        CommandManager.register(new LoginCommand());
+        PluginManager.init();
         bot.login();
         EventBus.init();
         Events.registerEvents(bot, new MainListener());

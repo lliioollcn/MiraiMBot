@@ -1,10 +1,9 @@
 package com.mohistmc.miraimbot.utils;
 
-import lombok.Getter;
-import net.mamoe.mirai.utils.MiraiLogger;
-
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Getter;
+import net.mamoe.mirai.utils.MiraiLogger;
 
 public class LogUtil {
 

@@ -6,6 +6,7 @@ import java.net.MalformedURLException;
 public class PluginManager {
     public static void init() {
         File dir = new File("./plugins/");
+        if (!dir.exists()) dir.mkdir();
         for (File plugin : dir.listFiles()) {
             if (plugin.getName().endsWith(".jar") || plugin.getName().endsWith(".zip")) {
                 try {

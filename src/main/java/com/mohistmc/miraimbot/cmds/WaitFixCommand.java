@@ -5,10 +5,11 @@ import com.mohistmc.miraimbot.cmds.manager.CommandExecutor;
 import com.mohistmc.miraimbot.cmds.manager.CommandResult;
 import com.mohistmc.miraimbot.cmds.manager.annotations.Command;
 import com.mohistmc.miraimbot.utils.FileUtil;
-
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 @Command(name = "waitfix", alias = {"待修"})
 public class WaitFixCommand implements CommandExecutor {

@@ -5,16 +5,17 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.mohistmc.miraimbot.cmds.manager.annotations.Command;
 import com.mohistmc.miraimbot.utils.JarUtils;
 import com.mohistmc.miraimbot.utils.LogUtil;
-import lombok.SneakyThrows;
-import net.mamoe.mirai.contact.Member;
-import net.mamoe.mirai.contact.User;
-import net.mamoe.mirai.message.data.*;
-
-import java.util.*;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import lombok.SneakyThrows;
+import net.mamoe.mirai.contact.Member;
+import net.mamoe.mirai.contact.User;
+import net.mamoe.mirai.message.data.MessageChain;
 
 public class CommandManager {
 
@@ -42,13 +43,15 @@ public class CommandManager {
         Class<?> clazz = newInstance.getClass();
         if (clazz.getAnnotation(Command.class) != null) {
             Command c = clazz.getAnnotation(Command.class);
-            executors.put(c.name(), newInstance);// 注册主要指令
-            System.out.println("注册指令 " + clazz.getName() + "(" + c.name() + ")");
-            usages.put(c.name(), c.usage());
-            for (String alia : c.alias()) {
-                executors.put(alia, newInstance);
-                System.out.println("注册别称 " + clazz.getName() + "(" + alia + ")");
-                usages.put(alia, c.usage());
+            if (!executors.containsKey(c.name())) {
+                executors.put(c.name(), newInstance);// 注册主要指令
+                System.out.println("注册指令 " + clazz.getName() + "(" + c.name() + ")");
+                if (!usages.containsKey(c.name())) usages.put(c.name(), c.usage());
+                for (String alia : c.alias()) {
+                    if (!executors.containsKey(alia)) executors.put(alia, newInstance);
+                    System.out.println("注册别称 " + clazz.getName() + "(" + alia + ")");
+                    if (!usages.containsKey(alia)) usages.put(alia, c.usage());
+                }
             }
         } else {
             System.out.println("指令解析器 " + clazz.getName() + " 无效(无@Command注解)");

@@ -3,9 +3,6 @@ package com.mohistmc.miraimbot.utils;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import lombok.Getter;
-import lombok.SneakyThrows;
-
 import java.io.File;
 import java.net.URL;
 import java.util.Collection;
@@ -14,6 +11,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import lombok.Getter;
+import lombok.SneakyThrows;
 
 public class JarUtils {
 

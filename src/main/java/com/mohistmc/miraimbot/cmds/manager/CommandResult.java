@@ -1,10 +1,9 @@
 package com.mohistmc.miraimbot.cmds.manager;
 
+import java.util.List;
 import lombok.Data;
 import net.mamoe.mirai.contact.User;
 import net.mamoe.mirai.message.data.MessageChain;
-
-import java.util.List;
 
 @Data
 public class CommandResult {
