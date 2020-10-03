@@ -7,6 +7,7 @@ import com.mohistmc.miraimbot.utils.JarUtils;
 import com.mohistmc.miraimbot.utils.LogUtil;
 import lombok.SneakyThrows;
 import net.mamoe.mirai.contact.Member;
+import net.mamoe.mirai.contact.User;
 import net.mamoe.mirai.message.data.*;
 
 import java.util.*;
@@ -34,7 +35,7 @@ public class CommandManager {
                 load++;
             }
         }
-        LogUtil.getLogger().info("加载了 " + load + " 个指令，耗时 " + (System.currentTimeMillis() - start) + "(ms).");
+        System.out.println("加载了 " + load + " 个指令，耗时 " + (System.currentTimeMillis() - start) + "(ms).");
     }
 
     public static void register(CommandExecutor newInstance) {
@@ -42,15 +43,15 @@ public class CommandManager {
         if (clazz.getAnnotation(Command.class) != null) {
             Command c = clazz.getAnnotation(Command.class);
             executors.put(c.name(), newInstance);// 注册主要指令
-            LogUtil.getLogger().info("注册指令 " + clazz.getName() + "(" + c.name() + ")");
+            System.out.println("注册指令 " + clazz.getName() + "(" + c.name() + ")");
             usages.put(c.name(), c.usage());
             for (String alia : c.alias()) {
                 executors.put(alia, newInstance);
-                LogUtil.getLogger().info("注册别称 " + clazz.getName() + "(" + alia + ")");
+                System.out.println("注册别称 " + clazz.getName() + "(" + alia + ")");
                 usages.put(alia, c.usage());
             }
         } else {
-            LogUtil.getLogger().info("指令解析器 " + clazz.getName() + " 无效(无@Command注解)");
+            System.out.println("指令解析器 " + clazz.getName() + " 无效(无@Command注解)");
         }
     }
 
@@ -62,7 +63,7 @@ public class CommandManager {
 
     static long last = System.currentTimeMillis();
 
-    public static void call(MessageChain messages, Member sender) {
+    public static void call(MessageChain messages, User sender) {
         if (System.currentTimeMillis() - last < 3000) {
             sender.sendMessage("指令发送太快了哦");
         } else {
@@ -73,7 +74,7 @@ public class CommandManager {
     }
 
     @SneakyThrows
-    private static void callA(MessageChain messages, Member sender) {
+    private static void callA(MessageChain messages, User sender) {
         String msg = messages.contentToString().replaceFirst(LogUtil.command, "");// 获得带有mirai码的字符串，让用户自己解析。
         while (true) {
             if (!msg.contains("  ")) {
@@ -84,8 +85,8 @@ public class CommandManager {
         String[] sourceCmd = msg.split(" ");// 通过空格来切割
         if (sourceCmd.length > 0) {// 保证不为空
             String label = sourceCmd[0];
-            LogUtil.getLogger().info("触发指令: " + label);
-            LogUtil.getLogger().info("是否包含: " + executors.containsKey(label));
+            //LogUtil.getLogger().info("触发指令: " + label);
+            //LogUtil.getLogger().info("是否包含: " + executors.containsKey(label));
             if (executors.containsKey(label)) {
                 String[] args = new String[sourceCmd.length - 1];
                 System.arraycopy(sourceCmd, 1, args, 0, sourceCmd.length - 1);
@@ -95,10 +96,18 @@ public class CommandManager {
                 cr.setSender(sender);
                 cr.setSource(messages);
                 if (!executor.onCommand(cr)) {
-                    sender.getGroup().sendMessage("指令执行失败。用法：" + usages.get(executor));
+                    if (sender instanceof Member) {
+                        ((Member) sender).getGroup().sendMessage("指令执行失败。用法：" + usages.get(executor));
+                    } else {
+                        sender.sendMessage("指令执行失败。用法：" + usages.get(executor));
+                    }
                 }
             } else {
-                sender.getGroup().sendMessage("未知的指令.请使用 " + LogUtil.command + "cmdlist 来获得指令列表");
+                if (sender instanceof Member) {
+                    ((Member) sender).getGroup().sendMessage("未知的指令.请使用 " + LogUtil.command + "cmdlist 来获得指令列表");
+                } else {
+                    sender.sendMessage("未知的指令.请使用 " + LogUtil.command + "cmdlist 来获得指令列表");
+                }
             }
         }
     }

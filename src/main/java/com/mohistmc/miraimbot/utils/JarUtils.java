@@ -17,6 +17,9 @@ import java.util.jar.JarFile;
 
 public class JarUtils {
 
+    @Getter
+    public static final Set<Class<?>> allLoadClasses = Sets.newHashSet();
+
     /**
      * 扫描全部类
      *
@@ -38,9 +41,6 @@ public class JarUtils {
         }
         return classes;
     }
-
-    @Getter
-    private static final Set<Class<?>> allLoadClasses = Sets.newHashSet();
 
     private static Collection<Class<?>> scanClasses(Enumeration<JarEntry> entries, Collection<Class<?>> classes, String pack) {
         while (entries.hasMoreElements()) {
