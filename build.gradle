@@ -35,6 +35,8 @@ dependencies {
     implementation 'org.apache.logging.log4j:log4j-api:2.13.3'
     implementation 'org.apache.logging.log4j:log4j-core:2.13.3'
     implementation 'jline:jline:2.13'
+    implementation 'dnsjava:dnsjava:2.1.8'
+    implementation 'net.md-5:bungeecord-chat:1.12-SNAPSHOT'
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -52,6 +54,8 @@ shadowJar {
         include(dependency('org.apache.logging.log4j:log4j-api:2.13.3'))
         include(dependency('org.apache.logging.log4j:log4j-core:2.13.3'))
         include(dependency('jline:jline:2.13'))
+        include(dependency('dnsjava:dnsjava:2.1.8'))
+        include(dependency('net.md-5:bungeecord-chat:1.12-SNAPSHOT'))
     }
     manifest {
         def classpath = new StringBuilder()

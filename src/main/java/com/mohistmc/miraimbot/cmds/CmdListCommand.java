@@ -13,8 +13,9 @@ public class CmdListCommand implements CommandExecutor {
         StringBuilder msg = new StringBuilder();
         if (result.getArgs().size() < 1) {
             Set<String> executors = CommandManager.usages.keySet();
+            msg.append("======指令列表======").append("\n");
             for (String executor : executors) {
-                msg.append(executor).append("\n");
+                msg.append(executor).append(", ");
             }
         } else {
             String label = result.getArgs().get(0);

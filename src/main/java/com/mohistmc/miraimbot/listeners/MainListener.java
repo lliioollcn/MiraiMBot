@@ -23,7 +23,7 @@ public class MainListener extends SimpleListenerHost {
             if (!JSON.isValidObject(content) && !content.startsWith("<?xml")){
                 event.getGroup().sendMessage(new At(event.getSender()).plus(" 您的消息过长，正在转移～"));
                 MiraiMBot.bot.recall(event.getMessage());
-                event.getGroup().sendMessage("您的消息已经被转移到此：" + HasteUtils.pasteUbuntu(event.getSenderName(), content));
+                event.getGroup().sendMessage("您的消息已经被转移到此：" + HasteUtils.paste(content));
             }
         } else {
             if (content.startsWith(LogUtil.command)) {

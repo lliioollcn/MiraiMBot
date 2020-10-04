@@ -3,14 +3,12 @@ package com.mohistmc.miraimbot.cmds;
 import com.mohistmc.miraimbot.cmds.manager.CommandExecutor;
 import com.mohistmc.miraimbot.cmds.manager.CommandResult;
 import com.mohistmc.miraimbot.cmds.manager.annotations.Command;
-import com.mohistmc.miraimbot.console.log4j.MiraiMBotLog;
-import com.mohistmc.miraimbot.utils.PingUtils;
-import studio.trc.minecraft.serverpinglib.API.MCServerModInfo;
-import studio.trc.minecraft.serverpinglib.API.MCServerSocket;
-import studio.trc.minecraft.serverpinglib.API.MCServerStatus;
-import studio.trc.minecraft.serverpinglib.Protocol.ProtocolVersion;
+import com.mohistmc.miraimbot.mcserverping.MCPing;
+import com.mohistmc.miraimbot.mcserverping.MCPingOptions;
+import com.mohistmc.miraimbot.mcserverping.MCPingResponse;
+import java.io.IOException;
 
-@Command(name = "ping", usage = "#ping 地址:端口")
+@Command(name = "ping", alias = {"c", "查服", "motd"}, usage = "#ping 地址:端口")
 public class PingCommand implements CommandExecutor {
 
     @Override
@@ -20,53 +18,41 @@ public class PingCommand implements CommandExecutor {
             return true;
         } else {
             String msg = result.getArgs().get(0);
-            String[] ip = msg.split(":");
-            result.sendMessage("======使用检测======\n正在检测，请稍后...");
-            MCServerSocket socket = null;
-            switch (ip.length) {
-                case 1: {
-                    socket = MCServerSocket.getInstance(ip[0], 25565);
-                    break;
-                }
-                case 2: {
-                    try {
-                        socket = MCServerSocket.getInstance(ip[0], Integer.valueOf(ip[1]));
-                    } catch (NumberFormatException ex) {
-                        break;
-                    }
-                    break;
-                }
-                default: {
-                    break;
-                }
-            }
-            if (socket == null) return false;
-            MCServerStatus status = socket.getStatus(ProtocolVersion.v1_12_2);
-            if (!status.isMCServer()) {
-                return false;
-            }
             StringBuilder sb = new StringBuilder();
-            StringBuilder mods = new StringBuilder();
-            sb.append("======Mohist使用检测======").append("\n");
-            sb.append("检测通过: 你正在使用Mohist, 感谢你的使用!!!").append("\n");
-            sb.append("在线: " + status.getOnlinePlayers() + "/" + status.getMaxPlayers()).append("\n");
-            boolean mohist = false;
-            for (MCServerModInfo.MCMod mod : status.getModInfo().getModList()) {
-                mods.append(mod.getModId() + ":" + mod.getVersion()).append("\n");
-                String ver = mod.getVersion().replace(" ", "");
-                if (mod.getModId().equals("mohist")) {
-                    mohist = true;
-                    sb.append("Mohist版本: " + (PingUtils.hasLatestVersion().equals(ver) ? ver + "(已是最新版)" : ver + "(你该更新了)")).append("\n");
-                }
-            }
-            if (mods != null && mods.toString().contains("mohist:") && mohist) {
-                sb.append("模组数量: " + (PingUtils.modsize(mods.toString(), ":") - 5)).append("\n");
-                result.sendMessage(sb.toString());
-                return true;
+            String[] ip = msg.split(":");
+            MCPingOptions options;
+            if (ip.length == 2) {
+                options = MCPingOptions.builder()
+                        .hostname(ip[0])
+                        .port(Integer.valueOf(ip[1]).intValue())
+                        .build();
             } else {
-                MiraiMBotLog.LOGGER.info(status.getVersion());
-                result.sendMessage("======Mohist使用检测======\n此服务器不是Mohist, 可能原因：1.BC, 2.旧版Mohist, 3.其他核心");
+                options = MCPingOptions.builder()
+                        .hostname(ip[0])
+                        .build();
             }
+
+            MCPingResponse reply;
+
+            try {
+                reply = MCPing.getPing(options);
+            } catch (IOException ex) {
+                result.sendMessage(options.getHostname() + " 无法访问.");
+                return true;
+            }
+
+            MCPingResponse.Description description = reply.getDescription();
+            sb.append("======MC服务器状态======").append("\n");
+            sb.append("MOTD: " + description.getStrippedText()).append("\n");
+            MCPingResponse.Players players = reply.getPlayers();
+            sb.append("在线人数: " + players.getOnline() + "/" + players.getMax()).append("\n");
+
+            MCPingResponse.Version version = reply.getVersion();
+            sb.append("版本: " + version.getName()).append("\n");
+            sb.append("协议号: " + version.getProtocol()).append("\n");
+
+            result.sendMessage(sb.toString());
+            // String.format("图标: %s", reply.getFavicon())
         }
         return true;
     }
