@@ -1,29 +1,76 @@
 package com.mohistmc.miraimbot.events;
 
-import com.google.common.collect.Maps;
+import com.mohistmc.miraimbot.MiraiMBot;
 import com.mohistmc.miraimbot.cmds.manager.ConsoleSender;
-import java.lang.reflect.Method;
-import java.util.Map;
-import lombok.Getter;
+import kotlin.coroutines.CoroutineContext;
+import net.mamoe.mirai.Bot;
+import net.mamoe.mirai.contact.Contact;
+import net.mamoe.mirai.contact.User;
+import net.mamoe.mirai.message.MessageEvent;
+import net.mamoe.mirai.message.data.MessageChain;
+import org.jetbrains.annotations.NotNull;
 
-public class ConsoleMessageEvent extends Event {
-    private static Map<Method, Class<?>> handlers = Maps.newHashMap();
-    @Getter
-    public final ConsoleSender sender;
-    @Getter
-    public final String msg;
+public class ConsoleMessageEvent extends MessageEvent {
+    private MessageChain message;
 
-    public ConsoleMessageEvent(ConsoleSender instance, String cmd) {
-        this.sender = instance;
-        this.msg = cmd;
+    public ConsoleMessageEvent(MessageChain msg) {
+        this.message = msg;
     }
 
-    public Map<Method, Class<?>> getHandler() {
-        return handlers;
+    @NotNull
+    @Override
+    public Bot getBot() {
+        return MiraiMBot.bot;
     }
 
+    @NotNull
+    @Override
+    public MessageChain getMessage() {
+        return this.message;
+    }
 
-    public static Map<Method, Class<?>> getHandlers() {
-        return handlers;
+    @NotNull
+    @Override
+    public User getSender() {
+        return ConsoleSender.INSTANCE;
+    }
+
+    @NotNull
+    @Override
+    public String getSenderName() {
+        return ConsoleSender.INSTANCE.getNick();
+    }
+
+    @Override
+    public Contact getSubject() {
+        return new Contact() {
+            @NotNull
+            @Override
+            public Bot getBot() {
+                return MiraiMBot.bot;
+            }
+
+            @Override
+            public long getId() {
+                return ConsoleSender.INSTANCE.getId();
+            }
+
+            @NotNull
+            @Override
+            public String toString() {
+                return "Console";
+            }
+
+            @NotNull
+            @Override
+            public CoroutineContext getCoroutineContext() {
+                return getBot().getCoroutineContext();
+            }
+        };
+    }
+
+    @Override
+    public int getTime() {
+        return (int) (System.currentTimeMillis() / 1000);
     }
 }

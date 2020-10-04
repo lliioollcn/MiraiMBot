@@ -8,6 +8,7 @@ import com.mohistmc.miraimbot.cmds.WaitFixCommand;
 import com.mohistmc.miraimbot.cmds.manager.CommandManager;
 import com.mohistmc.miraimbot.cmds.manager.ConsoleSender;
 import com.mohistmc.miraimbot.console.log4j.MiraiMBotLog;
+import com.mohistmc.miraimbot.events.ConsoleMessageEvent;
 import com.mohistmc.miraimbot.events.EventBus;
 import com.mohistmc.miraimbot.listeners.MainListener;
 import com.mohistmc.miraimbot.plugin.PluginLoader;
@@ -22,7 +23,9 @@ import java.util.Scanner;
 import java.util.concurrent.ConcurrentHashMap;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.BotFactoryJvm;
+import net.mamoe.mirai.event.EventKt;
 import net.mamoe.mirai.event.Events;
+import net.mamoe.mirai.message.data.MessageChain;
 import net.mamoe.mirai.message.data.MessageUtils;
 import net.mamoe.mirai.utils.BotConfiguration;
 
@@ -60,7 +63,8 @@ public class MiraiMBot {
                 if (scanner.hasNext()) {
                     String cmd = scanner.next();
                     MiraiMBotLog.LOGGER.info("console executor a command: " + cmd);
-                    CommandManager.call(MessageUtils.newChain(cmd), ConsoleSender.INSTANCE);
+                    MessageChain msg = MessageUtils.newChain(cmd);
+                    EventKt.broadcast(new ConsoleMessageEvent(msg));
                 }
             }
         }).start();
