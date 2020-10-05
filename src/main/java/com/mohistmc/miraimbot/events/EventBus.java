@@ -1,16 +1,13 @@
 package com.mohistmc.miraimbot.events;
 
 import com.mohistmc.miraimbot.MiraiMBot;
-import com.mohistmc.miraimbot.cmds.manager.CommandExecutor;
 import com.mohistmc.miraimbot.console.log4j.MiraiMBotLog;
 import com.mohistmc.miraimbot.plugin.PluginClassLoader;
 import com.mohistmc.miraimbot.utils.JarUtils;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.Set;
-
 import lombok.SneakyThrows;
 import net.mamoe.mirai.event.Event;
 import net.mamoe.mirai.event.EventKt;

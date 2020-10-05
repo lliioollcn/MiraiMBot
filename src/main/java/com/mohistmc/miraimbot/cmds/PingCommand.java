@@ -38,6 +38,7 @@ public class PingCommand implements CommandExecutor {
                 reply = MCPing.getPing(options);
             } catch (IOException ex) {
                 result.sendMessage(options.getHostname() + " 无法访问.");
+                ex.printStackTrace();
                 return true;
             }
 
