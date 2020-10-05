@@ -14,13 +14,16 @@ import com.mohistmc.miraimbot.listeners.MainListener;
 import com.mohistmc.miraimbot.plugin.PluginLoader;
 import com.mohistmc.miraimbot.plugin.PluginManager;
 import com.mohistmc.miraimbot.utils.JarUtils;
+import com.mohistmc.miraimbot.utils.Utils;
 import com.mohistmc.yaml.file.FileConfiguration;
 import com.mohistmc.yaml.file.YamlConfiguration;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.concurrent.ConcurrentHashMap;
+
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.BotFactoryJvm;
 import net.mamoe.mirai.event.EventKt;
@@ -56,7 +59,6 @@ public class MiraiMBot {
 
         version.put("1.12.2", "1.12.2");
         version.put("1.16.3", "InternalTest");
-
         new Thread(() -> {
             while (true) {
                 Scanner scanner = new Scanner(System.in);
@@ -73,15 +75,15 @@ public class MiraiMBot {
 
         if (qq == 0L || pass.equalsIgnoreCase("")) {
             MiraiMBotLog.LOGGER.info("监测到您没有设置qq号或密码，因此需要使用指令\"login qq 密码\"来进行登陆");
-        } else {
-            BotConfiguration botConfiguration = new BotConfiguration() {
-                {
-                    fileBasedDeviceInfo("deviceInfo.json");
+            while (bot == null) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-            };
-            botConfiguration.noNetworkLog();
-            botConfiguration.noBotLog();
-            bot = BotFactoryJvm.newBot(Long.valueOf(yaml.getString("qq")).longValue(), yaml.getString("password"), botConfiguration);
+            }
+        } else {
+            bot = BotFactoryJvm.newBot(Long.valueOf(yaml.getString("qq")).longValue(), yaml.getString("password"), Utils.defaultConfig());
         }
         JarUtils.scan("com.mohistmc.miraimbot.cmds");
         JarUtils.scan("com.mohistmc.miraimbot.listeners");
