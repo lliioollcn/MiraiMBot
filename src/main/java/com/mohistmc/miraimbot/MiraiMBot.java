@@ -55,6 +55,7 @@ public class MiraiMBot {
 
         version.put("1.12.2", "1.12.2");
         version.put("1.16.3", "InternalTest");
+        CommandManager.register(new LoginCommand());
         new Thread(() -> {
             while (true) {
                 Scanner scanner = new Scanner(System.in);
@@ -62,6 +63,9 @@ public class MiraiMBot {
                     String cmd = scanner.next();
                     MiraiMBotLog.LOGGER.info("console executor a command: " + cmd);
                     MessageChain msg = MessageUtils.newChain(cmd);
+                    if (cmd.startsWith("login")) {
+                        CommandManager.call(msg, ConsoleSender.INSTANCE);
+                    }
                     EventKt.broadcast(new ConsoleMessageEvent(msg));
                 }
             }
@@ -70,7 +74,7 @@ public class MiraiMBot {
         String pass = yaml.getString("password");
 
         if (qq == 0L || pass.equalsIgnoreCase("")) {
-            MiraiMBotLog.LOGGER.info("监测到您没有设置qq号或密码，因此需要使用指令\"login qq 密码\"来进行登陆");
+            MiraiMBotLog.LOGGER.info("检测到您没有设置qq号或密码，因此需要使用指令\"login qq 密码\"来进行登陆");
             while (bot == null) {
                 try {
                     Thread.sleep(1000);
@@ -83,7 +87,6 @@ public class MiraiMBot {
         }
         JarUtils.scan("com.mohistmc.miraimbot.cmds");
         JarUtils.scan("com.mohistmc.miraimbot.listeners");
-        CommandManager.register(new LoginCommand());
         CommandManager.register(new CmdListCommand());
         CommandManager.register(new PingCommand());
         CommandManager.register(new UpdateCommand());
