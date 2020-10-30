@@ -28,11 +28,12 @@
  */
 package com.mohistmc.miraimbot.mcserverping;
 
-import java.util.List;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.util.List;
 
 /**
  * References: http://wiki.vg/Server_List_Ping

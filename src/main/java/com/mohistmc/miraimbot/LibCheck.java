@@ -19,7 +19,7 @@ public class LibCheck {
     }
 
     public static void downloadFile() throws IOException {
-        String u = "https://github.com/project-mirai/mirai-repo/blob/master/shadow/mirai-core-qqandroid/mirai-core-qqandroid-1.3.1.jar";
+        String u = "https://github.com/project-mirai/mirai-repo/blob/master/shadow/mirai-core-qqandroid/mirai-core-qqandroid-1.3.0.jar";
         File f = new File("lib", "mirai-core-qqandroid-1.3.1.jar");
         if (!f.exists()) {
             f.getParentFile().mkdirs();

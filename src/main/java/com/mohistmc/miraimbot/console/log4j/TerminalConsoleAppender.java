@@ -30,7 +30,9 @@ import java.io.Serializable;
 import java.io.Writer;
 import java.util.function.Function;
 import jline.TerminalFactory;
+import static jline.TerminalFactory.OFF;
 import jline.console.ConsoleReader;
+import static jline.console.ConsoleReader.RESET_LINE;
 import org.apache.logging.log4j.core.Filter;
 import org.apache.logging.log4j.core.Layout;
 import org.apache.logging.log4j.core.LogEvent;
@@ -44,9 +46,6 @@ import org.apache.logging.log4j.core.util.Booleans;
 import org.apache.logging.log4j.util.PropertiesUtil;
 import org.fusesource.jansi.AnsiConsole;
 import org.jetbrains.annotations.Nullable;
-
-import static jline.TerminalFactory.OFF;
-import static jline.console.ConsoleReader.RESET_LINE;
 
 @Plugin(name = "TerminalConsole", category = "Core", elementType = "appender", printObject = true)
 public class TerminalConsoleAppender extends AbstractAppender
