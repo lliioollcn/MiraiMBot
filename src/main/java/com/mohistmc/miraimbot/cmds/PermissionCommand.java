@@ -23,7 +23,7 @@ public class PermissionCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandResult result) {
         StringBuilder msg = new StringBuilder();
-        if (result.getArgs().size() < 1) {
+        if (result.getArgs().isEmpty()) {
             msg.append("==========[权限]==========");
             msg.append("#permission add [用户] [权限]");
             msg.append("给[用户]添加一条[权限]");
@@ -61,7 +61,11 @@ public class PermissionCommand implements CommandExecutor {
                         }
                         id = Long.parseLong(arg1);
                     }
-                    MPermission.addPermission(id, arg2);
+                    if (MPermission.addPermission(id, arg2)) {
+                        msg.append("成功");
+                    } else {
+                        msg.append("失败");
+                    }
                 }
             } else if ("set".equals(arg0)) {
                 if (result.getArgs().size() < 2) {
@@ -76,7 +80,6 @@ public class PermissionCommand implements CommandExecutor {
                             return true;
                         }
                         id = result.getSource().first(At.Key).getTarget();
-
                     } else {
                         if (!Utils.isNumeric(arg1)) {
                             msg.append("[用户]为无效数字");
@@ -84,10 +87,37 @@ public class PermissionCommand implements CommandExecutor {
                         }
                         id = Long.parseLong(arg1);
                     }
-                    MPermission.setGroup(id,arg2);
+                    if (MPermission.setGroup(id, arg2)) {
+                        msg.append("成功");
+                    } else {
+                        msg.append("失败");
+                    }
                 }
             } else if ("setOp".equals(arg0)) {
-
+                if (result.getArgs().size() < 1) {
+                    msg.append("[用户]不可为空");
+                } else {
+                    String arg1 = result.getArgs().get(1);
+                    long id = 0L;
+                    if (arg1.startsWith("@")) {
+                        if (!result.isGroup()) {
+                            msg.append("不在群组中");
+                            return true;
+                        }
+                        id = result.getSource().first(At.Key).getTarget();
+                    } else {
+                        if (!Utils.isNumeric(arg1)) {
+                            msg.append("[用户]为无效数字");
+                            return true;
+                        }
+                        id = Long.parseLong(arg1);
+                    }
+                    if (MPermission.setOp(id)) {
+                        msg.append("成功");
+                    } else {
+                        msg.append("失败");
+                    }
+                }
             } else if ("check".equals(arg0)) {
 
             } else if ("checkAll".equals(arg0)) {

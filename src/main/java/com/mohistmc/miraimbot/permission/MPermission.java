@@ -128,7 +128,7 @@ public class MPermission {
 
     public static boolean setGroup(long user, String group) {
         try {
-            if ((user == ConsoleSender.INSTANCE.getId()) || ops.contains(user.)) {
+            if ((user == ConsoleSender.INSTANCE.getId()) || ops.contains(user)) {
                 return true;
             }
             File file = new File(usersDir, user + ".json");
@@ -148,11 +148,15 @@ public class MPermission {
     }
 
     public static boolean setOp(User user) {
+        return setOp(user.getId());
+    }
+
+    public static boolean setOp(long user) {
         try {
-            if ((user instanceof ConsoleSender) || ops.contains(user.getId())) {
+            if ((user == ConsoleSender.INSTANCE.getId()) || ops.contains(user)) {
                 return true;
             }
-            ops.add(user.getId());
+            ops.add(user);
             saveAll();
             return true;
         } catch (Throwable e) {
