@@ -8,15 +8,18 @@ import com.mohistmc.miraimbot.cmds.manager.ConsoleSender;
 import com.mohistmc.miraimbot.console.log4j.MiraiMBotLog;
 import com.mohistmc.miraimbot.events.ConsoleMessageEvent;
 import com.mohistmc.miraimbot.listeners.MainListener;
+import com.mohistmc.miraimbot.permission.MPermission;
 import com.mohistmc.miraimbot.plugin.PluginLoader;
 import com.mohistmc.miraimbot.plugin.PluginManager;
 import com.mohistmc.miraimbot.utils.JarUtils;
 import com.mohistmc.miraimbot.utils.Utils;
 import com.mohistmc.yaml.file.FileConfiguration;
 import com.mohistmc.yaml.file.YamlConfiguration;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
+
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.BotFactoryJvm;
 import net.mamoe.mirai.event.EventKt;
@@ -80,6 +83,7 @@ public class MiraiMBot {
         }
         JarUtils.scan("com.mohistmc.miraimbot.cmds");
         JarUtils.scan("com.mohistmc.miraimbot.listeners");
+        MPermission.init();
         CommandManager.register(new CmdListCommand());
         CommandManager.register(new PluginCommand());
         PluginManager.init();
@@ -87,6 +91,7 @@ public class MiraiMBot {
         Events.registerEvents(bot, new MainListener());
         PluginLoader.enablePlugins();
         CommandManager.init();
+        Runtime.getRuntime().addShutdownHook(new Thread(MPermission::saveAll));
         bot.join();
     }
 

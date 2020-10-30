@@ -4,10 +4,12 @@ import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.mohistmc.miraimbot.cmds.manager.annotations.Command;
 import com.mohistmc.miraimbot.console.log4j.MiraiMBotLog;
+import com.mohistmc.miraimbot.permission.MPermission;
 import com.mohistmc.miraimbot.plugin.Plugin;
 import com.mohistmc.miraimbot.plugin.PluginClassLoader;
 import com.mohistmc.miraimbot.utils.LogUtil;
 import com.mohistmc.miraimbot.utils.Utils;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
@@ -19,6 +21,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+
 import lombok.SneakyThrows;
 import net.mamoe.mirai.contact.User;
 import net.mamoe.mirai.message.data.MessageChain;
@@ -150,9 +153,15 @@ public class CommandManager {
                 cr.setArgs(Arrays.asList(args));
                 cr.setSender(sender);
                 cr.setSource(messages);
-                if (!executor.onCommand(cr)) {
-                    Utils.sendMessage(sender, "指令执行失败。用法：" + usages.get(label));
+                Command cmd = executor.getClass().getDeclaredAnnotation(Command.class);
+                if (cmd.onlyOp() && MPermission.isOp(sender)) {
+                    if (!executor.onCommand(cr)) {
+                        Utils.sendMessage(sender, "指令执行失败。用法：" + usages.get(label));
+                    }
+                } else {
+                    Utils.sendMessage(sender, "指令只允许机器人管理员使用");
                 }
+
             } else {
                 Utils.sendMessage(sender, "未知的指令.请使用 " + LogUtil.command + "help 来获得指令列表");
             }

@@ -9,7 +9,7 @@ import com.mohistmc.miraimbot.cmds.manager.annotations.Command;
 import com.mohistmc.miraimbot.utils.Utils;
 import net.mamoe.mirai.BotFactoryJvm;
 
-@Command(name = "login", description = "登陆机器人", alias = {"l", "登陆", "登录", "登入"}, usage = "用于登陆机器人")
+@Command(name = "login", description = "登陆机器人", alias = {"l", "登陆", "登录", "登入"}, usage = "用于登陆机器人", show = false, onlyOp = true)
 public class LoginCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandResult result) {

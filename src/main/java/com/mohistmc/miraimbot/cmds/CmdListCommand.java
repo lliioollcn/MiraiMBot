@@ -1,13 +1,12 @@
 package com.mohistmc.miraimbot.cmds;
 
+import com.google.common.collect.Lists;
 import com.mohistmc.miraimbot.cmds.manager.CommandExecutor;
 import com.mohistmc.miraimbot.cmds.manager.CommandManager;
 import com.mohistmc.miraimbot.cmds.manager.CommandResult;
 import com.mohistmc.miraimbot.cmds.manager.annotations.Command;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Command(name = "help", description = "查看指令列表", alias = {"?", "帮助"}, usage = "用于获取指令列表")
@@ -20,6 +19,7 @@ public class CmdListCommand implements CommandExecutor {
             msg.append("======指令信息======").append("\n");
             String label = result.getArgs().get(0);
             for (Command executor : cmds) {
+                if (!executor.show()) continue;
                 if (executor.name().equals(label)) {
                     msg.append("名字: " + executor.name()).append("\n");
                     List<String> authors = new ArrayList<>();
@@ -31,8 +31,12 @@ public class CmdListCommand implements CommandExecutor {
             }
         } else {
             msg.append("======指令列表(" + cmds.size() + ")======").append("\n");
-            List<String> list = cmds.stream().map(Command::name).collect(Collectors.toList());
-            msg.append(list.toString());
+            List<String> list = Lists.newArrayList();
+            for (Command cmd : cmds) {
+                if (!cmd.show()) continue;
+                list.add(cmd.name());
+            }
+            msg.append(Arrays.toString(list.toArray()));
         }
         result.sendMessage(msg.toString());
         return true;
