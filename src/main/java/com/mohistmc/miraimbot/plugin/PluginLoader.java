@@ -71,7 +71,7 @@ public class PluginLoader extends URLClassLoader {
     public void loadPlugin(File file) throws IOException {
         String url = "jar:file:///" + file.getAbsolutePath() + "!/";
         this.addURL(new URL(url));
-        MiraiMBotLog.LOGGER.info(url);
+        MiraiMBotLog.Debug(url);
         JarFile jarFile = new JarFile(file, false);
         ZipEntry ze = jarFile.getEntry("plugin.yml");
         InputStream is = ze != null ? jarFile.getInputStream(ze) : null;

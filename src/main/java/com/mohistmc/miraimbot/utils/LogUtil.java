@@ -7,7 +7,7 @@ import lombok.Getter;
 public class LogUtil {
 
     @Getter
-    public static boolean debug = true;
+    public static boolean debug = false;
     /**
      * 指令前缀
      */

@@ -51,7 +51,7 @@ public class JarUtils {
                 if (all) {
                     if (className.startsWith(pack)) {
                         try {
-                            if (LogUtil.isDebug()) MiraiMBotLog.LOGGER.info("加载类: " + className);
+                            MiraiMBotLog.Debug("加载类: " + className);
                             classes.add(cl.loadClass(className));
                         } catch (ClassNotFoundException e) {
                             System.err.println("加载失败的类: " + className);
@@ -60,7 +60,7 @@ public class JarUtils {
                 } else {
                     if (className.equalsIgnoreCase(pack)) {
                         try {
-                            if (LogUtil.isDebug()) MiraiMBotLog.LOGGER.info("加载类: " + className);
+                            MiraiMBotLog.Debug("加载类: " + className);
                             classes.add(cl.loadClass(className));
                         } catch (ClassNotFoundException e) {
                             System.err.println("加载失败的类: " + className);
@@ -91,7 +91,7 @@ public class JarUtils {
                     scanByFile(dir + "." + f.getName(), f);
                 } else {
                     String className = dir + "." + f.getName().replace(".class", "");
-                    if (LogUtil.isDebug()) MiraiMBotLog.LOGGER.info("加载类: " + className);
+                    MiraiMBotLog.Debug("加载类: " + className);
                     clazzs.add(Class.forName(className));
                 }
             }

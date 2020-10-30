@@ -35,16 +35,7 @@ public class CommandManager {
      */
     @SneakyThrows
     public static void init() {
-        long start = System.currentTimeMillis();
-        int load = 0;
-        Set<Class<?>> classes = JarUtils.getAllLoadClasses();
-        for (Class<?> loadClass : classes) {
-            if (Arrays.asList(loadClass.getInterfaces()).contains(CommandExecutor.class)) {
-                register((CommandExecutor) loadClass.newInstance());
-                load++;
-            }
-        }
-        MiraiMBotLog.LOGGER.info("加载了 " + load + " 个指令，耗时 " + (System.currentTimeMillis() - start) + "(ms).");
+        MiraiMBotLog.LOGGER.info("加载了 " + executors.size() + " 个指令.");
     }
 
     /**

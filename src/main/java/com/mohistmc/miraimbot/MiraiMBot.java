@@ -7,7 +7,6 @@ import com.mohistmc.miraimbot.cmds.manager.CommandManager;
 import com.mohistmc.miraimbot.cmds.manager.ConsoleSender;
 import com.mohistmc.miraimbot.console.log4j.MiraiMBotLog;
 import com.mohistmc.miraimbot.events.ConsoleMessageEvent;
-import com.mohistmc.miraimbot.events.EventBus;
 import com.mohistmc.miraimbot.listeners.MainListener;
 import com.mohistmc.miraimbot.plugin.PluginLoader;
 import com.mohistmc.miraimbot.plugin.PluginManager;
@@ -86,7 +85,6 @@ public class MiraiMBot {
         CommandManager.register(new PluginCommand());
         PluginManager.init();
         bot.login();
-        EventBus.init();
         Events.registerEvents(bot, new MainListener());
         PluginLoader.enablePlugins();
         CommandManager.init();
