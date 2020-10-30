@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Command(name = "plugin", description = "查看插件列表及信息", alias = {"pl", "插件"}, usage = "#plugin [pluginName]")
 public class PluginCommand implements CommandExecutor {
@@ -31,13 +32,8 @@ public class PluginCommand implements CommandExecutor {
             }
         } else {
             msg.append("======插件列表(" + plugin_map.size() + ")======").append("\n");
-            for (Plugin executor : plugin_map) {
-                if (plugin_map.size() == 1) {
-                    msg.append(executor.name());
-                } else {
-                    msg.append(executor.name()).append(", ");
-                }
-            }
+            List<String> pl = plugin_map.stream().map(Plugin::name).collect(Collectors.toList());
+            msg.append(pl.toString());
         }
         result.sendMessage(msg.toString());
         return true;

@@ -1,10 +1,11 @@
 package com.mohistmc.miraimbot.cmds.manager;
 
+import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.mohistmc.miraimbot.cmds.manager.annotations.Command;
 import com.mohistmc.miraimbot.console.log4j.MiraiMBotLog;
+import com.mohistmc.miraimbot.plugin.Plugin;
 import com.mohistmc.miraimbot.plugin.PluginClassLoader;
-import com.mohistmc.miraimbot.utils.JarUtils;
 import com.mohistmc.miraimbot.utils.LogUtil;
 import com.mohistmc.miraimbot.utils.Utils;
 import java.io.IOException;
@@ -24,11 +25,12 @@ import net.mamoe.mirai.message.data.MessageChain;
 
 public class CommandManager {
 
-    private static final ExecutorService cmds = new ThreadPoolExecutor(2, 20,
+    private static final ExecutorService CMDS = new ThreadPoolExecutor(2, 20,
             0L, TimeUnit.MILLISECONDS,
             new LinkedBlockingQueue<>(512), new ThreadFactoryBuilder().setNameFormat("CommandTask-%d").build(), new ThreadPoolExecutor.AbortPolicy());
     public static ConcurrentMap<String, CommandExecutor> executors = new ConcurrentHashMap<>();
     public static ConcurrentMap<String, String> usages = new ConcurrentHashMap<>();
+    public static final Set<Command> cmd_map = Sets.newHashSet();
 
     /**
      * 用于自动注册指令
@@ -50,6 +52,7 @@ public class CommandManager {
             if (!executors.containsKey(c.name())) {
                 executors.put(c.name(), newInstance);// 注册主要指令
                 MiraiMBotLog.LOGGER.info("注册指令 " + clazz.getName() + "(" + c.name() + ")");
+                cmd_map.add(c); // 便于统计指令信息
                 if (!usages.containsKey(c.name())) usages.put(c.name(), c.usage());
                 for (String alia : c.alias()) {
                     if (!executors.containsKey(alia)) executors.put(alia, newInstance);
@@ -112,7 +115,7 @@ public class CommandManager {
         if (System.currentTimeMillis() - last < 3000) {
             Utils.sendMessage(sender, "指令发送太快了哦");
         } else {
-            cmds.execute(() -> callA(messages, sender));
+            CMDS.execute(() -> callA(messages, sender));
             //callA(messages, sender);
         }
         last = System.currentTimeMillis();
@@ -151,7 +154,7 @@ public class CommandManager {
                     Utils.sendMessage(sender, "指令执行失败。用法：" + usages.get(label));
                 }
             } else {
-                Utils.sendMessage(sender, "未知的指令.请使用 " + LogUtil.command + "cmdlist 来获得指令列表");
+                Utils.sendMessage(sender, "未知的指令.请使用 " + LogUtil.command + "help 来获得指令列表");
             }
         }
     }
