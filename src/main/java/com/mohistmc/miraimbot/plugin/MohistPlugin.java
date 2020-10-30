@@ -34,4 +34,8 @@ public class MohistPlugin {
         CommandManager.register(newInstance);
     }
 
+    public void sendGroupMessage(Long group, String msg) {
+        MiraiMBot.bot.getGroup(group).sendMessage(msg);
+    }
+
 }
