@@ -21,9 +21,7 @@ public class CmdListCommand implements CommandExecutor {
             String label = result.getArgs().get(0);
             if (CommandManager.executors.containsKey(label)) {
                 CommandExecutor c = CommandManager.executors.get(label);
-                msg.append("指令:")
-                        .append(c)
-                        .append("\n");
+                msg.append("指令:").append(c).append("\n");
             } else {
                 msg.append("不存在的指令。");
             }

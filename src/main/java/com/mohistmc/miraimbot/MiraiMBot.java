@@ -2,6 +2,7 @@ package com.mohistmc.miraimbot;
 
 import com.mohistmc.miraimbot.cmds.CmdListCommand;
 import com.mohistmc.miraimbot.cmds.LoginCommand;
+import com.mohistmc.miraimbot.cmds.PluginCommand;
 import com.mohistmc.miraimbot.cmds.manager.CommandManager;
 import com.mohistmc.miraimbot.cmds.manager.ConsoleSender;
 import com.mohistmc.miraimbot.console.log4j.MiraiMBotLog;
@@ -82,6 +83,7 @@ public class MiraiMBot {
         JarUtils.scan("com.mohistmc.miraimbot.cmds");
         JarUtils.scan("com.mohistmc.miraimbot.listeners");
         CommandManager.register(new CmdListCommand());
+        CommandManager.register(new PluginCommand());
         PluginManager.init();
         bot.login();
         EventBus.init();

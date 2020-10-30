@@ -18,6 +18,7 @@ import java.util.zip.ZipEntry;
 public class PluginLoader extends URLClassLoader {
     public static final PluginLoader INSTANCE = new PluginLoader();
     public static final Set<MohistPlugin> plugins = Sets.newHashSet();
+    public static final Set<Plugin> plugin_map = Sets.newHashSet();
 
     public PluginLoader() {
         super(new URL[0], PluginClassLoader.INSTANCE);
@@ -37,6 +38,7 @@ public class PluginLoader extends URLClassLoader {
                     .replace("]", ""));
             try {
                 plugins.add((MohistPlugin) clazz.newInstance());
+                plugin_map.add(plugin);
             } catch (InstantiationException | IllegalAccessException e) {
                 System.err.println("Loading plugin " + plugin.name() + " by " + (Arrays.toString(plugin.authors()))
                         .replace("[", "")
