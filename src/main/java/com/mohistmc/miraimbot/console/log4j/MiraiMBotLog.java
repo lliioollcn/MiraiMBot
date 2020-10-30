@@ -5,6 +5,13 @@ import org.apache.logging.log4j.Logger;
 
 public class MiraiMBotLog {
 
+    public static boolean isDebug = false;
     public static Logger LOGGER = LogManager.getLogger("MiraiMBot");
+
+    public static void Debug(String msg) {
+        if (isDebug) {
+            LOGGER.info("[DEBUG] " + msg);
+        }
+    }
 
 }

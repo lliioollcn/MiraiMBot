@@ -12,7 +12,7 @@ public class PluginClassLoader extends ClassLoader {
 
     @Override
     public Class<?> loadClass(String name) throws ClassNotFoundException {
-        MiraiMBotLog.LOGGER.info("[DEBUG] loading class " + name);
+        MiraiMBotLog.Debug("loading class " + name);
         Class<?> clazz = super.loadClass(name);
         PluginClassLoader.allPluginClasses.add(clazz);
         return clazz;
@@ -20,7 +20,7 @@ public class PluginClassLoader extends ClassLoader {
 
     @Override
     public Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
-        MiraiMBotLog.LOGGER.info("[DEBUG] loading class " + name + " @" + resolve);
+        MiraiMBotLog.Debug("loading class " + name + " @" + resolve);
         Class<?> clazz = super.loadClass(name, resolve);
         PluginClassLoader.allPluginClasses.add(clazz);
         return clazz;
@@ -28,7 +28,7 @@ public class PluginClassLoader extends ClassLoader {
 
     @Override
     public Class<?> findClass(String name) throws ClassNotFoundException {
-        MiraiMBotLog.LOGGER.info("[DEBUG] finding class " + name);
+        MiraiMBotLog.Debug("finding class " + name);
         Class<?> clazz = super.findClass(name);
         PluginClassLoader.allPluginClasses.add(clazz);
         return clazz;
