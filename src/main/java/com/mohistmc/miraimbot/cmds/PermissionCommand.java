@@ -9,7 +9,6 @@ import com.mohistmc.miraimbot.plugin.PluginLoader;
 import com.mohistmc.miraimbot.utils.Utils;
 import net.mamoe.mirai.message.data.At;
 import net.mamoe.mirai.message.data.Message;
-import net.mamoe.mirai.qqandroid.network.protocol.data.jce._339;
 
 import java.util.ArrayList;
 import java.util.Collections;
