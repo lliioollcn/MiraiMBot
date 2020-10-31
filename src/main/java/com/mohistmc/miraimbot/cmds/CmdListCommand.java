@@ -30,12 +30,12 @@ public class CmdListCommand implements CommandExecutor {
                 }
             }
         } else {
-            msg.append("======指令列表(" + cmds.size() + ")======").append("\n");
             List<String> list = Lists.newArrayList();
             for (Command cmd : cmds) {
                 if (!cmd.show()) continue;
                 list.add(cmd.name());
             }
+            msg.append("======指令列表(" + list.size() + ")======").append("\n");
             msg.append(Arrays.toString(list.toArray()));
         }
         result.sendMessage(msg.toString());

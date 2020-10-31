@@ -5,6 +5,7 @@ import com.mohistmc.miraimbot.cmds.manager.CommandResult;
 import com.mohistmc.miraimbot.cmds.manager.annotations.Command;
 import com.mohistmc.miraimbot.permission.MPermission;
 import com.mohistmc.miraimbot.utils.Utils;
+
 import java.util.Arrays;
 
 @Command(name = "permission", description = "权限管理", alias = {"per", "权限"}, usage = "#permission", show = false, onlyOp = true)
@@ -14,20 +15,20 @@ public class PermissionCommand implements CommandExecutor {
     public boolean onCommand(CommandResult result) {
         StringBuilder msg = new StringBuilder();
         if (result.getArgs().isEmpty()) {
-            msg.append("==========[权限]==========");
-            msg.append("#permission add [用户] [权限]");
-            msg.append("给[用户]添加一条[权限]");
-            msg.append("#permission set [用户] [组]");
-            msg.append("将[用户]移动到[组]");
-            msg.append("#permission setOp [用户]");
-            msg.append("设置[用户]为机器人管理");
-            msg.append("#permission check [用户] [权限]");
-            msg.append("查看[用户]是否有[权限]");
+            msg.append("=======[权限]=======").append("\n");
+            msg.append("#permission add [用户] [权限]").append("\n");
+            msg.append("给[用户]添加一条[权限]").append("\n");
+            msg.append("#permission set [用户] [组]").append("\n");
+            msg.append("将[用户]移动到[组]").append("\n");
+            msg.append("#permission setOp [用户]").append("\n");
+            msg.append("设置[用户]为机器人管理").append("\n");
+            msg.append("#permission check [用户] [权限]").append("\n");
+            msg.append("查看[用户]是否有[权限]").append("\n");
             msg.append("#permission checkAll [用户]");
-            msg.append("查看[用户]所有权限");
-            msg.append("#permission checkGroup [用户]");
-            msg.append("查看[用户]所在组");
-            msg.append("以上所有的[用户]在群内可以为@");
+            msg.append("查看[用户]所有权限").append("\n").append("\n");
+            msg.append("#permission checkGroup [用户]").append("\n");
+            msg.append("查看[用户]所在组").append("\n");
+            msg.append("以上所有的[用户]在群内可以为@").append("\n");
         } else {
             String arg0 = result.getArgs().get(0);
             if ("add".equals(arg0)) {
@@ -76,9 +77,9 @@ public class PermissionCommand implements CommandExecutor {
                     String arg2 = result.getArgs().get(2);
                     long id = Utils.getId(arg1, result);
                     if (MPermission.hasPermission(id, arg2)) {
-                        msg.append("用户拥有这个权限");
+                        msg.append("用户拥有这个权限: ").append(arg2);
                     } else {
-                        msg.append("用户不拥有这个权限");
+                        msg.append("用户不拥有这个权限: ").append(arg2);
                     }
                 }
             } else if ("checkAll".equals(arg0)) {

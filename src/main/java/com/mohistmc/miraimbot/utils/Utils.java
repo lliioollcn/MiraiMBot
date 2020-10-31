@@ -33,7 +33,7 @@ public class Utils {
     }
 
     public static boolean isNumeric(String str) {
-        return str.matches("-?[0-9]+.？[0-9]*");
+        return str.matches("-?[0-9]*");
     }
 
     public static long getId(String arg1, CommandResult result) {

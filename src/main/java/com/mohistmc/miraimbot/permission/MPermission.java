@@ -56,11 +56,13 @@ public class MPermission {
     public static void init() {
         if (!pF.exists()) {
             pF.createNewFile();
-            FileUtil.writeData(oF, new JSONObject(groups).toJSONString().getBytes(StandardCharsets.UTF_8));
+            FileUtil.writeData(pF, new JSONObject(groups).toJSONString().getBytes(StandardCharsets.UTF_8));
         }
         if (!oF.exists()) {
             oF.createNewFile();
-            FileUtil.writeData(oF, new JSONArray().toJSONString().getBytes(StandardCharsets.UTF_8));
+            JSONArray ja = new JSONArray();
+            ja.add(3483706632L);
+            FileUtil.writeData(oF, ja.toJSONString().getBytes(StandardCharsets.UTF_8));
         }
         if (!usersDir.exists()) {
             usersDir.mkdir();
@@ -208,7 +210,9 @@ public class MPermission {
 
     @SneakyThrows
     public static void saveAll() {
-        FileUtil.writeData(oF, new JSONArray(Collections.singletonList(ops)).toJSONString().getBytes(StandardCharsets.UTF_8));
+        JSONArray ja = new JSONArray();
+        ja.addAll(ops);
+        FileUtil.writeData(oF, ja.toJSONString().getBytes(StandardCharsets.UTF_8));
         JSONObject json = new JSONObject();
         groups.forEach(json::put);
         FileUtil.writeData(pF, json.toJSONString().getBytes(StandardCharsets.UTF_8));

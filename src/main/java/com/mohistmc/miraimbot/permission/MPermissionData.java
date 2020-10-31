@@ -1,13 +1,8 @@
 package com.mohistmc.miraimbot.permission;
 
-import com.alibaba.fastjson.JSONArray;
-import com.mohistmc.miraimbot.utils.FileUtil;
 import lombok.Builder;
 import lombok.Data;
-import lombok.SneakyThrows;
 
-import java.io.File;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,6 +23,8 @@ import java.util.List;
 @Builder
 public class MPermissionData {
 
+    public static final MPermissionData data = new MPermissionData();
+
     /**
      * 权限节点
      */
@@ -36,6 +33,15 @@ public class MPermissionData {
      * 继承的组
      */
     public String[] extendGroups;
+
+    public MPermissionData(String[] permissions,String[] extendGroups) {
+        this.permissions = permissions;
+        this.extendGroups = extendGroups;
+    }
+
+    public MPermissionData() {
+
+    }
 
     public List<String> getPermissions() {
         List<String> pers = Arrays.asList(permissions);
@@ -49,5 +55,4 @@ public class MPermissionData {
         }
         return pers;
     }
-
 }
