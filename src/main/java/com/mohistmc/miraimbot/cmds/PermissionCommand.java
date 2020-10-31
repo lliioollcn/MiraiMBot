@@ -5,8 +5,6 @@ import com.mohistmc.miraimbot.cmds.manager.CommandResult;
 import com.mohistmc.miraimbot.cmds.manager.annotations.Command;
 import com.mohistmc.miraimbot.permission.MPermission;
 import com.mohistmc.miraimbot.utils.Utils;
-
-import javax.crypto.MacSpi;
 import java.util.Arrays;
 
 @Command(name = "permission", description = "权限管理", alias = {"per", "权限"}, usage = "#permission", show = false, onlyOp = true)
