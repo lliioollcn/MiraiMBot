@@ -82,17 +82,12 @@ public class MPermission {
             File file = new File(usersDir, user + ".json");
             if (!file.exists()) {
                 MPermissionData data = (MPermissionData) groups.get("default");
-                if (data.getPermissions().contains(permission)) {
-                    return true;
-                }
-                return false;
+                return data.getPermissions().contains(permission);
             } else {
                 String jstr = FileUtil.readContent(oF, "UTF-8");
                 if (JSONObject.isValidObject(jstr)) {
                     MUserPermissionData d = JSON.parseObject(jstr, MUserPermissionData.class);
-                    if (d.getPermissions().contains(permission)) {
-                        return true;
-                    }
+                    return d.getPermissions().contains(permission);
                 }
                 return false;
             }
