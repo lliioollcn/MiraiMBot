@@ -4,17 +4,10 @@ import com.mohistmc.miraimbot.cmds.manager.CommandExecutor;
 import com.mohistmc.miraimbot.cmds.manager.CommandResult;
 import com.mohistmc.miraimbot.cmds.manager.annotations.Command;
 import com.mohistmc.miraimbot.permission.MPermission;
-import com.mohistmc.miraimbot.plugin.Plugin;
-import com.mohistmc.miraimbot.plugin.PluginLoader;
 import com.mohistmc.miraimbot.utils.Utils;
-import net.mamoe.mirai.message.data.At;
-import net.mamoe.mirai.message.data.Message;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+import javax.crypto.MacSpi;
+import java.util.Arrays;
 
 @Command(name = "permission", description = "权限管理", alias = {"per", "权限"}, usage = "#permission", show = false, onlyOp = true)
 public class PermissionCommand implements CommandExecutor {
@@ -45,21 +38,7 @@ public class PermissionCommand implements CommandExecutor {
                 } else {
                     String arg1 = result.getArgs().get(1);
                     String arg2 = result.getArgs().get(2);
-                    long id = 0L;
-                    if (arg1.startsWith("@")) {
-                        if (!result.isGroup()) {
-                            msg.append("不在群组中");
-                            return true;
-                        }
-                        id = result.getSource().first(At.Key).getTarget();
-
-                    } else {
-                        if (!Utils.isNumeric(arg1)) {
-                            msg.append("[用户]为无效数字");
-                            return true;
-                        }
-                        id = Long.parseLong(arg1);
-                    }
+                    long id = Utils.getId(arg1, result);
                     if (MPermission.addPermission(id, arg2)) {
                         msg.append("成功");
                     } else {
@@ -72,20 +51,7 @@ public class PermissionCommand implements CommandExecutor {
                 } else {
                     String arg1 = result.getArgs().get(1);
                     String arg2 = result.getArgs().get(2);
-                    long id = 0L;
-                    if (arg1.startsWith("@")) {
-                        if (!result.isGroup()) {
-                            msg.append("不在群组中");
-                            return true;
-                        }
-                        id = result.getSource().first(At.Key).getTarget();
-                    } else {
-                        if (!Utils.isNumeric(arg1)) {
-                            msg.append("[用户]为无效数字");
-                            return true;
-                        }
-                        id = Long.parseLong(arg1);
-                    }
+                    long id = Utils.getId(arg1, result);
                     if (MPermission.setGroup(id, arg2)) {
                         msg.append("成功");
                     } else {
@@ -97,20 +63,7 @@ public class PermissionCommand implements CommandExecutor {
                     msg.append("[用户]不可为空");
                 } else {
                     String arg1 = result.getArgs().get(1);
-                    long id = 0L;
-                    if (arg1.startsWith("@")) {
-                        if (!result.isGroup()) {
-                            msg.append("不在群组中");
-                            return true;
-                        }
-                        id = result.getSource().first(At.Key).getTarget();
-                    } else {
-                        if (!Utils.isNumeric(arg1)) {
-                            msg.append("[用户]为无效数字");
-                            return true;
-                        }
-                        id = Long.parseLong(arg1);
-                    }
+                    long id = Utils.getId(arg1, result);
                     if (MPermission.setOp(id)) {
                         msg.append("成功");
                     } else {
@@ -118,11 +71,38 @@ public class PermissionCommand implements CommandExecutor {
                     }
                 }
             } else if ("check".equals(arg0)) {
-
+                if (result.getArgs().size() < 2) {
+                    msg.append("[用户]或[权限]不可为空");
+                } else {
+                    String arg1 = result.getArgs().get(1);
+                    String arg2 = result.getArgs().get(2);
+                    long id = Utils.getId(arg1, result);
+                    if (MPermission.hasPermission(id, arg2)) {
+                        msg.append("用户拥有这个权限");
+                    } else {
+                        msg.append("用户不拥有这个权限");
+                    }
+                }
             } else if ("checkAll".equals(arg0)) {
-
+                if (result.getArgs().size() < 1) {
+                    msg.append("[用户]不可为空");
+                } else {
+                    msg.append("此用户拥有以下权限: ");
+                    String arg1 = result.getArgs().get(1);
+                    long id = Utils.getId(arg1, result);
+                    msg.append(Arrays.toString(MPermission.getAllPermission(id).toArray()).replace("[", "")
+                            .replace("]", "")
+                            .replace(",", "\n"));
+                }
             } else if ("checkGroup".equals(arg0)) {
-
+                if (result.getArgs().size() < 1) {
+                    msg.append("[用户]不可为空");
+                } else {
+                    msg.append("此用户在组 ");
+                    String arg1 = result.getArgs().get(1);
+                    long id = Utils.getId(arg1, result);
+                    msg.append(MPermission.getGroup(id));
+                }
             }
         }
         result.sendMessage(msg.toString());

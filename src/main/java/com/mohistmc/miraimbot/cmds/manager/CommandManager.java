@@ -154,12 +154,28 @@ public class CommandManager {
                 cr.setSender(sender);
                 cr.setSource(messages);
                 Command cmd = executor.getClass().getDeclaredAnnotation(Command.class);
-                if (cmd.onlyOp() && MPermission.isOp(sender)) {
-                    if (!executor.onCommand(cr)) {
-                        Utils.sendMessage(sender, "指令执行失败。用法：" + usages.get(label));
+                if (cmd.onlyOp()) {
+                    if (MPermission.isOp(sender)) {
+                        if (!executor.onCommand(cr)) {
+                            Utils.sendMessage(sender, "指令执行失败。用法：" + usages.get(label));
+                        }
+                    } else {
+                        Utils.sendMessage(sender, "指令只允许机器人管理员使用");
                     }
                 } else {
-                    Utils.sendMessage(sender, "指令只允许机器人管理员使用");
+                    if (!cmd.permission().equalsIgnoreCase("")) {
+                        if (MPermission.hasPermission(sender, cmd.permission())) {
+                            if (!executor.onCommand(cr)) {
+                                Utils.sendMessage(sender, "指令执行失败。用法：" + usages.get(label));
+                            }
+                        } else {
+                            Utils.sendMessage(sender, "权限不足");
+                        }
+                    } else {
+                        if (!executor.onCommand(cr)) {
+                            Utils.sendMessage(sender, "指令执行失败。用法：" + usages.get(label));
+                        }
+                    }
                 }
 
             } else {

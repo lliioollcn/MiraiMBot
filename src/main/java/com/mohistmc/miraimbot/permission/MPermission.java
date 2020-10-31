@@ -69,11 +69,15 @@ public class MPermission {
     }
 
     public static boolean hasPermission(User user, String permission) {
+        return hasPermission(user.getId(), permission);
+    }
+
+    public static boolean hasPermission(long user, String permission) {
         try {
-            if ((user instanceof ConsoleSender) || ops.contains(user.getId())) {
+            if ((user == ConsoleSender.INSTANCE.getId()) || ops.contains(user)) {
                 return true;
             }
-            File file = new File(usersDir, user.getId() + ".json");
+            File file = new File(usersDir, user + ".json");
             if (!file.exists()) {
                 MPermissionData data = (MPermissionData) groups.get("default");
                 if (data.getPermissions().contains(permission)) {
@@ -93,6 +97,33 @@ public class MPermission {
         } catch (Throwable e) {
             return false;
         }
+    }
+
+    public static List<String> getAllPermission(long user) {
+        List<String> pers = Lists.newArrayList();
+        try {
+            if ((user == ConsoleSender.INSTANCE.getId()) || ops.contains(user)) {
+                return pers;
+            }
+            File file = new File(usersDir, user + ".json");
+            if (!file.exists()) {
+                MPermissionData data = (MPermissionData) groups.get("default");
+                pers.addAll(data.getPermissions());
+            } else {
+                String jstr = FileUtil.readContent(oF, "UTF-8");
+                if (JSONObject.isValidObject(jstr)) {
+                    MUserPermissionData d = JSON.parseObject(jstr, MUserPermissionData.class);
+                    pers.addAll(d.getPermissions());
+                }
+            }
+            return pers;
+        } catch (Throwable e) {
+            return pers;
+        }
+    }
+
+    public static List<String> getAllPermission(User user) {
+        return getAllPermission(user.getId());
     }
 
     public static boolean addPermission(User user, String permission) {
@@ -197,4 +228,26 @@ public class MPermission {
     }
 
 
+    public static String getGroup(long user) {
+        try {
+            if ((user == ConsoleSender.INSTANCE.getId()) || ops.contains(user)) {
+                return "op";
+            }
+            File file = new File(usersDir, user + ".json");
+            if (file.exists()) {
+                String jstr = FileUtil.readContent(oF, "UTF-8");
+                if (JSONObject.isValidObject(jstr)) {
+                    MUserPermissionData d = JSON.parseObject(jstr, MUserPermissionData.class);
+                    return d.getGroup();
+                }
+            }
+            return "default";
+        } catch (Throwable e) {
+            return "default";
+        }
+    }
+
+    public static String getGroup(User user) {
+       return getGroup(user.getId());
+    }
 }
