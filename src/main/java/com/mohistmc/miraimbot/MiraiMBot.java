@@ -2,21 +2,25 @@ package com.mohistmc.miraimbot;
 
 import com.mohistmc.miraimbot.cmds.CmdListCommand;
 import com.mohistmc.miraimbot.cmds.LoginCommand;
+import com.mohistmc.miraimbot.cmds.PermissionCommand;
 import com.mohistmc.miraimbot.cmds.PluginCommand;
 import com.mohistmc.miraimbot.cmds.manager.CommandManager;
 import com.mohistmc.miraimbot.cmds.manager.ConsoleSender;
 import com.mohistmc.miraimbot.console.log4j.MiraiMBotLog;
 import com.mohistmc.miraimbot.events.ConsoleMessageEvent;
 import com.mohistmc.miraimbot.listeners.MainListener;
+import com.mohistmc.miraimbot.permission.MPermission;
 import com.mohistmc.miraimbot.plugin.PluginLoader;
 import com.mohistmc.miraimbot.plugin.PluginManager;
 import com.mohistmc.miraimbot.utils.JarUtils;
 import com.mohistmc.miraimbot.utils.Utils;
 import com.mohistmc.yaml.file.FileConfiguration;
 import com.mohistmc.yaml.file.YamlConfiguration;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
+
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.BotFactoryJvm;
 import net.mamoe.mirai.event.EventKt;
@@ -26,7 +30,7 @@ import net.mamoe.mirai.message.data.MessageUtils;
 
 public class MiraiMBot {
 
-    public static File file;
+    public static final File file = new File("config/MiraiMBot.yml");
     public static FileConfiguration yaml;
     public static Bot bot;
 
@@ -38,10 +42,9 @@ public class MiraiMBot {
             MiraiMBotLog.LOGGER.info("正在下载依赖： mirai-core-qqandroid-1.3.1");
             LibCheck.downloadFile();
         }
-        file = new File("config/MiraiMBot.yml");
         yaml = YamlConfiguration.loadConfiguration(file);
         if (!file.exists()) {
-            file.mkdir();
+            file.createNewFile();
             yaml.set("version", 0.1);
             yaml.set("qq", 0L);
             yaml.set("password", "");
@@ -52,15 +55,13 @@ public class MiraiMBot {
         new Thread(() -> {
             while (true) {
                 Scanner scanner = new Scanner(System.in);
-                if (scanner.hasNext()) {
-                    String cmd = scanner.next();
-                    MiraiMBotLog.LOGGER.info("console executor a command: " + cmd);
-                    MessageChain msg = MessageUtils.newChain(cmd);
-                    if (cmd.startsWith("login")) {
-                        CommandManager.call(msg, ConsoleSender.INSTANCE);
-                    }
-                    EventKt.broadcast(new ConsoleMessageEvent(msg));
+                String cmd = scanner.nextLine();
+                MiraiMBotLog.LOGGER.info("console executor a command: " + cmd);
+                MessageChain msg = MessageUtils.newChain(cmd);
+                if (cmd.startsWith("login")) {
+                    CommandManager.call(msg, ConsoleSender.INSTANCE);
                 }
+                EventKt.broadcast(new ConsoleMessageEvent(msg));
             }
         }).start();
         long qq = yaml.getLong("qq");
@@ -80,13 +81,16 @@ public class MiraiMBot {
         }
         JarUtils.scan("com.mohistmc.miraimbot.cmds");
         JarUtils.scan("com.mohistmc.miraimbot.listeners");
+        MPermission.init();
         CommandManager.register(new CmdListCommand());
         CommandManager.register(new PluginCommand());
+        CommandManager.register(new PermissionCommand());
         PluginManager.init();
         bot.login();
         Events.registerEvents(bot, new MainListener());
         PluginLoader.enablePlugins();
         CommandManager.init();
+        Runtime.getRuntime().addShutdownHook(new Thread(MPermission::saveAll));
         bot.join();
     }
 

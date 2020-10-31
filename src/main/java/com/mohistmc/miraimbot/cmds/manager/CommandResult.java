@@ -1,6 +1,8 @@
 package com.mohistmc.miraimbot.cmds.manager;
 
 import java.util.List;
+
+import com.mohistmc.miraimbot.utils.Utils;
 import lombok.Data;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.contact.Member;
@@ -36,10 +38,6 @@ public class CommandResult {
     }
 
     public void sendMessage(String message) {
-        if (isTroop()) {
-            ((Member) sender).getGroup().sendMessage(message);
-        } else {
-            sender.sendMessage(message);
-        }
+        Utils.sendMessage(sender, message);
     }
 }
