@@ -11,7 +11,7 @@ import net.mamoe.mirai.message.data.MessageChain;
 import org.jetbrains.annotations.NotNull;
 
 public class ConsoleMessageEvent extends MessageEvent {
-    private MessageChain message;
+    private final MessageChain message;
 
     public ConsoleMessageEvent(MessageChain msg) {
         this.message = msg;
@@ -41,6 +41,7 @@ public class ConsoleMessageEvent extends MessageEvent {
         return ConsoleSender.INSTANCE.getNick();
     }
 
+    @NotNull
     @Override
     public Contact getSubject() {
         return new Contact() {

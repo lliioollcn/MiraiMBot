@@ -5,9 +5,11 @@ import com.mohistmc.miraimbot.cmds.manager.CommandExecutor;
 import com.mohistmc.miraimbot.cmds.manager.CommandManager;
 import com.mohistmc.miraimbot.cmds.manager.CommandResult;
 import com.mohistmc.miraimbot.cmds.manager.annotations.Command;
-
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 @Command(name = "help", description = "查看指令列表", alias = {"?", "帮助"}, usage = "用于获取指令列表")
 public class CmdListCommand implements CommandExecutor {
@@ -21,12 +23,12 @@ public class CmdListCommand implements CommandExecutor {
             for (Command executor : cmds) {
                 if (!executor.show()) continue;
                 if (executor.name().equals(label)) {
-                    msg.append("名字: " + executor.name()).append("\n");
+                    msg.append("名字: ").append(executor.name()).append("\n");
                     List<String> authors = new ArrayList<>();
                     Collections.addAll(authors, executor.alias());
-                    msg.append("别称: " + authors.toString()).append("\n");
-                    msg.append("简介: " + executor.description()).append("\n");
-                    msg.append("用法: " + executor.usage()).append("\n");
+                    msg.append("别称: ").append(authors.toString()).append("\n");
+                    msg.append("简介: ").append(executor.description()).append("\n");
+                    msg.append("用法: ").append(executor.usage()).append("\n");
                 }
             }
         } else {
@@ -35,7 +37,7 @@ public class CmdListCommand implements CommandExecutor {
                 if (!cmd.show()) continue;
                 list.add(cmd.name());
             }
-            msg.append("======指令列表(" + list.size() + ")======").append("\n");
+            msg.append("======指令列表(").append(list.size()).append(")======").append("\n");
             msg.append(Arrays.toString(list.toArray()));
         }
         result.sendMessage(msg.toString());

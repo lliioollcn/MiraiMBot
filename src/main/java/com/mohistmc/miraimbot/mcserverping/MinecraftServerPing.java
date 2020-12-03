@@ -6,6 +6,9 @@
 
 package com.mohistmc.miraimbot.mcserverping;
 
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -13,10 +16,6 @@ import java.io.IOException;
 import java.lang.reflect.Modifier;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import javax.naming.NamingException;
 import javax.naming.directory.Attribute;
 import javax.naming.directory.InitialDirContext;

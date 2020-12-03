@@ -16,11 +16,9 @@ import com.mohistmc.miraimbot.utils.JarUtils;
 import com.mohistmc.miraimbot.utils.Utils;
 import com.mohistmc.yaml.file.FileConfiguration;
 import com.mohistmc.yaml.file.YamlConfiguration;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
-
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.BotFactoryJvm;
 import net.mamoe.mirai.event.EventKt;

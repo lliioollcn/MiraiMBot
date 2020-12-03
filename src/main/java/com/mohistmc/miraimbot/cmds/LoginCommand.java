@@ -24,7 +24,7 @@ public class LoginCommand implements CommandExecutor {
             } else {
                 MiraiMBot.bot = BotFactoryJvm.newBot(Long.parseLong(result.getArgs().get(0)), result.getArgs().get(1), Utils.defaultConfig());
                 if (!MiraiMBot.file.exists()) {
-                    MiraiMBot.file.createNewFile();
+                    MiraiMBot.file.mkdir();
                 }
                 MiraiMBot.yaml.set("qq", Long.parseLong(result.getArgs().get(0)));
                 MiraiMBot.yaml.set("password", result.getArgs().get(1));
