@@ -44,7 +44,7 @@ public class MiraiMBot {
         }
         yaml = YamlConfiguration.loadConfiguration(file);
         if (!file.exists()) {
-            file.createNewFile();
+            file.mkdirs();
             yaml.set("version", 0.1);
             yaml.set("qq", 0L);
             yaml.set("password", "");

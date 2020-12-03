@@ -36,16 +36,15 @@ public class MinecraftServerPing {
 		
 	public MinecraftServerPingInfos getPing(final MinecraftServerPingOptions options) throws IOException  {
 		MinecraftServerPingUtil.validate(options.getHostname(), "Hostname cannot be null");
-		MinecraftServerPingUtil.validate(options.getPort(), "Port cannot be null.");
 
-		final Socket socket = new Socket();
+        final Socket socket = new Socket();
 
         try {
             final Attribute host = new InitialDirContext().getAttributes("dns:/_Minecraft._tcp." + options.getHostname(), new String[] { "SRV" }).get("SRV");
             if (host != null) {
                 final String[] domain = host.toString().split(" ");
                 final String newip = domain[domain.length - 1].substring(0, domain[domain.length - 1].length() - 1);
-                final int newport = Integer.valueOf(domain[domain.length - 2]);
+                final int newport = Integer.parseInt(domain[domain.length - 2]);
                 options.setHostname(newip);
                 options.setPort(newport);
             }
