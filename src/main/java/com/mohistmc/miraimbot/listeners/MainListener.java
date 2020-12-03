@@ -4,7 +4,6 @@ import com.mohistmc.miraimbot.cmds.manager.CommandManager;
 import com.mohistmc.miraimbot.cmds.manager.ConsoleSender;
 import com.mohistmc.miraimbot.events.ConsoleMessageEvent;
 import com.mohistmc.miraimbot.utils.LogUtil;
-import java.io.IOException;
 import kotlin.coroutines.CoroutineContext;
 import net.mamoe.mirai.event.EventHandler;
 import net.mamoe.mirai.event.Listener;
@@ -14,8 +13,9 @@ import net.mamoe.mirai.message.GroupMessageEvent;
 import org.jetbrains.annotations.NotNull;
 
 public class MainListener extends SimpleListenerHost {
+
     @EventHandler(priority = Listener.EventPriority.HIGHEST)
-    public ListeningStatus onGroupMessage(GroupMessageEvent event) throws IOException {
+    public ListeningStatus onGroupMessage(GroupMessageEvent event) {
         String content = event.getMessage().contentToString();
         if (content.startsWith(LogUtil.command)) {
             CommandManager.call(event.getMessage(), event.getSender());

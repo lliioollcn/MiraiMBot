@@ -38,10 +38,6 @@ public class MiraiMBot {
         if (System.getProperty("log4j.configurationFile") == null) {
             System.setProperty("log4j.configurationFile", "log4j2.xml");
         }
-        if (!LibCheck.hasQQAndroid()) {
-            MiraiMBotLog.LOGGER.info("正在下载依赖： mirai-core-qqandroid-1.3.1");
-            LibCheck.downloadFile();
-        }
         yaml = YamlConfiguration.loadConfiguration(file);
         if (!file.exists()) {
             file.mkdir();
