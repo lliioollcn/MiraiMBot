@@ -77,12 +77,12 @@ public class PluginLoader extends URLClassLoader {
         InputStream is = ze != null ? jarFile.getInputStream(ze) : null;
         if (is != null) {
             YamlConfiguration yml = YamlConfiguration.loadConfiguration(new InputStreamReader(is));
-            String mainClass = yml.getString("MainClass", null);
+            String mainClass = yml.getString("main", null);
             if (mainClass != null) {
 
                 PluginClassLoader.allPluginClasses.addAll(JarUtils.scanClasses(jarFile.entries(), PluginClassLoader.allPluginClasses, mainClass, this, true));
             } else {
-                System.err.println("plugin.yml丢失MainClass");
+                System.err.println("plugin.yml丢失main");
             }
         } else {
             System.err.println("插件丢失plugin.yml文件");

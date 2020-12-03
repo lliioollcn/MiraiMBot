@@ -30,7 +30,7 @@ import net.mamoe.mirai.message.data.MessageUtils;
 
 public class MiraiMBot {
 
-    public static final File file = new File("config/MiraiMBot.yml");
+    public static final File file = new File("config", "MiraiMBot.yml");
     public static FileConfiguration yaml;
     public static Bot bot;
 
@@ -44,7 +44,7 @@ public class MiraiMBot {
         }
         yaml = YamlConfiguration.loadConfiguration(file);
         if (!file.exists()) {
-            file.mkdirs();
+            file.mkdir();
             yaml.set("version", 0.1);
             yaml.set("qq", 0L);
             yaml.set("password", "");
