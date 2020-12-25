@@ -30,12 +30,16 @@ public class MohistPlugin {
         Events.registerEvents(MiraiMBot.bot, listenerHost);
     }
 
-    public void registerCommands(CommandExecutor newInstance) {
-        CommandManager.register(newInstance);
+    public void registerCommands(CommandExecutor... newInstance) {
+        CommandManager.registers(newInstance);
     }
 
     public void sendGroupMessage(Long group, String msg) {
         MiraiMBot.bot.getGroup(group).sendMessage(msg);
+    }
+
+    public void sendFriendMessage(Long firend, String msg) {
+        MiraiMBot.bot.getFriend(firend).sendMessage(msg);
     }
 
 }

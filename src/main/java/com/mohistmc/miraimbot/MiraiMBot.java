@@ -1,13 +1,10 @@
 package com.mohistmc.miraimbot;
 
 import com.mohistmc.miraimbot.cmds.CmdListCommand;
-import com.mohistmc.miraimbot.cmds.LoginCommand;
 import com.mohistmc.miraimbot.cmds.PermissionCommand;
 import com.mohistmc.miraimbot.cmds.PluginCommand;
 import com.mohistmc.miraimbot.cmds.manager.CommandManager;
-import com.mohistmc.miraimbot.cmds.manager.ConsoleSender;
 import com.mohistmc.miraimbot.console.log4j.MiraiMBotLog;
-import com.mohistmc.miraimbot.events.ConsoleMessageEvent;
 import com.mohistmc.miraimbot.listeners.MainListener;
 import com.mohistmc.miraimbot.permission.MPermission;
 import com.mohistmc.miraimbot.plugin.PluginLoader;
@@ -16,15 +13,12 @@ import com.mohistmc.miraimbot.utils.JarUtils;
 import com.mohistmc.miraimbot.utils.Utils;
 import com.mohistmc.yaml.file.FileConfiguration;
 import com.mohistmc.yaml.file.YamlConfiguration;
+import net.mamoe.mirai.Bot;
+import net.mamoe.mirai.BotFactory;
+import net.mamoe.mirai.event.Events;
+
 import java.io.File;
 import java.io.IOException;
-import java.util.Scanner;
-import net.mamoe.mirai.Bot;
-import net.mamoe.mirai.BotFactoryJvm;
-import net.mamoe.mirai.event.EventKt;
-import net.mamoe.mirai.event.Events;
-import net.mamoe.mirai.message.data.MessageChain;
-import net.mamoe.mirai.message.data.MessageUtils;
 
 public class MiraiMBot {
 
@@ -36,6 +30,7 @@ public class MiraiMBot {
         if (System.getProperty("log4j.configurationFile") == null) {
             System.setProperty("log4j.configurationFile", "log4j2.xml");
         }
+        //System.setProperty("mirai.no-desktop", "true");
         yaml = YamlConfiguration.loadConfiguration(file);
         if (!file.exists()) {
             file.mkdir();
@@ -45,19 +40,22 @@ public class MiraiMBot {
             yaml.save(file);
         }
 
+        /*
         CommandManager.register(new LoginCommand());
         new Thread(() -> {
             while (true) {
                 Scanner scanner = new Scanner(System.in);
                 String cmd = scanner.nextLine();
                 MiraiMBotLog.LOGGER.info("console executor a command: " + cmd);
-                MessageChain msg = MessageUtils.newChain(cmd);
+                MessageChain msg = MessageUtils.newChain(new PlainText(cmd));
                 if (cmd.startsWith("login")) {
                     CommandManager.call(msg, ConsoleSender.INSTANCE);
                 }
                 EventKt.broadcast(new ConsoleMessageEvent(msg));
             }
         }).start();
+
+         */
         long qq = yaml.getLong("qq");
         String pass = yaml.getString("password");
 
@@ -71,7 +69,8 @@ public class MiraiMBot {
                 }
             }
         } else {
-            bot = BotFactoryJvm.newBot(Long.valueOf(yaml.getString("qq")).longValue(), yaml.getString("password"), Utils.defaultConfig());
+            bot = BotFactory.INSTANCE.newBot(Long.valueOf(yaml.getString("qq")).longValue(), yaml.getString("password"), Utils.defaultConfig());
+
         }
         JarUtils.scan("com.mohistmc.miraimbot.cmds");
         JarUtils.scan("com.mohistmc.miraimbot.listeners");

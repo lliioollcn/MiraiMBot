@@ -6,11 +6,12 @@ import lombok.Data;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.contact.Member;
 import net.mamoe.mirai.contact.User;
+import net.mamoe.mirai.contact.UserOrBot;
 import net.mamoe.mirai.message.data.MessageChain;
 
 @Data
 public class CommandResult {
-    public User sender;
+    public UserOrBot sender;
     public List<String> args;
     public MessageChain source;
 

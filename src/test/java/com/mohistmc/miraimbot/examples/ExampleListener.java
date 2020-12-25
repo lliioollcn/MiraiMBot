@@ -4,7 +4,7 @@ package com.mohistmc.miraimbot.examples;
 import net.mamoe.mirai.event.EventHandler;
 import net.mamoe.mirai.event.ListeningStatus;
 import net.mamoe.mirai.event.SimpleListenerHost;
-import net.mamoe.mirai.message.GroupMessageEvent;
+import net.mamoe.mirai.event.events.GroupMessageEvent;
 
 public class ExampleListener extends SimpleListenerHost {
 

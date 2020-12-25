@@ -2,15 +2,13 @@ package com.mohistmc.miraimbot.events;
 
 import com.mohistmc.miraimbot.MiraiMBot;
 import com.mohistmc.miraimbot.cmds.manager.ConsoleSender;
-import kotlin.coroutines.CoroutineContext;
 import net.mamoe.mirai.Bot;
-import net.mamoe.mirai.contact.Contact;
-import net.mamoe.mirai.contact.User;
-import net.mamoe.mirai.message.MessageEvent;
+import net.mamoe.mirai.contact.UserOrBot;
+import net.mamoe.mirai.event.AbstractEvent;
 import net.mamoe.mirai.message.data.MessageChain;
 import org.jetbrains.annotations.NotNull;
 
-public class ConsoleMessageEvent extends MessageEvent {
+public class ConsoleMessageEvent extends AbstractEvent {
     private final MessageChain message;
 
     public ConsoleMessageEvent(MessageChain msg) {
@@ -18,60 +16,32 @@ public class ConsoleMessageEvent extends MessageEvent {
     }
 
     @NotNull
-    @Override
     public Bot getBot() {
         return MiraiMBot.bot;
     }
 
     @NotNull
-    @Override
     public MessageChain getMessage() {
         return this.message;
     }
 
     @NotNull
-    @Override
-    public User getSender() {
+    public UserOrBot getSender() {
         return ConsoleSender.INSTANCE;
     }
 
     @NotNull
-    @Override
     public String getSenderName() {
-        return ConsoleSender.INSTANCE.getNick();
+        return "ConsoleSender";
     }
 
-    @NotNull
+
+
     @Override
-    public Contact getSubject() {
-        return new Contact() {
-            @NotNull
-            @Override
-            public Bot getBot() {
-                return MiraiMBot.bot;
-            }
-
-            @Override
-            public long getId() {
-                return ConsoleSender.INSTANCE.getId();
-            }
-
-            @NotNull
-            @Override
-            public String toString() {
-                return "Console";
-            }
-
-            @NotNull
-            @Override
-            public CoroutineContext getCoroutineContext() {
-                return getBot().getCoroutineContext();
-            }
-        };
+    public boolean isIntercepted() {
+        return false;
     }
 
     @Override
-    public int getTime() {
-        return (int) (System.currentTimeMillis() / 1000);
-    }
+    public void intercept() {}
 }

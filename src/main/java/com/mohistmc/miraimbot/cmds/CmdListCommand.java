@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import com.mohistmc.miraimbot.cmds.manager.CommandExecutor;
 import com.mohistmc.miraimbot.cmds.manager.CommandManager;
 import com.mohistmc.miraimbot.cmds.manager.CommandResult;
-import com.mohistmc.miraimbot.cmds.manager.annotations.Command;
+import com.mohistmc.miraimbot.annotations.Command;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;

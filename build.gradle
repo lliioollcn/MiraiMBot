@@ -1,6 +1,16 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url 'https://plugins.gradle.org/m2/' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+    }
+}
 plugins {
     id 'java'
     id 'com.github.johnrengelman.shadow' version '5.2.0'
+    id 'org.jetbrains.kotlin.jvm' version '1.4.21'
 }
 
 group = 'com.mohistmc'
@@ -10,10 +20,7 @@ repositories {
     mavenLocal()
     mavenCentral()
     maven { url 'https://maven.aliyun.com/repository/public' }
-    maven { url 'https://maven.aliyun.com/repository/central' }
     maven { url 'https://maven.aliyun.com/repository/jcenter' }
-    maven { url 'https://maven.aliyun.com/repository/google' }
-    maven { url 'https://mvnrepository.com/artifact' }
     maven { url 'https://raw.githubusercontent.com/Mohist-Community/Mohist-Maven/master/maven' }
     maven { url 'https://hub.spigotmc.org/nexus/content/groups/public' }
 }
@@ -25,13 +32,10 @@ dependencies {
     compile 'com.alibaba:fastjson:1.2.59'
     compile 'org.projectlombok:lombok:1.18.8'
     annotationProcessor 'org.projectlombok:lombok:1.18.8'
+    compile 'net.mamoe:mirai-core:2.0-M2-dev-4'
     compile 'com.google.guava:guava:21.0'
     compile 'com.google.code.gson:gson:2.8.6'
-    compile "net.mamoe:mirai-core:1.3.3"
-    compile "net.mamoe:mirai-core-qqandroid:1.3.3"
-    compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9"
-    compile "org.jetbrains.kotlin:kotlin-stdlib:1.4.10"
-    compile "org.jetbrains.kotlinx:kotlinx-serialization-core:1.0.0-RC"
+    compile 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4.20'
     compile "com.mohistmc.yaml:Yaml:0.1"
     compile 'org.apache.logging.log4j:log4j-api:2.13.3'
     compile 'org.apache.logging.log4j:log4j-core:2.13.3'
@@ -45,7 +49,7 @@ targetCompatibility = JavaVersion.VERSION_1_8
 
 jar {
     from {
-        configurations.runtime.collect{zipTree(it)}
+        configurations.runtime.collect { zipTree(it) }
     }
 }
 
