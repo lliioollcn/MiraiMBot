@@ -2,19 +2,26 @@ package com.mohistmc.miraimbot.cmds.manager;
 
 import com.mohistmc.miraimbot.MiraiMBot;
 import com.mohistmc.miraimbot.console.log4j.MiraiMBotLog;
-import java.util.concurrent.Future;
+
+import kotlin.coroutines.Continuation;
 import kotlin.coroutines.CoroutineContext;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.contact.Contact;
 import net.mamoe.mirai.contact.User;
+import net.mamoe.mirai.contact.UserOrBot;
 import net.mamoe.mirai.event.events.EventCancelledException;
 import net.mamoe.mirai.message.MessageReceipt;
 import net.mamoe.mirai.message.action.Nudge;
+import net.mamoe.mirai.message.action.UserNudge;
+import net.mamoe.mirai.message.data.Image;
 import net.mamoe.mirai.message.data.Message;
 import net.mamoe.mirai.message.data.MessageUtils;
+import net.mamoe.mirai.message.data.PlainText;
+import net.mamoe.mirai.utils.ExternalImage;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-public class ConsoleSender extends User {
+public class ConsoleSender implements UserOrBot {
     public static final ConsoleSender INSTANCE = new ConsoleSender();
 
     @Override
@@ -22,23 +29,6 @@ public class ConsoleSender extends User {
         return 666666;
     }
 
-    @NotNull
-    @Override
-    public String getNick() {
-        return "ConsoleSender";
-    }
-
-    @NotNull
-    @Override
-    public Nudge nudge() {
-        return MiraiMBot.bot.nudge();
-    }
-
-    @NotNull
-    @Override
-    public String toString() {
-        return getNick();
-    }
 
     @NotNull
     @Override
@@ -53,7 +43,6 @@ public class ConsoleSender extends User {
     }
 
     @NotNull
-    @Override
     public MessageReceipt<Contact> sendMessage(@NotNull Message message) throws EventCancelledException, IllegalStateException {
         MiraiMBotLog.LOGGER.info(message.contentToString());
         // return super.sendMessage(message);
@@ -61,28 +50,22 @@ public class ConsoleSender extends User {
     }
 
     @NotNull
-    @Override
     public MessageReceipt<Contact> sendMessage(@NotNull String message) throws EventCancelledException, IllegalStateException {
-        return sendMessage(MessageUtils.newChain(message));
+        return sendMessage(MessageUtils.newChain(new PlainText(message)));
     }
 
-    @NotNull
-    @Override
-    public Future<MessageReceipt<Contact>> sendMessageAsync(@NotNull Message message) {
-        MiraiMBotLog.LOGGER.info(message.contentToString());
-        // return sendMessage(MessageUtils.newChain(message));
-        return null;
-    }
-
-    @NotNull
-    @Override
-    public Future<MessageReceipt<Contact>> sendMessageAsync(@NotNull String message) {
-        return sendMessageAsync(MessageUtils.newChain(message));
-    }
 
     @NotNull
     @Override
     public String getAvatarUrl() {
         return "";
     }
+
+
+    @NotNull
+    @Override
+    public UserNudge nudge() {
+        return null;
+    }
+
 }

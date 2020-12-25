@@ -21,6 +21,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import lombok.SneakyThrows;
 import net.mamoe.mirai.contact.User;
+import net.mamoe.mirai.contact.UserOrBot;
 import net.mamoe.mirai.message.data.MessageChain;
 
 public class CommandManager {
@@ -111,7 +112,7 @@ public class CommandManager {
      * @param messages 原消息
      * @param sender   发送者
      */
-    public static void call(MessageChain messages, User sender) {
+    public static void call(MessageChain messages, UserOrBot sender) {
         if (System.currentTimeMillis() - last < 3000) {
             Utils.sendMessage(sender, "指令发送太快了哦");
         } else {
@@ -129,7 +130,7 @@ public class CommandManager {
      * @param sender   发送者
      */
     @SneakyThrows
-    private static void callA(MessageChain messages, User sender) {
+    private static void callA(MessageChain messages, UserOrBot sender) {
         String msg = messages.contentToString().replaceFirst(LogUtil.command, "");// 获得带有mirai码的字符串，让用户自己解析。
         while (true) {
             if (!msg.contains("  ")) {

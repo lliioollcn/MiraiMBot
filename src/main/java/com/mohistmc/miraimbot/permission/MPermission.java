@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.SneakyThrows;
-import net.mamoe.mirai.contact.User;
+import net.mamoe.mirai.contact.UserOrBot;
 
 /**
  * *************************************
@@ -69,7 +69,7 @@ public class MPermission {
         reloadAll();
     }
 
-    public static boolean hasPermission(User user, String permission) {
+    public static boolean hasPermission(UserOrBot user, String permission) {
         return hasPermission(user.getId(), permission);
     }
 
@@ -118,11 +118,11 @@ public class MPermission {
         }
     }
 
-    public static List<String> getAllPermission(User user) {
+    public static List<String> getAllPermission(UserOrBot user) {
         return getAllPermission(user.getId());
     }
 
-    public static boolean addPermission(User user, String permission) {
+    public static boolean addPermission(UserOrBot user, String permission) {
         return addPermission(user.getId(), permission);
     }
 
@@ -149,7 +149,7 @@ public class MPermission {
         }
     }
 
-    public static boolean setGroup(User user, String group) {
+    public static boolean setGroup(UserOrBot user, String group) {
         return setGroup(user.getId(), group);
     }
 
@@ -174,7 +174,7 @@ public class MPermission {
         }
     }
 
-    public static boolean setOp(User user) {
+    public static boolean setOp(UserOrBot user) {
         return setOp(user.getId());
     }
 
@@ -191,7 +191,7 @@ public class MPermission {
         }
     }
 
-    public static boolean isOp(User user) {
+    public static boolean isOp(UserOrBot user) {
         try {
             if ((user instanceof ConsoleSender) || ops.contains(user.getId())) {
                 return true;
@@ -245,7 +245,7 @@ public class MPermission {
         }
     }
 
-    public static String getGroup(User user) {
+    public static String getGroup(UserOrBot user) {
        return getGroup(user.getId());
     }
 }
