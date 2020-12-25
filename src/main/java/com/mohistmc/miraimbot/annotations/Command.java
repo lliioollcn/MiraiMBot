@@ -1,4 +1,4 @@
-package com.mohistmc.miraimbot.cmds.manager.annotations;
+package com.mohistmc.miraimbot.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

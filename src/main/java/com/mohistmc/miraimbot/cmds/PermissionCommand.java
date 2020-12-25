@@ -2,7 +2,7 @@ package com.mohistmc.miraimbot.cmds;
 
 import com.mohistmc.miraimbot.cmds.manager.CommandExecutor;
 import com.mohistmc.miraimbot.cmds.manager.CommandResult;
-import com.mohistmc.miraimbot.cmds.manager.annotations.Command;
+import com.mohistmc.miraimbot.annotations.Command;
 import com.mohistmc.miraimbot.permission.MPermission;
 import com.mohistmc.miraimbot.utils.Utils;
 import java.util.Arrays;

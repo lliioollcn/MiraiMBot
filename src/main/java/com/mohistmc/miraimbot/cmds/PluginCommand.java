@@ -2,8 +2,8 @@ package com.mohistmc.miraimbot.cmds;
 
 import com.mohistmc.miraimbot.cmds.manager.CommandExecutor;
 import com.mohistmc.miraimbot.cmds.manager.CommandResult;
-import com.mohistmc.miraimbot.cmds.manager.annotations.Command;
-import com.mohistmc.miraimbot.plugin.Plugin;
+import com.mohistmc.miraimbot.annotations.Command;
+import com.mohistmc.miraimbot.annotations.Plugin;
 import com.mohistmc.miraimbot.plugin.PluginLoader;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,8 +21,8 @@ public class PluginCommand implements CommandExecutor {
         if (result.getArgs().size() == 1) {
             msg.append("======插件信息======").append("\n");
             for (Plugin executor : plugin_map) {
-                if (executor.name().equals(result.getArgs().get(0))) {
-                    msg.append("名字: ").append(executor.name()).append("\n");
+                if (executor.value().equals(result.getArgs().get(0))) {
+                    msg.append("名字: ").append(executor.value()).append("\n");
                     msg.append("版本: ").append(executor.version()).append("\n");
                     List<String> authors = new ArrayList<>();
                     Collections.addAll(authors, executor.authors());
@@ -32,7 +32,7 @@ public class PluginCommand implements CommandExecutor {
             }
         } else {
             msg.append("======插件列表(").append(plugin_map.size()).append(")======").append("\n");
-            List<String> pl = plugin_map.stream().map(Plugin::name).collect(Collectors.toList());
+            List<String> pl = plugin_map.stream().map(Plugin::value).collect(Collectors.toList());
             msg.append(pl.toString());
         }
         result.sendMessage(msg.toString());

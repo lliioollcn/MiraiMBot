@@ -1,9 +1,10 @@
 package com.mohistmc.miraimbot.plugin;
 
 import com.google.common.collect.Sets;
+import com.mohistmc.miraimbot.annotations.Plugin;
 import com.mohistmc.miraimbot.console.log4j.MiraiMBotLog;
-import com.mohistmc.miraimbot.utils.JarUtils;
 import com.mohistmc.yaml.file.YamlConfiguration;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,6 +12,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
@@ -33,14 +35,14 @@ public class PluginLoader extends URLClassLoader {
     public static void initPlugin(Class<?> clazz) {
         if (clazz.getSuperclass() == MohistPlugin.class && clazz.getDeclaredAnnotation(Plugin.class) != null) {
             Plugin plugin = clazz.getAnnotation(Plugin.class);
-            MiraiMBotLog.LOGGER.info("Loading plugin " + plugin.name() + " by " + (Arrays.toString(plugin.authors()))
+            MiraiMBotLog.LOGGER.info("Loading plugin " + plugin.value() + " by " + (Arrays.toString(plugin.authors()))
                     .replace("[", "")
                     .replace("]", ""));
             try {
                 plugins.add((MohistPlugin) clazz.newInstance());
                 plugin_map.add(plugin);
             } catch (InstantiationException | IllegalAccessException e) {
-                System.err.println("Loading plugin " + plugin.name() + " by " + (Arrays.toString(plugin.authors()))
+                System.err.println("Loading plugin " + plugin.value() + " by " + (Arrays.toString(plugin.authors()))
                         .replace("[", "")
                         .replace("]", "") + " throw an error, it update to data?");
                 e.printStackTrace();
@@ -68,7 +70,7 @@ public class PluginLoader extends URLClassLoader {
     }
 
 
-    public void loadPlugin(File file) throws IOException {
+    public void loadPlugin(File file) throws IOException, ClassNotFoundException {
         String url = "jar:file:///" + file.getAbsolutePath() + "!/";
         this.addURL(new URL(url));
         MiraiMBotLog.Debug(url);
@@ -77,10 +79,12 @@ public class PluginLoader extends URLClassLoader {
         InputStream is = ze != null ? jarFile.getInputStream(ze) : null;
         if (is != null) {
             YamlConfiguration yml = YamlConfiguration.loadConfiguration(new InputStreamReader(is));
-            String mainClass = yml.getString("main", null);
-            if (mainClass != null) {
-
-                PluginClassLoader.allPluginClasses.addAll(JarUtils.scanClasses(jarFile.entries(), PluginClassLoader.allPluginClasses, mainClass, this, true));
+            String main = yml.getString("main", null);
+            List<String> authors = yml.getStringList("author");
+            String version = yml.getString("version", "none");
+            String description = yml.getString("description", "none");
+            if (main != null) {
+                PluginClassLoader.INSTANCE.loadClass(main);
             } else {
                 System.err.println("plugin.yml丢失main");
             }

@@ -5,7 +5,7 @@ import com.mohistmc.miraimbot.MiraiMBot;
 import com.mohistmc.miraimbot.cmds.manager.CommandExecutor;
 import com.mohistmc.miraimbot.cmds.manager.CommandResult;
 import com.mohistmc.miraimbot.cmds.manager.ConsoleSender;
-import com.mohistmc.miraimbot.cmds.manager.annotations.Command;
+import com.mohistmc.miraimbot.annotations.Command;
 import com.mohistmc.miraimbot.utils.Utils;
 import lombok.SneakyThrows;
 import net.mamoe.mirai.BotFactory;

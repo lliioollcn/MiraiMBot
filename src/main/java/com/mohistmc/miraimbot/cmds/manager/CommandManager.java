@@ -2,28 +2,25 @@ package com.mohistmc.miraimbot.cmds.manager;
 
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import com.mohistmc.miraimbot.cmds.manager.annotations.Command;
+import com.mohistmc.miraimbot.annotations.Command;
 import com.mohistmc.miraimbot.console.log4j.MiraiMBotLog;
 import com.mohistmc.miraimbot.permission.MPermission;
 import com.mohistmc.miraimbot.plugin.PluginClassLoader;
 import com.mohistmc.miraimbot.utils.LogUtil;
 import com.mohistmc.miraimbot.utils.Utils;
+import lombok.Data;
+import lombok.SneakyThrows;
+import net.mamoe.mirai.contact.UserOrBot;
+import net.mamoe.mirai.message.data.MessageChain;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-import lombok.SneakyThrows;
-import net.mamoe.mirai.contact.User;
-import net.mamoe.mirai.contact.UserOrBot;
-import net.mamoe.mirai.message.data.MessageChain;
+import java.util.concurrent.*;
 
+@Data
 public class CommandManager {
 
     private static final ExecutorService CMDS = new ThreadPoolExecutor(2, 20,
