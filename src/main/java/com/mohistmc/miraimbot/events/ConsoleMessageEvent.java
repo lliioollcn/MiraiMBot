@@ -43,7 +43,5 @@ public class ConsoleMessageEvent extends AbstractEvent {
     }
 
     @Override
-    public void intercept() {
-
-    }
+    public void intercept() {}
 }

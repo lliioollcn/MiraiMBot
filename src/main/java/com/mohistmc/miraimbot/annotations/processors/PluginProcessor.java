@@ -2,11 +2,6 @@ package com.mohistmc.miraimbot.annotations.processors;
 
 import com.mohistmc.miraimbot.annotations.Plugin;
 import com.mohistmc.yaml.file.YamlConfiguration;
-import com.sun.tools.javac.api.JavacTrees;
-import com.sun.tools.javac.processing.JavacProcessingEnvironment;
-import com.sun.tools.javac.tree.TreeMaker;
-import com.sun.tools.javac.util.Context;
-import com.sun.tools.javac.util.Names;
 
 import javax.annotation.processing.*;
 import javax.lang.model.SourceVersion;
@@ -22,10 +17,6 @@ import java.util.Set;
 @SupportedAnnotationTypes("com.mohistmc.miraimbot.annotations.Plugin")
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 public class PluginProcessor extends AbstractProcessor {
-    private Messager messager;
-    private JavacTrees trees;
-    private TreeMaker treeMaker;
-    private Names names;
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
@@ -34,32 +25,20 @@ public class PluginProcessor extends AbstractProcessor {
         }
         System.out.println("Init...");
         super.init(processingEnv);
-        this.messager = processingEnv.getMessager();
-        this.trees = JavacTrees.instance(processingEnv);
-        Context context = ((JavacProcessingEnvironment) processingEnv).getContext();
-        this.treeMaker = TreeMaker.instance(context);
-        this.names = Names.instance(context);
     }
 
     @Override
     public synchronized boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         Set<? extends Element> clazz = roundEnv.getElementsAnnotatedWith(Plugin.class);
         if (clazz.size() > 1) {
-            try {
-                throw new RuntimeException("More than one plugin");
-            } catch (RuntimeException e) {
-                e.printStackTrace();
-            }
+            System.out.println("More than one plugin");
+            return true;
         }
         clazz.forEach(element -> {
             System.out.println("Processing plugin " + element);
             Plugin plugin = element.getAnnotation(Plugin.class);
             if (plugin == null) {
-                try {
-                    throw new RuntimeException("Has not annotation at " + element);
-                } catch (RuntimeException e) {
-                    e.printStackTrace();
-                }
+                System.out.println("Has not annotation at " + element);
             } else {
                 System.out.println("Authors: " + Arrays.toString(plugin.authors()));
                 System.out.println("Name: " + plugin.value());

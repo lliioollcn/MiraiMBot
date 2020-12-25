@@ -12,7 +12,6 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
@@ -80,9 +79,9 @@ public class PluginLoader extends URLClassLoader {
         if (is != null) {
             YamlConfiguration yml = YamlConfiguration.loadConfiguration(new InputStreamReader(is));
             String main = yml.getString("main", null);
-            List<String> authors = yml.getStringList("author");
-            String version = yml.getString("version", "none");
-            String description = yml.getString("description", "none");
+            //List<String> authors = yml.getStringList("author");
+            //String version = yml.getString("version", "none");
+            //String description = yml.getString("description", "none");
             if (main != null) {
                 PluginClassLoader.INSTANCE.loadClass(main);
             } else {
