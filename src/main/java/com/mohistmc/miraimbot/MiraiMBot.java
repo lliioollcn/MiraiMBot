@@ -1,13 +1,10 @@
 package com.mohistmc.miraimbot;
 
 import com.mohistmc.miraimbot.cmds.CmdListCommand;
-import com.mohistmc.miraimbot.cmds.LoginCommand;
 import com.mohistmc.miraimbot.cmds.PermissionCommand;
 import com.mohistmc.miraimbot.cmds.PluginCommand;
 import com.mohistmc.miraimbot.cmds.manager.CommandManager;
-import com.mohistmc.miraimbot.cmds.manager.ConsoleSender;
 import com.mohistmc.miraimbot.console.log4j.MiraiMBotLog;
-import com.mohistmc.miraimbot.events.ConsoleMessageEvent;
 import com.mohistmc.miraimbot.listeners.MainListener;
 import com.mohistmc.miraimbot.permission.MPermission;
 import com.mohistmc.miraimbot.plugin.PluginLoader;
@@ -16,16 +13,12 @@ import com.mohistmc.miraimbot.utils.JarUtils;
 import com.mohistmc.miraimbot.utils.Utils;
 import com.mohistmc.yaml.file.FileConfiguration;
 import com.mohistmc.yaml.file.YamlConfiguration;
-import java.io.File;
-import java.io.IOException;
-import java.util.Scanner;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.BotFactory;
-import net.mamoe.mirai.event.EventKt;
 import net.mamoe.mirai.event.Events;
-import net.mamoe.mirai.message.data.MessageChain;
-import net.mamoe.mirai.message.data.MessageUtils;
-import net.mamoe.mirai.message.data.PlainText;
+
+import java.io.File;
+import java.io.IOException;
 
 public class MiraiMBot {
 
