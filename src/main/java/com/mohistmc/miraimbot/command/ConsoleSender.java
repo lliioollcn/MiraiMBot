@@ -1,7 +1,6 @@
-package com.mohistmc.miraimbot.cmds.manager;
+package com.mohistmc.miraimbot.command;
 
 import com.mohistmc.miraimbot.MiraiMBot;
-import com.mohistmc.miraimbot.console.log4j.MiraiMBotLog;
 import kotlin.coroutines.CoroutineContext;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.contact.Contact;
@@ -12,9 +11,12 @@ import net.mamoe.mirai.message.action.UserNudge;
 import net.mamoe.mirai.message.data.Message;
 import net.mamoe.mirai.message.data.MessageUtils;
 import net.mamoe.mirai.message.data.PlainText;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 public class ConsoleSender implements UserOrBot {
+    private static final Logger log = LogManager.getLogger("Console");
     public static final ConsoleSender INSTANCE = new ConsoleSender();
 
     @Override
@@ -26,18 +28,18 @@ public class ConsoleSender implements UserOrBot {
     @NotNull
     @Override
     public Bot getBot() {
-        return MiraiMBot.bot;
+        return MiraiMBot.instance;
     }
 
     @NotNull
     @Override
     public CoroutineContext getCoroutineContext() {
-        return MiraiMBot.bot.getCoroutineContext();
+        return MiraiMBot.instance.getCoroutineContext();
     }
 
     @NotNull
     public MessageReceipt<Contact> sendMessage(@NotNull Message message) throws EventCancelledException, IllegalStateException {
-        MiraiMBotLog.LOGGER.info(message.contentToString());
+        log.info(message.contentToString());
         // return super.sendMessage(message);
         return null;
     }

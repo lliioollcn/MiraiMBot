@@ -1,28 +1,24 @@
-package com.mohistmc.miraimbot.cmds.manager;
+package com.mohistmc.miraimbot.command;
 
 import com.mohistmc.miraimbot.utils.Utils;
+
 import java.util.List;
+
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.contact.Member;
-import net.mamoe.mirai.contact.User;
 import net.mamoe.mirai.contact.UserOrBot;
 import net.mamoe.mirai.message.data.MessageChain;
 
+@EqualsAndHashCode(callSuper = false)
 @Data
-public class CommandResult {
+public class CommandResult extends Utils {
     public UserOrBot sender;
     public List<String> args;
     public MessageChain source;
+    public CharSequence label;
 
-    /**
-     * 判断当前指令是否来自群组
-     *
-     * @return
-     */
-    public boolean isTroop() {
-        return isGroup();
-    }
 
     /**
      * 判断当前指令是否来自群组
@@ -34,10 +30,7 @@ public class CommandResult {
     }
 
     public Group getGroupOrNull() {
-        return isTroop() ? ((Member) sender).getGroup() : null;
+        return isGroup() ? ((Member) sender).getGroup() : null;
     }
 
-    public void sendMessage(String message) {
-        Utils.sendMessage(sender, message);
-    }
 }

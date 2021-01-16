@@ -1,40 +1,29 @@
 package com.mohistmc.miraimbot.utils;
 
-import com.mohistmc.miraimbot.cmds.manager.CommandResult;
-import com.mohistmc.miraimbot.cmds.manager.ConsoleSender;
-import net.mamoe.mirai.contact.Friend;
-import net.mamoe.mirai.contact.Member;
-import net.mamoe.mirai.contact.UserOrBot;
-import net.mamoe.mirai.message.data.Message;
-import net.mamoe.mirai.message.data.At;
-import net.mamoe.mirai.message.data.MessageChain;
-import net.mamoe.mirai.message.data.MessageUtils;
-import net.mamoe.mirai.message.data.PlainText;
+import com.google.common.collect.Lists;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import com.mohistmc.miraimbot.console.log4j.MiraiBotLogger;
 import net.mamoe.mirai.utils.BotConfiguration;
 
-public class Utils {
-    public static void sendMessage(UserOrBot sender, MessageChain messages) {
-        if (sender instanceof Member) {
-            ((Member) sender).getGroup().sendMessage(messages);
-        } else if (sender instanceof ConsoleSender) {
-            ((ConsoleSender) sender).sendMessage(messages);
-        } else if (sender instanceof Friend) {
-            ((Friend) sender).sendMessage(messages);
-        }
-    }
+import java.util.List;
+import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
-    public static void sendMessage(UserOrBot sender, String message) {
-        sendMessage(sender, MessageUtils.newChain(new PlainText(message)));
-    }
+public class Utils {
 
     public static BotConfiguration defaultConfig() {
         BotConfiguration botConfiguration = new BotConfiguration() {
             {
-                fileBasedDeviceInfo("deviceInfo.json");
+                fileBasedDeviceInfo("device.json");
+                setBotLoggerSupplier(bot -> new MiraiBotLogger());
+                setNetworkLoggerSupplier(bot -> new MiraiBotLogger());
             }
         };
-       // botConfiguration.noNetworkLog();
-        //botConfiguration.noBotLog();
+        // botConfiguration.noNetworkLog();
+        // botConfiguration.noBotLog();
         botConfiguration.setProtocol(BotConfiguration.MiraiProtocol.ANDROID_PAD);
         return botConfiguration;
     }
@@ -43,21 +32,19 @@ public class Utils {
         return str.matches("-?[0-9]*");
     }
 
-    public static long getId(String arg1, CommandResult result) {
-        long id = 0L;
-        if (arg1.startsWith("@")) {
-            if (result.isGroup()) {
-                Message msg = result.getSource().get(At.Key);
-                if (msg != null) {
-                    id = ((At) msg).getTarget();
-                }
+    private static final List<ExecutorService> tasks = Lists.newArrayList();
 
-            }
-        } else {
-            if (Utils.isNumeric(arg1)) {
-                id = Long.parseLong(arg1);
-            }
-        }
-        return id;
+    public static ExecutorService createThreadPool(int core, int max, String name) {
+        ExecutorService s = new ThreadPoolExecutor(core, max,
+                0L, TimeUnit.MILLISECONDS,
+                new LinkedBlockingQueue<>(512), new ThreadFactoryBuilder().setNameFormat(name).build(), new ThreadPoolExecutor.AbortPolicy());
+        tasks.add(s);
+        return s;
     }
+
+    public static void stopAllThread() {
+        tasks.forEach(ExecutorService::shutdownNow);
+    }
+
+
 }
