@@ -2,7 +2,11 @@ package com.mohistmc.miraimbot.utils;
 
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import com.mohistmc.miraimbot.command.ConsoleSender;
+import com.mohistmc.miraimbot.config.ConfigManager;
 import com.mohistmc.miraimbot.console.log4j.MiraiBotLogger;
+import net.mamoe.mirai.contact.User;
+import net.mamoe.mirai.contact.UserOrBot;
 import net.mamoe.mirai.utils.BotConfiguration;
 
 import java.util.List;
@@ -22,9 +26,11 @@ public class Utils {
                 setNetworkLoggerSupplier(bot -> new MiraiBotLogger());
             }
         };
-        // botConfiguration.noNetworkLog();
-        // botConfiguration.noBotLog();
-        botConfiguration.setProtocol(BotConfiguration.MiraiProtocol.ANDROID_PAD);
+        if (!ConfigManager.getConfig().getBoolean(ConfigManager.path_log_network, true))
+            botConfiguration.noNetworkLog();
+        if (!ConfigManager.getConfig().getBoolean(ConfigManager.path_log_bot, true))
+            botConfiguration.noBotLog();
+        botConfiguration.setProtocol(BotConfiguration.MiraiProtocol.valueOf(ConfigManager.getConfig().getString(ConfigManager.path_protocol,"ANDROID_PHONE")));
         return botConfiguration;
     }
 
@@ -47,4 +53,10 @@ public class Utils {
     }
 
 
+    public static void sendMessage(UserOrBot sender, String s) {
+        if (sender instanceof ConsoleSender)
+            ((ConsoleSender) sender).sendMessage(s);
+        else
+            ((User) sender).sendMessage(s);
+    }
 }

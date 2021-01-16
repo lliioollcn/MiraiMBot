@@ -41,13 +41,17 @@ public class ListenerManager {
                         log.error("事件监听器没有继承SimpleListenerHost ({})", clazzN);
                         return;
                     }
-                    GlobalEventChannel.INSTANCE.registerListenerHost((ListenerHost) clazz.newInstance());
-                    log.info("注册了监听器 {}", clazzN);
+                    register((SimpleListenerHost) clazz.newInstance());
                 }
             } else {
                 log.error("插件 {} 损坏", plugin.getName());
             }
             is.close();
         }
+    }
+
+    public static void register(SimpleListenerHost instance) {
+        GlobalEventChannel.INSTANCE.registerListenerHost(instance);
+        log.info("注册了监听器 {}", instance.getClass());
     }
 }

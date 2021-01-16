@@ -1,5 +1,8 @@
 package com.mohistmc.miraimbot.command;
 
+import lombok.Data;
+
+@Data
 public abstract class CommandExecutor {
 
     public String label;

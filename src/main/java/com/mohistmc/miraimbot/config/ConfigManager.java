@@ -10,6 +10,7 @@ import com.mohistmc.yaml.file.YamlConfiguration;
 import com.mohistmc.yaml.util.Charsets;
 import lombok.Getter;
 import lombok.SneakyThrows;
+import net.mamoe.mirai.utils.BotConfiguration;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
@@ -33,7 +34,11 @@ public class ConfigManager {
     public static final String path_login_password = "login.password";// 登入密码
     public static final String path_command_prefix = "command.prefix";// 指令前缀
     public static final String path_command_enable = "command.enable";// 指令开关
+    public static final String path_command_unknown = "command.unknown";// 未知指令消息
     public static final String path_permission_enable = "permission.enable";// 权限开关
+    public static final String path_log_network = "log.network";// 网络日志开关
+    public static final String path_log_bot = "log.bot";// mirai消息开关
+    public static final String path_protocol = "protocol";// mirai协议
 
     /**
      * 初始化配置文件
@@ -83,9 +88,17 @@ public class ConfigManager {
         config.set(path_command_enable, false);
         config.set("command." + createNote("指令前缀"), "");
         config.set(path_command_prefix, "#");
+        config.set("command." + createNote("未知指令消息"), "");
+        config.set(path_command_unknown, "未知指令。请使用\"#help\"来获得帮助");
         config.set(createNote("权限设置"), "");
         config.set("permission." + createNote("是否开启默认权限系统(true为开false为关)"), "");
         config.set(path_permission_enable, false);
+        config.set("log." + createNote("网络日志开关(true为开false为关)"), "");
+        config.set(path_log_network, true);
+        config.set("log." + createNote("mirai日志开关(true为开false为关)"), "");
+        config.set(path_log_bot, true);
+        config.set(createNote("mirai协议(手机:ANDROID_PHONE 平板:ANDROID_PAD 手表: ANDROID_WATCH)"), "");
+        config.set(path_protocol, BotConfiguration.MiraiProtocol.ANDROID_PHONE);
         save();
     }
 

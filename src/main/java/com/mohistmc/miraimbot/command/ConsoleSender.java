@@ -1,16 +1,20 @@
 package com.mohistmc.miraimbot.command;
 
 import com.mohistmc.miraimbot.MiraiMBot;
+import kotlin.coroutines.Continuation;
 import kotlin.coroutines.CoroutineContext;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.contact.Contact;
+import net.mamoe.mirai.contact.User;
 import net.mamoe.mirai.contact.UserOrBot;
 import net.mamoe.mirai.event.events.EventCancelledException;
 import net.mamoe.mirai.message.MessageReceipt;
 import net.mamoe.mirai.message.action.UserNudge;
+import net.mamoe.mirai.message.data.Image;
 import net.mamoe.mirai.message.data.Message;
 import net.mamoe.mirai.message.data.MessageUtils;
 import net.mamoe.mirai.message.data.PlainText;
+import net.mamoe.mirai.utils.ExternalResource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -37,16 +41,9 @@ public class ConsoleSender implements UserOrBot {
         return MiraiMBot.instance.getCoroutineContext();
     }
 
-    @NotNull
-    public MessageReceipt<Contact> sendMessage(@NotNull Message message) throws EventCancelledException, IllegalStateException {
-        log.info(message.contentToString());
-        // return super.sendMessage(message);
-        return null;
-    }
 
-    @NotNull
-    public MessageReceipt<Contact> sendMessage(@NotNull String message) throws EventCancelledException, IllegalStateException {
-        return sendMessage(MessageUtils.newChain(new PlainText(message)));
+    public void sendMessage(@NotNull String message) throws EventCancelledException, IllegalStateException {
+        sendMessage(MessageUtils.newChain(new PlainText(message)));
     }
 
 
@@ -62,5 +59,22 @@ public class ConsoleSender implements UserOrBot {
     public UserNudge nudge() {
         return null;
     }
+
+    @NotNull
+    public String getNick() {
+        return "Console";
+    }
+
+    @NotNull
+    public String getRemark() {
+        return "Console";
+    }
+
+
+    public void sendMessage(@NotNull Message message) throws EventCancelledException, IllegalStateException {
+        log.info(message.contentToString());
+        // return super.sendMessage(message);
+    }
+
 
 }

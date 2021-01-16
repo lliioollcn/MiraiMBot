@@ -3,6 +3,7 @@ package com.mohistmc.miraimbot;
 import com.google.common.base.Strings;
 import com.mohistmc.miraimbot.command.CommandManager;
 import com.mohistmc.miraimbot.config.ConfigManager;
+import com.mohistmc.miraimbot.listeners.ListenerManager;
 import com.mohistmc.miraimbot.listeners.MainListener;
 import com.mohistmc.miraimbot.permission.Permission;
 import com.mohistmc.miraimbot.plugin.PluginManager;
@@ -44,7 +45,7 @@ public class MiraiMBot {
             instance.login();
             if (command_enable) {
                 log.info("初始化事件系统...");
-                GlobalEventChannel.INSTANCE.registerListenerHost(MainListener.INSTANCE);
+                ListenerManager.register(MainListener.INSTANCE);
             } else {
                 log.warn("您关闭了默认的指令系统，将不会注册插件指令。");
             }

@@ -6,7 +6,7 @@ import com.google.common.collect.Lists;
 import com.mohistmc.miraimbot.MiraiMBot;
 import com.mohistmc.miraimbot.command.CommandManager;
 import com.mohistmc.miraimbot.listeners.ListenerManager;
-import com.mohistmc.yaml.file.YamlConfiguration;
+import com.mohistmc.miraimbot.utils.Utils;
 import com.mohistmc.yaml.util.Charsets;
 import lombok.Getter;
 import lombok.SneakyThrows;
@@ -16,8 +16,8 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 
@@ -25,6 +25,7 @@ public class PluginManager {
 
     public static final File pluginDir = new File("./plugins/");
     private static final Logger log = LogManager.getLogger("PluginManager");
+    private static final ExecutorService tasks = Utils.createThreadPool(1, 100, "Plugins-%d");
     @Getter
     public static final List<MohistPlugin> plugins = Lists.newArrayList();
     private static boolean inited = false;
@@ -37,11 +38,11 @@ public class PluginManager {
 
     public static void enableAll() {
         if (inited) return;
-        plugins.forEach(plugin -> {
+        plugins.forEach(plugin -> tasks.execute(() -> {
             plugin.onEnable();
             if (MiraiMBot.command_enable) CommandManager.register(plugin);
             ListenerManager.register(plugin);
-        });
+        }));
         inited = true;
 
     }
@@ -55,7 +56,11 @@ public class PluginManager {
     private static void findAndLoadAll() {
         for (File pluginFile : pluginDir.listFiles()) {
             if (pluginFile.isFile() && (pluginFile.getName().endsWith(".jar") || pluginFile.getName().endsWith(".zip"))) {
-                plugins.add(PluginLoader.INSTANCE.loadPlugin(pluginFile));
+                try {
+                    plugins.add(PluginLoader.INSTANCE.loadPlugin(pluginFile));
+                } catch (Throwable e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -93,7 +98,7 @@ public class PluginManager {
                 log.warn("插件 {} 加载失败: 无效的plugin.yml", jarFile.getName());
             }
             is.close();
-        }else {
+        } else {
             log.warn("插件 {} 加载失败: 没有有效的plugin.json", jarFile.getName());
         }
         return plugin;
