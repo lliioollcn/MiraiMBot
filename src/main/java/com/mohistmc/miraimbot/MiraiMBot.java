@@ -2,6 +2,8 @@ package com.mohistmc.miraimbot;
 
 import com.google.common.base.Strings;
 import com.mohistmc.miraimbot.command.CommandManager;
+import com.mohistmc.miraimbot.command.executors.AddOpCommand;
+import com.mohistmc.miraimbot.command.executors.HelpCommand;
 import com.mohistmc.miraimbot.config.ConfigManager;
 import com.mohistmc.miraimbot.listeners.ListenerManager;
 import com.mohistmc.miraimbot.listeners.MainListener;
@@ -25,7 +27,7 @@ public class MiraiMBot {
 
 
     public static void main(String[] args) {
-        System.setProperty("terminal.ansi","true");
+        System.setProperty("terminal.ansi", "true");
         log.info("初始化...");
         ConfigManager.init();
         long account = ConfigManager.getConfig().getLong(ConfigManager.path_login_account, 0L);
@@ -46,6 +48,10 @@ public class MiraiMBot {
             if (command_enable) {
                 log.info("初始化事件系统...");
                 ListenerManager.register(MainListener.INSTANCE);
+                log.info("初始化指令系统...");
+                CommandManager.init();
+                CommandManager.register(new HelpCommand(), "?", "菜单", "帮助");
+                CommandManager.register(new AddOpCommand());
             } else {
                 log.warn("您关闭了默认的指令系统，将不会注册插件指令。");
             }
@@ -55,6 +61,9 @@ public class MiraiMBot {
             }
             log.info("初始化插件系统...");
             PluginManager.init();
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+                Utils.stopAllThread();
+            }));
             instance.join();
         }
     }

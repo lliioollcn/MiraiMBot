@@ -2,7 +2,7 @@
 <Configuration status="warn" packages="net.minecrell.terminalconsole,com.mohistmc.miraimbot.console.log4j">
     <Appenders>
         <TerminalConsole name="TerminalConsole">
-            <PatternLayout pattern="[%highlightTime{%d{HH:mm:ss}} %highlightLogger{%logger}/%highlightLevel{%level}]: %highlightMsg{%msg%n}" />
+            <PatternLayout pattern="[%highlightTime{%d{HH:mm:ss}} %highlightLogger{%logger}/%highlightLevel{%level}]: %highlightMsg{%msg}" />
         </TerminalConsole>
         <RollingRandomAccessFile name="File" fileName="logs/latest.log" filePattern="logs/%d{yyyy-MM-dd}-%i.log.zip">
             <PatternLayout pattern="[%d{HH:mm:ss}] [%t/%level] [%logger]: %replace{%msg}{(?i)\u00A7[0-9A-FK-OR]}{}%n" charset="UTF-8"/>

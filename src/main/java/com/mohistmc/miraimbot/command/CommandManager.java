@@ -5,7 +5,9 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.mohistmc.miraimbot.MiraiMBot;
 import com.mohistmc.miraimbot.config.ConfigManager;
+import com.mohistmc.miraimbot.permission.Permission;
 import com.mohistmc.miraimbot.plugin.MohistPlugin;
 import com.mohistmc.miraimbot.plugin.PluginClassLoader;
 import com.mohistmc.miraimbot.plugin.PluginLoader;
@@ -13,7 +15,9 @@ import com.mohistmc.miraimbot.utils.Utils;
 import com.mohistmc.yaml.util.Charsets;
 import lombok.SneakyThrows;
 import net.mamoe.mirai.contact.User;
+import net.mamoe.mirai.contact.UserOrBot;
 import net.mamoe.mirai.event.events.MessageEvent;
+import net.mamoe.mirai.message.data.MessageChain;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,6 +27,7 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutorService;
 import java.util.jar.JarFile;
@@ -31,8 +36,16 @@ import java.util.zip.ZipEntry;
 public class CommandManager {
 
     private static final Logger log = LogManager.getLogger("CommandManager");
-    private static final ConcurrentMap<String, CommandExecutor> executors = Maps.newConcurrentMap();
-    private static final ExecutorService tasks = Utils.createThreadPool(1, 100, "Command-%d");
+    private static final Map<String, CommandExecutor> executors = Maps.newHashMap();
+    private static final ExecutorService tasks = Utils.createThreadPool(30, 100, "Command-%d");
+    public static boolean console = false;
+
+
+    public static ConcurrentMap<String, CommandExecutor> getExecutors() {
+        ConcurrentMap<String, CommandExecutor> m = Maps.newConcurrentMap();
+        m.putAll(executors);
+        return m;
+    }
 
     @SneakyThrows
     public static void register(MohistPlugin plugin) {
@@ -88,17 +101,38 @@ public class CommandManager {
         call(parse(event));
     }
 
+    public static void parseAndCall(MessageChain msgs, UserOrBot sender) {
+        log.debug("处理并触发指令 {}", msgs.contentToString());
+        call(parse(msgs, sender));
+    }
+
     public static void call(CommandResult result) {
+        log.debug("开始处理指令 {}", result.getLabel());
         if (executors.containsKey(result.getLabel())) {
             log.debug("指令 {} 存在", result.getLabel());
-            tasks.execute(() -> executors.get(result.getLabel()).onCommand(result));
+            CommandExecutor executor = executors.get(result.getLabel());
+            log.debug("指令 {} 状态: opOnly: {},permission: {}", result.getLabel(), executor.isOnlyOp(), executor.permissionEnable);
+            if (executor.isOnlyOp()) {
+                if (!Permission.isOp(result.getSender())) {
+                    Utils.sendMessageOrGroup(result, "抱歉，当前指令只可以机器人管理员使用。");
+                    return;
+                }
+                log.debug("指令 {} 触发", result.getLabel());
+                tasks.execute(() -> executor.onCommand(result));
+            } else if (executor.permissionEnable) {
+                if (!Permission.hasPermission(result.getSender(), executor.permission)) {
+                    Utils.sendMessageOrGroup(result, "抱歉，您的权限不足。");
+                    return;
+                }
+                log.debug("指令 {} 触发", result.getLabel());
+                tasks.execute(() -> executor.onCommand(result));
+                return;
+            }
+            log.debug("指令 {} 触发: {}", result.getLabel(), executor.getClass());
+            tasks.execute(() -> executor.onCommand(result));
         } else {
             log.debug("指令 {} 不存在", result.getLabel());
-            if (result.isGroup()) {
-                result.getGroupOrNull().sendMessage(ConfigManager.getConfig().getString("path_command_unknown", "未知指令。请使用\"#help\"来获得帮助"));
-            } else {
-                Utils.sendMessage(result.getSender(), ConfigManager.getConfig().getString("path_command_unknown", "未知指令。请使用\"#help\"来获得帮助"));
-            }
+            Utils.sendMessageOrGroup(result, ConfigManager.getConfig().getString("path_command_unknown", "未知指令。请使用\"#help\"来获得帮助"));
         }
     }
 
@@ -107,7 +141,7 @@ public class CommandManager {
         String label = "";
         String msg = event.getMessage().contentToString();
         String[] waitParse = msg.split(" ");
-        label = waitParse[0];
+        label = waitParse[0].replaceFirst("#", "");
         log.debug("转换指令 {}", label);
         args.addAll(Arrays.asList(waitParse).subList(1, waitParse.length));
         return CommandResult.builder()
@@ -117,5 +151,26 @@ public class CommandManager {
                 .sender(event.getSender())
                 .bot(event.getBot())
                 .build();
+    }
+
+    public static CommandResult parse(MessageChain msgs, UserOrBot sender) {
+        List<String> args = Lists.newArrayList();
+        String label = "";
+        String msg = msgs.contentToString();
+        String[] waitParse = msg.split(" ");
+        label = waitParse[0].replaceFirst("#", "");
+        log.debug("转换指令 {}", label);
+        args.addAll(Arrays.asList(waitParse).subList(1, waitParse.length));
+        return CommandResult.builder()
+                .args(args)
+                .label(label)
+                .source(msgs)
+                .sender(sender)
+                .bot(MiraiMBot.instance)
+                .build();
+    }
+
+    public static void init() {
+        tasks.execute(() -> new CommandConsole().start());
     }
 }

@@ -1,5 +1,6 @@
 package com.mohistmc.miraimbot.command;
 
+import com.mohistmc.miraimbot.utils.Utils;
 import lombok.Builder;
 import lombok.Data;
 import net.mamoe.mirai.Bot;
@@ -26,7 +27,7 @@ public class CommandResult {
      * @return
      */
     public boolean isGroup() {
-        return (sender instanceof Member);
+        return Utils.isGroup(sender);
     }
 
     public Group getGroupOrNull() {

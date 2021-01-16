@@ -23,6 +23,7 @@
  */
 package com.mohistmc.miraimbot.console.log4j;
 
+import com.mohistmc.miraimbot.command.CommandManager;
 import com.mohistmc.miraimbot.utils.ANSIColorUtils;
 import net.minecrell.terminalconsole.TerminalConsoleAppender;
 import org.apache.logging.log4j.Level;
@@ -84,18 +85,23 @@ public final class HighlightMsgConverter extends LogEventPatternConverter {
             Level level = event.getLevel();
             if (level.isMoreSpecificThan(Level.ERROR)) {
                 format(ANSI_ERROR, event, toAppendTo);
+                if (!CommandManager.console) toAppendTo.append("\n");
                 return;
             } else if (level.isMoreSpecificThan(Level.WARN)) {
                 format(ANSI_WARN, event, toAppendTo);
+                if (!CommandManager.console) toAppendTo.append("\n");
                 return;
             } else if (level.isMoreSpecificThan(Level.INFO)) {
                 format(ANSI_INFO, event, toAppendTo);
+                if (!CommandManager.console) toAppendTo.append("\n");
                 return;
             } else if (level.isMoreSpecificThan(Level.FATAL)) {
                 format(ANSI_FATAL, event, toAppendTo);
+                if (!CommandManager.console) toAppendTo.append("\n");
                 return;
             } else if (level.isMoreSpecificThan(Level.TRACE)) {
                 format(ANSI_TRACE, event, toAppendTo);
+                if (!CommandManager.console) toAppendTo.append("\n");
                 return;
             }
         }
