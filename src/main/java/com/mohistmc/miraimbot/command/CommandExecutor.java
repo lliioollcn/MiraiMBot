@@ -8,14 +8,14 @@ import lombok.Data;
 public abstract class CommandExecutor {
 
     public String label;
-    public String usage;
-    public String description;
-    public boolean noshow;
-    public boolean opCan;
-    public boolean onlyOp;
-    public boolean permissionEnable;
-    public String permission;
-    public Command.Type type;
+    public String usage = "";
+    public String description = "";
+    public boolean noshow = false;
+    public boolean opCan = true;
+    public boolean onlyOp = false;
+    public boolean permissionEnable = false;
+    public String permission = "";
+    public Command.Type type = Command.Type.ALL;
 
     public abstract boolean onCommand(CommandResult result);
 }

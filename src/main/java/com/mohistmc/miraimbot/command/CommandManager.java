@@ -72,7 +72,6 @@ public class CommandManager {
                     executor.permission = json.getJSONObject("permission").getString("permission");
                     executor.type = Command.Type.valueOf(json.getString("type"));
                     register(executor, json.getJSONArray("alias").toArray(new String[0]));
-                    log.info("注册了指令 {}", executor.label);
                 }
             } else {
                 log.error("插件 {} 损坏", plugin.getName());
@@ -85,8 +84,10 @@ public class CommandManager {
 
     public static void register(CommandExecutor executor, String... aliases) {
         executors.put(executor.getLabel(), executor);
+        log.info("注册了指令 {}", executor.label);
         for (String alia : aliases) {
             executors.put(alia, executor);
+            log.info("注册了别称 {}", alia);
         }
     }
 
@@ -111,22 +112,15 @@ public class CommandManager {
             CommandExecutor executor = executors.get(result.getLabel());
             log.debug("指令 {} 状态: opOnly: {},permission: {}", result.getLabel(), executor.isOnlyOp(), executor.permissionEnable);
             if (executor.type != Command.Type.ALL) {
-                switch (executor.type) {
-                    case GROUP:
-                        if (!Utils.isGroup(result.getSender())) {
-                            Utils.sendMessageOrGroup(result, "抱歉，当前指令只可以在群组使用。");
-                            return;
-                        }
-                    case FRIEND:
-                        if (!Utils.isFriend(result.getSender())) {
-                            Utils.sendMessageOrGroup(result, "抱歉，当前指令只可以在私聊使用。");
-                            return;
-                        }
-                    case CONSOLE:
-                        if (!Utils.isConsole(result.getSender())) {
-                            Utils.sendMessageOrGroup(result, "抱歉，当前指令只可以在控制台使用。");
-                            return;
-                        }
+                if (executor.type == Command.Type.GROUP && !Utils.isGroup(result.getSender())) {
+                    Utils.sendMessageOrGroup(result, "抱歉，当前指令只可以在群组使用。");
+                    return;
+                } else if (executor.type == Command.Type.FRIEND && !Utils.isFriend(result.getSender())) {
+                    Utils.sendMessageOrGroup(result, "抱歉，当前指令只可以在私聊使用。");
+                    return;
+                } else if (executor.type == Command.Type.CONSOLE && !Utils.isConsole(result.getSender())) {
+                    Utils.sendMessageOrGroup(result, "抱歉，当前指令只可以在控制台使用。");
+                    return;
                 }
             }
             if (executor.isOnlyOp()) {

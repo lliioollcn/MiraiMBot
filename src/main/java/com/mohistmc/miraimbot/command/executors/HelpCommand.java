@@ -33,7 +33,8 @@ public class HelpCommand extends CommandExecutor {
                         .append(" 简介: ")
                         .append(executor.getDescription())
                         .append(" 用法: ")
-                        .append(executor.getUsage());
+                        .append(executor.getUsage())
+                        .append("\n");
             }
         });
         Utils.sendMessageOrGroup(result, sb.toString());
