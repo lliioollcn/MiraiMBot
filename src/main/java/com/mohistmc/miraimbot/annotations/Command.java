@@ -30,4 +30,16 @@ public @interface Command {
      * @return 指令简介
      */
     String description() default "";
+
+    /**
+     * @return 限定指令只能在某个场景下使用
+     */
+    Type type() default Type.ALL;
+
+    public enum Type {
+        FRIEND,
+        GROUP,
+        CONSOLE,
+        ALL
+    }
 }

@@ -1,20 +1,14 @@
 package com.mohistmc.miraimbot.command;
 
 import com.mohistmc.miraimbot.MiraiMBot;
-import kotlin.coroutines.Continuation;
 import kotlin.coroutines.CoroutineContext;
 import net.mamoe.mirai.Bot;
-import net.mamoe.mirai.contact.Contact;
-import net.mamoe.mirai.contact.User;
 import net.mamoe.mirai.contact.UserOrBot;
 import net.mamoe.mirai.event.events.EventCancelledException;
-import net.mamoe.mirai.message.MessageReceipt;
 import net.mamoe.mirai.message.action.UserNudge;
-import net.mamoe.mirai.message.data.Image;
 import net.mamoe.mirai.message.data.Message;
 import net.mamoe.mirai.message.data.MessageUtils;
 import net.mamoe.mirai.message.data.PlainText;
-import net.mamoe.mirai.utils.ExternalResource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;

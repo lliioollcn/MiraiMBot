@@ -1,12 +1,7 @@
 package com.mohistmc.miraimbot.annotations.processors;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.mohistmc.miraimbot.annotations.Plugin;
-import com.mohistmc.miraimbot.utils.RandomUtil;
-import com.mohistmc.miraimbot.utils.Utils;
-import com.mohistmc.yaml.file.YamlConfiguration;
+import com.alibaba.fastjson.JSONObject;
 import com.mohistmc.yaml.util.Charsets;
 import org.apache.commons.io.FileUtils;
 
@@ -15,8 +10,6 @@ import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
-import javax.tools.FileObject;
-import javax.tools.StandardLocation;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;

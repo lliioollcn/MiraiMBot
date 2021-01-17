@@ -25,7 +25,6 @@ package com.mohistmc.miraimbot.console.log4j;
 
 import com.mohistmc.miraimbot.utils.ANSIColorUtils;
 import net.minecrell.terminalconsole.TerminalConsoleAppender;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.LogEvent;
 import org.apache.logging.log4j.core.config.Configuration;
 import org.apache.logging.log4j.core.config.plugins.Plugin;

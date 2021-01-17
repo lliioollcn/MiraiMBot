@@ -7,7 +7,10 @@ import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.contact.Member;
 import net.mamoe.mirai.contact.UserOrBot;
+import net.mamoe.mirai.message.data.Message;
 import net.mamoe.mirai.message.data.MessageChain;
+import net.mamoe.mirai.message.data.MessageUtils;
+import net.mamoe.mirai.message.data.PlainText;
 
 import java.util.List;
 
@@ -28,6 +31,30 @@ public class CommandResult {
      */
     public boolean isGroup() {
         return Utils.isGroup(sender);
+    }
+
+    public void sendMessage(CharSequence msg) {
+        sendMessage(new PlainText(msg));
+    }
+
+    public void sendMessage(Message msg) {
+        sendMessage(MessageUtils.newChain(msg));
+    }
+
+    public void sendMessage(MessageChain msg) {
+        Utils.sendMessage(this.getSender(), msg);
+    }
+
+    public void sendMessageOrGroup(CharSequence msg) {
+        sendMessageOrGroup(new PlainText(msg));
+    }
+
+    public void sendMessageOrGroup(Message msg) {
+        sendMessageOrGroup(MessageUtils.newChain(msg));
+    }
+
+    public void sendMessageOrGroup(MessageChain msg) {
+        Utils.sendMessageOrGroup(this.getSender(), msg);
     }
 
     public Group getGroupOrNull() {

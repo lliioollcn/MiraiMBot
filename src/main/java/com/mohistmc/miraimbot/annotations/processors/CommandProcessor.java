@@ -1,12 +1,11 @@
 package com.mohistmc.miraimbot.annotations.processors;
 
+import com.mohistmc.miraimbot.annotations.Command;
+import com.mohistmc.miraimbot.annotations.NoShow;
+import com.mohistmc.miraimbot.annotations.OnlyOp;
+import com.mohistmc.miraimbot.annotations.Permission;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.mohistmc.miraimbot.annotations.*;
-import com.mohistmc.miraimbot.utils.RandomUtil;
-import com.mohistmc.miraimbot.utils.Utils;
-import com.mohistmc.yaml.file.YamlConfiguration;
 import com.mohistmc.yaml.util.Charsets;
 import lombok.SneakyThrows;
 import org.apache.commons.io.FileUtils;
@@ -16,10 +15,7 @@ import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
-import javax.tools.FileObject;
-import javax.tools.StandardLocation;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -68,10 +64,10 @@ public class CommandProcessor extends AbstractProcessor {
                             put("enable", permission != null);
                             put("permission", permission != null ? permission.value() : "");
                         }}));
-                        System.out.println("?");
                         put("alias", new JSONArray(new ArrayList<Object>() {{
                             addAll(Arrays.asList(command.alias()));
                         }}));
+                        put("type", command.type().toString());
                     }}));
                 }
             });

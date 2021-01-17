@@ -1,6 +1,8 @@
 package com.mohistmc.miraimbot.command;
 
+import com.mohistmc.miraimbot.annotations.Command;
 import lombok.Data;
+
 
 @Data
 public abstract class CommandExecutor {
@@ -13,6 +15,7 @@ public abstract class CommandExecutor {
     public boolean onlyOp;
     public boolean permissionEnable;
     public String permission;
+    public Command.Type type;
 
     public abstract boolean onCommand(CommandResult result);
 }

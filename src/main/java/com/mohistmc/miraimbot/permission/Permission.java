@@ -1,9 +1,9 @@
 package com.mohistmc.miraimbot.permission;
 
+import com.mohistmc.miraimbot.command.ConsoleSender;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.google.common.collect.Sets;
-import com.mohistmc.miraimbot.command.ConsoleSender;
 import com.mohistmc.yaml.util.Charsets;
 import lombok.SneakyThrows;
 import net.mamoe.mirai.contact.MemberPermission;
@@ -16,7 +16,6 @@ import org.apache.logging.log4j.Logger;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Set;
 
 public class Permission {

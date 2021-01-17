@@ -1,15 +1,13 @@
 package com.mohistmc.miraimbot.command.executors;
 
-import com.google.common.collect.Lists;
 import com.mohistmc.miraimbot.command.CommandExecutor;
-import com.mohistmc.miraimbot.command.CommandManager;
+import com.google.common.collect.Lists;
 import com.mohistmc.miraimbot.command.CommandResult;
 import com.mohistmc.miraimbot.permission.Permission;
 import com.mohistmc.miraimbot.utils.Utils;
 import net.mamoe.mirai.message.data.*;
 
 import java.util.List;
-import java.util.concurrent.ConcurrentMap;
 
 public class AddOpCommand extends CommandExecutor {
 

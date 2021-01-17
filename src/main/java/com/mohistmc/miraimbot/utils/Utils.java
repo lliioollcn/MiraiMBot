@@ -1,19 +1,24 @@
 package com.mohistmc.miraimbot.utils;
 
-import com.google.common.collect.Lists;
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.mohistmc.miraimbot.command.CommandResult;
 import com.mohistmc.miraimbot.command.ConsoleSender;
 import com.mohistmc.miraimbot.config.ConfigManager;
 import com.mohistmc.miraimbot.console.log4j.MiraiBotLogger;
-import net.mamoe.mirai.contact.Member;
-import net.mamoe.mirai.contact.User;
-import net.mamoe.mirai.contact.UserOrBot;
+import com.alibaba.fastjson.JSONObject;
+import com.google.common.base.Charsets;
+import com.google.common.collect.Lists;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import net.mamoe.mirai.contact.*;
+import net.mamoe.mirai.message.data.Message;
 import net.mamoe.mirai.message.data.MessageChain;
+import net.mamoe.mirai.message.data.MessageUtils;
 import net.mamoe.mirai.utils.BotConfiguration;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
+import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -86,6 +91,22 @@ public class Utils {
         }
     }
 
+    public static void sendMessageOrGroup(CommandResult result, Message msg) {
+        sendMessageOrGroup(result, MessageUtils.newChain(msg));
+    }
+
+    public static void sendMessageOrGroup(UserOrBot sender, Message msg) {
+        sendMessageOrGroup(sender, MessageUtils.newChain(msg));
+    }
+
+    public static void sendMessage(CommandResult result, Message msg) {
+        sendMessage(result, MessageUtils.newChain(msg));
+    }
+
+    public static void sendMessage(UserOrBot sender, Message msg) {
+        sendMessage(sender, MessageUtils.newChain(msg));
+    }
+
     public static void sendMessageOrGroup(UserOrBot sender, String msg) {
         if (isGroup(sender)) {
             ((Member) sender).getGroup().sendMessage(msg);
@@ -104,5 +125,21 @@ public class Utils {
 
     public static boolean isGroup(UserOrBot sender) {
         return (sender instanceof Member);
+    }
+
+    public static boolean isNormalMember(UserOrBot sender) {
+        return (sender instanceof NormalMember);
+    }
+
+    public static boolean isAnonymous(UserOrBot sender) {
+        return (sender instanceof AnonymousMember);
+    }
+
+    public static boolean isFriend(UserOrBot sender) {
+        return !isGroup(sender) && !isConsole(sender);
+    }
+
+    public static boolean isConsole(UserOrBot sender) {
+        return (sender instanceof ConsoleSender);
     }
 }
