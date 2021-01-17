@@ -105,7 +105,16 @@ public class CommandManager {
         call(parse(msgs, sender));
     }
 
+    private static long last = 0;
+
     public static void call(CommandResult result) {
+        if (last == 0) {
+            last = System.currentTimeMillis();
+        }
+        if (System.currentTimeMillis() - last < 3000) {
+            last = System.currentTimeMillis();
+            return;
+        }
         log.debug("开始处理指令 {}", result.getLabel());
         if (executors.containsKey(result.getLabel())) {
             log.debug("指令 {} 存在", result.getLabel());
@@ -114,18 +123,22 @@ public class CommandManager {
             if (executor.type != Command.Type.ALL) {
                 if (executor.type == Command.Type.GROUP && !Utils.isGroup(result.getSender())) {
                     Utils.sendMessageOrGroup(result, "抱歉，当前指令只可以在群组使用。");
+                    last = System.currentTimeMillis();
                     return;
                 } else if (executor.type == Command.Type.FRIEND && !Utils.isFriend(result.getSender())) {
                     Utils.sendMessageOrGroup(result, "抱歉，当前指令只可以在私聊使用。");
+                    last = System.currentTimeMillis();
                     return;
                 } else if (executor.type == Command.Type.CONSOLE && !Utils.isConsole(result.getSender())) {
                     Utils.sendMessageOrGroup(result, "抱歉，当前指令只可以在控制台使用。");
+                    last = System.currentTimeMillis();
                     return;
                 }
             }
             if (executor.isOnlyOp()) {
                 if (!Permission.isOp(result.getSender())) {
                     Utils.sendMessageOrGroup(result, "抱歉，当前指令只可以机器人管理员使用。");
+                    last = System.currentTimeMillis();
                     return;
                 }
                 log.debug("指令 {} 触发", result.getLabel());
@@ -133,10 +146,12 @@ public class CommandManager {
             } else if (executor.permissionEnable) {
                 if (!Permission.hasPermission(result.getSender(), executor.permission)) {
                     Utils.sendMessageOrGroup(result, "抱歉，您的权限不足。");
+                    last = System.currentTimeMillis();
                     return;
                 }
                 log.debug("指令 {} 触发", result.getLabel());
                 tasks.execute(() -> executor.onCommand(result));
+                last = System.currentTimeMillis();
                 return;
             }
             log.debug("指令 {} 触发: {}", result.getLabel(), executor.getClass());
@@ -145,6 +160,7 @@ public class CommandManager {
             log.debug("指令 {} 不存在", result.getLabel());
             Utils.sendMessageOrGroup(result, ConfigManager.getConfig().getString("path_command_unknown", "未知指令。请使用\"#help\"来获得帮助"));
         }
+        last = System.currentTimeMillis();
     }
 
     public static CommandResult parse(MessageEvent event) {
