@@ -19,7 +19,7 @@ public class MainListener extends SimpleListenerHost {
         if (event.getMessage().contentToString().startsWith(prefix)) {
             log.debug(event.getMessage().contentToString());
             CommandManager.parseAndCall(event);
+            event.intercept();
         }
-        event.intercept();
     }
 }
