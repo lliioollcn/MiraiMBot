@@ -8,11 +8,12 @@ buildscript {
 
 plugins {
     id 'java'
+    id 'maven'
     id 'org.jetbrains.kotlin.jvm' version '1.4.21' // 请确保添加 Kotlin，至少使用 1.4.0 版本
 }
 
 group 'com.mohistmc'
-version '0.3.1'
+version '0.3.1-SNAPSHOT'
 
 
 [compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
@@ -88,3 +89,14 @@ task copyLibraries(type: Copy) {
     from configurations.runtime
     into('build/libs/libraries')
 }
+
+task buildSourceJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+
+
+copyLibraries.dependsOn clean
+buildSourceJar.dependsOn copyLibraries
+build.dependsOn buildSourceJar

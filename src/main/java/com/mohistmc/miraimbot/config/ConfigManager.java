@@ -92,7 +92,7 @@ public class ConfigManager {
         config.set(path_log_network, true);
         config.set("log." + createNote("mirai日志开关(true为开false为关)"), "");
         config.set(path_log_bot, true);
-        config.set(createNote("mirai协议(手机:ANDROID_PHONE 平板:ANDROID_PAD 手表: ANDROID_WATCH)"), "");
+        config.set(createNote("mirai协议(手机为ANDROID_PHONE 平板为ANDROID_PAD 手表为ANDROID_WATCH)"), "");
         config.set(path_protocol, BotConfiguration.MiraiProtocol.ANDROID_PHONE.toString());
         save();
     }
