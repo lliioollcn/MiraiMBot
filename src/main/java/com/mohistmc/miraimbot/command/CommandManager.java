@@ -140,6 +140,8 @@ public class CommandManager {
                 }
                 log.debug("指令 {} 触发", result.getLabel());
                 tasks.execute(() -> executor.onCommand(result));
+                last = System.currentTimeMillis();
+                return;
             } else if (executor.permissionEnable) {
                 if (!Permission.hasPermission(result.getSender(), executor.permission)) {
                     Utils.sendMessageOrGroup(result, "抱歉，您的权限不足。");
@@ -153,11 +155,11 @@ public class CommandManager {
             }
             log.debug("指令 {} 触发: {}", result.getLabel(), executor.getClass());
             tasks.execute(() -> executor.onCommand(result));
+            last = System.currentTimeMillis();
         } else {
             log.debug("指令 {} 不存在", result.getLabel());
             Utils.sendMessageOrGroup(result, ConfigManager.getConfig().getString("path_command_unknown", "未知指令。请使用\"#help\"来获得帮助"));
         }
-        last = System.currentTimeMillis();
     }
 
     public static CommandResult parse(MessageEvent event) {
