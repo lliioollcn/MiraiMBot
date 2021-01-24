@@ -105,10 +105,10 @@ public class CommandManager {
         call(parse(msgs, sender));
     }
 
-    private static long last = System.currentTimeMillis() + 10000;
+    private static long last = 0;
 
     public static void call(CommandResult result) {
-        if (System.currentTimeMillis() - last < 3000) {
+        if (last != 0 && System.currentTimeMillis() - last < 3000) {
             last = System.currentTimeMillis();
             return;
         }
