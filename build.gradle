@@ -95,8 +95,13 @@ task buildSourceJar(type: Jar) {
     from sourceSets.main.allSource
 }
 
-
+task zipLibraries(type: Zip) {
+    from 'build/libs/libraries'
+    archiveName 'libraries.zip'
+    destinationDir file('build/libs')
+}
 
 copyLibraries.dependsOn clean
-buildSourceJar.dependsOn copyLibraries
+zipLibraries.dependsOn copyLibraries
+buildSourceJar.dependsOn zipLibraries
 build.dependsOn buildSourceJar
